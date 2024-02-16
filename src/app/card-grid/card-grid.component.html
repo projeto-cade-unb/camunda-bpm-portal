@@ -3,6 +3,6 @@
 <div class="tile-grid">
   <custom-card
     [processDefinition]="processDefinition"
-    *ngFor="let processDefinition of processDefinitions"
+    *ngFor="let processDefinition of processDefinitions | async"
   ></custom-card>
 </div>

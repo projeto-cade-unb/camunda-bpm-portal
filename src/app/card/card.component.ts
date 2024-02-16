@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
 import { ProcessDefinitionService } from "../process-definition.service";
 import { ProcessDefinition } from "../process-definition";
+import { interval } from "rxjs";
 
 @Component({
   selector: "custom-card",
@@ -17,22 +18,30 @@ export class CardComponent implements OnInit {
 
   constructor(private processDefinitionService: ProcessDefinitionService) {}
 
-  async ngOnInit() {
-    await this.viewer.importXML(
-      await this.processDefinitionService.findOneBpmnXMLByProcessDefinitionsId(
-        this.processDefinition.id
-      )
-    );
-
-    this.viewer.attachTo(this.el.nativeElement);
-
-    const canvas: any = this.viewer.get("canvas");
-
+  resizeCanvasOnCenter(canvas: any) {
     const { inner } = canvas.viewbox();
 
     canvas.zoom("fit-viewport", {
       x: inner.x + inner.width / 2,
       y: inner.y + inner.height / 2,
     });
+  }
+
+  ngOnInit() {
+    this.processDefinitionService
+      .findOneBpmnXMLByProcessDefinitionId(this.processDefinition.id)
+      .subscribe(async (xml) => {
+        await this.viewer.importXML(xml);
+
+        this.viewer.attachTo(this.el.nativeElement);
+
+        const canvas = this.viewer.get("canvas");
+
+        this.resizeCanvasOnCenter(canvas);
+
+        interval(1000).subscribe(() => {
+          this.resizeCanvasOnCenter(canvas);
+        });
+      });
   }
 }
