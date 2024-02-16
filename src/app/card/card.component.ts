@@ -7,9 +7,9 @@ import {
   ViewChild,
 } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
-import { ProcessDefinitionService } from "../process-definition/process-definition.service";
+import { Observable, interval, mergeMap, switchMap } from "rxjs";
 import { ProcessDefinition } from "../process-definition/process-definition";
-import { Observable, interval, mergeMap, of, switchMap, takeUntil } from "rxjs";
+import { ProcessDefinitionService } from "../process-definition/process-definition.service";
 
 @Component({
   selector: "custom-card",
@@ -21,13 +21,13 @@ export class CardComponent implements OnInit, OnDestroy {
 
   @Input() processDefinition: ProcessDefinition;
 
-  viewer = new Viewer();
+  #viewer = new Viewer();
 
   constructor(private processDefinitionService: ProcessDefinitionService) {}
 
-  resizeCanvasOnCenter() {
+  #resizeCanvas() {
     return new Observable((subscription) => {
-      const canvas: any = this.viewer.get("canvas");
+      const canvas: any = this.#viewer.get("canvas");
 
       if (!canvas) subscription.complete();
 
@@ -42,25 +42,25 @@ export class CardComponent implements OnInit, OnDestroy {
     });
   }
 
+  resizeCanvasInterval() {
+    return this.#resizeCanvas().pipe(
+      switchMap(() => interval(1000).pipe(mergeMap(() => this.#resizeCanvas())))
+    );
+  }
+
   ngOnInit(): void {
     this.processDefinitionService
       .findOneBpmnXMLByProcessDefinitionId(this.processDefinition.id)
       .subscribe(async (xml) => {
-        await this.viewer.importXML(xml);
+        await this.#viewer.importXML(xml);
 
-        this.viewer.attachTo(this.el.nativeElement);
+        this.#viewer.attachTo(this.el.nativeElement);
 
-        this.resizeCanvasOnCenter()
-          .pipe(
-            switchMap(() =>
-              interval(1000).pipe(mergeMap(() => this.resizeCanvasOnCenter()))
-            )
-          )
-          .subscribe();
+        this.resizeCanvasInterval().subscribe();
       });
   }
 
   ngOnDestroy(): void {
-    this.viewer.destroy();
+    this.#viewer.destroy();
   }
 }
