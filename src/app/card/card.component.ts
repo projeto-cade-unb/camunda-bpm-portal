@@ -1,15 +1,22 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
 import { ProcessDefinitionService } from "../process-definition/process-definition.service";
 import { ProcessDefinition } from "../process-definition/process-definition";
-import { interval } from "rxjs";
+import { Observable, interval, mergeMap, of, switchMap, takeUntil } from "rxjs";
 
 @Component({
   selector: "custom-card",
   templateUrl: "./card.component.html",
   styleUrls: ["./card.component.css"],
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnDestroy {
   @ViewChild("viewer", { static: true }) el: ElementRef;
 
   @Input() processDefinition: ProcessDefinition;
@@ -18,12 +25,20 @@ export class CardComponent implements OnInit {
 
   constructor(private processDefinitionService: ProcessDefinitionService) {}
 
-  resizeCanvasOnCenter(canvas: any) {
-    const { inner } = canvas.viewbox();
+  resizeCanvasOnCenter() {
+    return new Observable((subscription) => {
+      const canvas: any = this.viewer.get("canvas");
 
-    canvas.zoom("fit-viewport", {
-      x: inner.x + inner.width / 2,
-      y: inner.y + inner.height / 2,
+      if (!canvas) subscription.complete();
+
+      const { inner } = canvas.viewbox();
+
+      canvas.zoom("fit-viewport", {
+        x: inner.x + inner.width / 2,
+        y: inner.y + inner.height / 2,
+      });
+
+      subscription.next();
     });
   }
 
@@ -35,13 +50,17 @@ export class CardComponent implements OnInit {
 
         this.viewer.attachTo(this.el.nativeElement);
 
-        const canvas = this.viewer.get("canvas");
-
-        this.resizeCanvasOnCenter(canvas);
-
-        interval(1000).subscribe(() => {
-          this.resizeCanvasOnCenter(canvas);
-        });
+        this.resizeCanvasOnCenter()
+          .pipe(
+            switchMap(() =>
+              interval(1000).pipe(mergeMap(() => this.resizeCanvasOnCenter()))
+            )
+          )
+          .subscribe();
       });
+  }
+
+  ngOnDestroy(): void {
+    this.viewer.destroy();
   }
 }
