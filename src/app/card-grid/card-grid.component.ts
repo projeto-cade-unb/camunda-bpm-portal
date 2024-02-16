@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ProcessDefinitionService } from "../process-definition.service";
+import { ProcessDefinitionService } from "../process-definition/process-definition.service";
 
 @Component({
   selector: "custom-card-grid",

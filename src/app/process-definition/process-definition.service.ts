@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { get } from "../utils/request";
+import { get } from "../../utils/request";
 import { from } from "rxjs";
 import { ProcessDefinition } from "./process-definition";
 

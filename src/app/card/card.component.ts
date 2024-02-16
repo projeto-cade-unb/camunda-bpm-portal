@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
-import { ProcessDefinitionService } from "../process-definition.service";
-import { ProcessDefinition } from "../process-definition";
+import { ProcessDefinitionService } from "../process-definition/process-definition.service";
+import { ProcessDefinition } from "../process-definition/process-definition";
 import { interval } from "rxjs";
 
 @Component({
