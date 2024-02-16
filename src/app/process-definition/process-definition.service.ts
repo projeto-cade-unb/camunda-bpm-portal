@@ -7,14 +7,12 @@ import { ProcessDefinition } from "./process-definition";
   providedIn: "root",
 })
 export class ProcessDefinitionService {
-  constructor() {}
-
   findAllProcessDefinition() {
     return from(
       get(
         "/camunda/api/cockpit/plugin/base/default/process-definition/statistics",
         {}
-      ).then((response) => response.json()) as Promise<ProcessDefinition[]>
+      ).then<ProcessDefinition[]>((response) => response.json())
     );
   }
 
@@ -22,7 +20,7 @@ export class ProcessDefinitionService {
     return from(
       get(`%API%/engine/%ENGINE%/process-definition/${id}/xml`, {})
         .then((response) => response.json())
-        .then(({ bpmn20Xml: xml }) => xml) as Promise<string>
+        .then<string>(({ bpmn20Xml: xml }) => xml)
     );
   }
 }
