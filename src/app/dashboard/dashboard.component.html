@@ -1,0 +1,6 @@
+<h2 class="section-title">Portal de documentação BPMN</h2>
+
+<custom-card-grid
+  [processDefinitions]="p"
+  *ngIf="processDefinitions | async as p"
+></custom-card-grid>

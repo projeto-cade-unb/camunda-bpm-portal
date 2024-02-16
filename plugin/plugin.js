@@ -23,7 +23,7 @@ export default [
       path: "/portal-doc",
     },
     render: (container) => {
-      container.innerHTML = `<custom-card-grid></custom-card-grid>`;
+      container.innerHTML = `<custom-documentation></custom-documentation>`;
     },
   },
   {
@@ -31,7 +31,8 @@ export default [
     pluginPoint: "cockpit.navigation",
     priority: 5,
     render: (container) => {
-      container.innerHTML = "<a href='#/portal-doc'>Portal de documentação BPMN</a>";
+      container.innerHTML =
+        "<a href='#/portal-doc'>Portal de documentação BPMN</a>";
     },
     properties: {
       path: "/portal-doc",
@@ -42,7 +43,7 @@ export default [
     pluginPoint: "cockpit.dashboard",
     priority: 5,
     render: (container) => {
-      container.innerHTML = `<custom-card-grid></custom-card-grid>`;
+      container.innerHTML = `<custom-dashboard></custom-dashboard>`;
     },
     properties: {
       label: "Portal de documentação BPMN",

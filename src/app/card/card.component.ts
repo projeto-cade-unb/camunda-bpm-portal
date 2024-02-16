@@ -27,7 +27,7 @@ export class CardComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.processDefinitionService
       .findOneBpmnXMLByProcessDefinitionId(this.processDefinition.id)
       .subscribe(async (xml) => {

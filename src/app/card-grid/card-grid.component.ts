@@ -1,16 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { ProcessDefinitionService } from "../process-definition/process-definition.service";
+import { Component, Input } from "@angular/core";
+import { ProcessDefinition } from "../process-definition/process-definition";
 
 @Component({
   selector: "custom-card-grid",
   templateUrl: "./card-grid.component.html",
   styleUrls: ["./card-grid.component.css"],
 })
-export class CardGridComponent implements OnInit {
-  processDefinitions =
-    this.processDefinitionService.findAllProcessDefinition();
-
-  constructor(private processDefinitionService: ProcessDefinitionService) {}
-
-  ngOnInit(): void {}
+export class CardGridComponent {
+  @Input() processDefinitions: ProcessDefinition[];
 }

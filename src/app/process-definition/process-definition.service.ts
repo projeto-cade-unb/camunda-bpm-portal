@@ -10,17 +10,19 @@ export class ProcessDefinitionService {
   constructor() {}
 
   findAllProcessDefinition() {
-    return from<ProcessDefinition[]>(
+    return from(
       get(
         "/camunda/api/cockpit/plugin/base/default/process-definition/statistics",
         {}
-      ).then((response) => response.json())
+      ).then((response) => response.json()) as Promise<ProcessDefinition[]>
     );
   }
 
   findOneBpmnXMLByProcessDefinitionId(id: string) {
-    return from<string>(get(`%API%/engine/%ENGINE%/process-definition/${id}/xml`, {})
-      .then((response) => response.json())
-      .then(({ bpmn20Xml: xml }) => xml));
+    return from(
+      get(`%API%/engine/%ENGINE%/process-definition/${id}/xml`, {})
+        .then((response) => response.json())
+        .then(({ bpmn20Xml: xml }) => xml) as Promise<string>
+    );
   }
 }
