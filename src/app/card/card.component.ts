@@ -26,7 +26,7 @@ export class CardComponent implements OnInit, OnDestroy {
   constructor(private processDefinitionService: ProcessDefinitionService) {}
 
   #resizeCanvas() {
-    return new Observable((subscription) => {
+    return new Observable<void>((subscription) => {
       const canvas: any = this.#viewer.get("canvas");
 
       if (!canvas) subscription.complete();
