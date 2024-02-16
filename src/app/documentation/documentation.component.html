@@ -1,1 +1,7 @@
-<h1>{{ id }}</h1>
+<div *ngIf="id; else noId">
+  {{ id }}
+</div>
+
+<ng-template #noId>
+  <custom-dashboard></custom-dashboard>
+</ng-template>
