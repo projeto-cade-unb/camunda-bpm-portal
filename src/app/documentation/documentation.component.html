@@ -1,7 +1,7 @@
 <div *ngIf="processDefinition$ | async as p; else dashboard">
-  <h1>{{ p.name }}</h1>
+  <h1 class="section-title">{{ p.name }}</h1>
 
-  <div #viewer>
+  <div #viewer id="documentation-viewer">
     <custom-viewer
       *ngIf="xml$ | async as x"
       [xml]="x"
