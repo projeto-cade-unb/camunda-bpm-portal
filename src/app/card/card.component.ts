@@ -17,7 +17,7 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
     this.xml$ =
-      this.processDefinitionService.findOneBpmnXMLByProcessDefinitionId(
+      this.processDefinitionService.findOneDiagramByProcessDefinitionId(
         this.processDefinition.id
       );
   }

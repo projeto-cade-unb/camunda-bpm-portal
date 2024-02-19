@@ -1,7 +1,17 @@
-<div *ngIf="id; else noId">
-  {{ id }}
+<div *ngIf="processDefinition$ | async as p; else dashboard">
+  <h1>{{ p.name }}</h1>
+
+  <div #viewer>
+    <custom-viewer
+      *ngIf="xml$ | async as x"
+      [xml]="x"
+      [el]="viewer"
+    ></custom-viewer>
+  </div>
 </div>
 
-<ng-template #noId>
-  <custom-dashboard></custom-dashboard>
-</ng-template>
+<div>
+  <ng-template #dashboard>
+    <custom-dashboard></custom-dashboard>
+  </ng-template>
+</div>

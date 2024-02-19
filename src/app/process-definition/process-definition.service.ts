@@ -1,26 +1,33 @@
 import { Injectable } from "@angular/core";
-import { get } from "../../utils/request";
 import { from } from "rxjs";
+import { get } from "../../utils/request";
 import { ProcessDefinition } from "./process-definition";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProcessDefinitionService {
+  findOneProcessDefinitionByProcessDefinitionId(id: string) {
+    return from(
+      get(
+        `%API%/engine/%ENGINE%/process-definition/${id}`
+      ).then<ProcessDefinition>((response) => response.json())
+    );
+  }
+
   findAllProcessDefinition() {
     return from(
       get(
-        "/camunda/api/cockpit/plugin/base/default/process-definition/statistics",
-        {}
+        "%COCKPIT_API%/plugin/base/default/process-definition/statistics"
       ).then<ProcessDefinition[]>((response) => response.json())
     );
   }
 
-  findOneBpmnXMLByProcessDefinitionId(id: string) {
+  findOneDiagramByProcessDefinitionId(id: string) {
     return from(
-      get(`%API%/engine/%ENGINE%/process-definition/${id}/xml`, {})
+      get(`%API%/engine/%ENGINE%/process-definition/${id}/xml`)
         .then((response) => response.json())
-        .then<string>(({ bpmn20Xml: xml }) => xml)
+        .then<string>(({ bpmn20Xml }) => bpmn20Xml)
     );
   }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { Observable, mergeMap } from "rxjs";
+import { ProcessDefinition } from "../process-definition/process-definition";
+import { ProcessDefinitionService } from "../process-definition/process-definition.service";
 
 @Component({
   selector: "custom-documentation",
@@ -6,11 +9,22 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./documentation.component.css"],
 })
 export class DocumentationComponent implements OnInit {
-  id: string;
+  processDefinition$: Observable<ProcessDefinition>;
+  xml$: Observable<string>;
+  searchParams = new URL(document.location.href.replace("#/", "")).searchParams;
+
+  constructor(private processDefinitionService: ProcessDefinitionService) {}
 
   ngOnInit(): void {
-    const urlSearchParams = new URLSearchParams(window.location.search);
+    this.processDefinition$ =
+      this.processDefinitionService.findOneProcessDefinitionByProcessDefinitionId(
+        this.searchParams.get("id")
+      );
 
-    this.id = urlSearchParams.get("processDefinition");
+    this.xml$ = this.processDefinition$.pipe(
+      mergeMap(({ id }) =>
+        this.processDefinitionService.findOneDiagramByProcessDefinitionId(id)
+      )
+    );
   }
 }
