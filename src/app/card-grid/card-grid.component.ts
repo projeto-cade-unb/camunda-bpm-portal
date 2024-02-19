@@ -7,5 +7,5 @@ import { ProcessDefinition } from "../process-definition/process-definition";
   styleUrls: ["./card-grid.component.css"],
 })
 export class CardGridComponent {
-  @Input() processDefinitions: ProcessDefinition[];
+  @Input() processDefinition: ProcessDefinition[];
 }

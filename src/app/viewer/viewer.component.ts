@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
-import { Observable, mergeMap, timer } from "rxjs";
+import { Observable, from, mergeMap, timer } from "rxjs";
 
 @Component({
   selector: "custom-viewer",
@@ -8,17 +8,20 @@ import { Observable, mergeMap, timer } from "rxjs";
   styleUrls: ["./viewer.component.css"],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  @ViewChild("viewer", { static: true }) el: ElementRef;
+  @Input() el: HTMLElement;
 
   @Input() xml: string;
 
   viewer = new Viewer();
+  resizeCanvas$ = timer(0, 1000).pipe(mergeMap(() => this.resizeCanvas()));
 
   resizeCanvas() {
     return new Observable<void>((subscription) => {
       const canvas: any = this.viewer.get("canvas");
 
       const { inner } = canvas.viewbox();
+
+      if (!(inner.x && inner.y)) subscription.complete();
 
       canvas.zoom("fit-viewport", {
         x: inner.x + inner.width / 2,
@@ -29,14 +32,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
-  resizeCanvasInterval() {
-    return timer(0, 1000).pipe(mergeMap(() => this.resizeCanvas()));
-  }
-
-  async ngOnInit() {
-    await this.viewer.importXML(this.xml);
-    this.viewer.attachTo(this.el.nativeElement);
-    this.resizeCanvasInterval().subscribe();
+  ngOnInit(): void {
+    from(this.viewer.importXML(this.xml)).subscribe(() => {
+      this.viewer.attachTo(this.el);
+      this.resizeCanvas$.subscribe();
+    });
   }
 
   ngOnDestroy(): void {

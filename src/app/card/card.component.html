@@ -4,8 +4,12 @@
       {{ processDefinition.name }}
     </h4>
 
-    <span class="tile-body">
-      <custom-viewer [xml]="xml$ | async"></custom-viewer>
+    <span #viewer class="tile-body">
+      <custom-viewer
+        *ngIf="xml$ | async as x"
+        [el]="viewer"
+        [xml]="x"
+      ></custom-viewer>
     </span>
 
     <span class="tile-footer">

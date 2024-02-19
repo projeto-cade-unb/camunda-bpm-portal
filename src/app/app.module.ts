@@ -1,12 +1,11 @@
-import { Injector } from "@angular/core";
+import { Injector, NgModule } from "@angular/core";
 import { createCustomElement } from "@angular/elements";
-import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { CardGridComponent } from "./card-grid/card-grid.component";
 import { CardComponent } from "./card/card.component";
-import { DocumentationComponent } from "./documentation/documentation.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { ViewerComponent } from './viewer/viewer.component';
+import { DocumentationComponent } from "./documentation/documentation.component";
+import { ViewerComponent } from "./viewer/viewer.component";
 
 @NgModule({
   declarations: [
@@ -18,6 +17,7 @@ import { ViewerComponent } from './viewer/viewer.component';
   ],
   imports: [BrowserModule],
   entryComponents: [DocumentationComponent, DashboardComponent],
+  providers: [],
 })
 export class AppModule {
   constructor(private injector: Injector) {
