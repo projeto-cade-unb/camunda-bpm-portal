@@ -4,7 +4,9 @@
       {{ processDefinition.name }}
     </h4>
 
-    <span #viewer class="tile-body"></span>
+    <span class="tile-body">
+      <custom-viewer [xml]="xml$ | async"></custom-viewer>
+    </span>
 
     <span class="tile-footer">
       {{ processDefinition.id }}

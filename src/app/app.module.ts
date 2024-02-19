@@ -6,6 +6,7 @@ import { CardGridComponent } from "./card-grid/card-grid.component";
 import { CardComponent } from "./card/card.component";
 import { DocumentationComponent } from "./documentation/documentation.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { ViewerComponent } from './viewer/viewer.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
     CardComponent,
     DocumentationComponent,
     DashboardComponent,
+    ViewerComponent,
   ],
   imports: [BrowserModule],
   entryComponents: [DocumentationComponent, DashboardComponent],
