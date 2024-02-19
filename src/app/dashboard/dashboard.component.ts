@@ -7,7 +7,7 @@ import { ProcessDefinitionService } from "../process-definition/process-definiti
   styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent {
-  processDefinitions = this.processDefinitionService.findAllProcessDefinition();
+  processDefinition$ = this.processDefinitionService.findAllProcessDefinition();
 
   constructor(private processDefinitionService: ProcessDefinitionService) {}
 }
