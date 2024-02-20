@@ -1,12 +1,9 @@
 <div *ngIf="processDefinition$ | async as p; else dashboard">
   <h1 class="section-title">{{ p.name }}</h1>
 
-  <div #viewer id="documentation-viewer">
-    <custom-viewer
-      *ngIf="diagram$ | async as d"
-      [diagram]="d"
-      [containerElement]="viewer"
-    ></custom-viewer>
+  <div #viewer id="documentation-viewer" *ngIf="diagram$ | async as d">
+    <custom-viewer [diagram]="d" [containerElement]="viewer"></custom-viewer>
+    <custom-diagram-documentation [diagram]="d"></custom-diagram-documentation>
   </div>
 </div>
 
