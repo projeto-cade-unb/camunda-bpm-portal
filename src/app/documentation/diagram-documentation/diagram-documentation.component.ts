@@ -16,14 +16,17 @@ export class DiagramDocumentationComponent implements OnInit {
   ngOnInit(): void {
     const document = this.domParser.parseFromString(this.diagram, "text/xml");
 
-    const processChildren = document.querySelectorAll("process > *");
-    const processContaier = document.querySelector("process");
+    const processContainer = document.querySelector("process");
+
+    if (!processContainer) return;
+
+    const processChildren = processContainer.querySelectorAll("*");
 
     this.diagramDocumentation.push({
       documentation:
         processChildren[0].tagName === "documentation" &&
         processChildren[0]?.textContent,
-      extendedDocumentation: processContaier.getAttribute(
+      extendedDocumentation: processContainer.getAttribute(
         "documentation:extendedDocumentation"
       ),
     });
