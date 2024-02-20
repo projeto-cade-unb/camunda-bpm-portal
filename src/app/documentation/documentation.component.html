@@ -3,9 +3,9 @@
 
   <div #viewer id="documentation-viewer">
     <custom-viewer
-      *ngIf="xml$ | async as x"
-      [xml]="x"
-      [el]="viewer"
+      *ngIf="diagram$ | async as d"
+      [diagram]="d"
+      [containerElement]="viewer"
     ></custom-viewer>
   </div>
 </div>

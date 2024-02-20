@@ -11,12 +11,12 @@ import { ProcessDefinitionService } from "../process-definition/process-definiti
 export class CardComponent implements OnInit {
   @Input() processDefinition: ProcessDefinition;
 
-  xml$: Observable<string>;
+  diagram$: Observable<string>;
 
   constructor(private processDefinitionService: ProcessDefinitionService) {}
 
   ngOnInit(): void {
-    this.xml$ =
+    this.diagram$ =
       this.processDefinitionService.findOneDiagramByProcessDefinitionId(
         this.processDefinition.id
       );

@@ -6,9 +6,9 @@
 
     <span #viewer class="tile-body">
       <custom-viewer
-        *ngIf="xml$ | async as x"
-        [el]="viewer"
-        [xml]="x"
+        *ngIf="diagram$ | async as d"
+        [containerElement]="viewer"
+        [diagram]="d"
       ></custom-viewer>
     </span>
 

@@ -10,7 +10,7 @@ import { ProcessDefinitionService } from "../process-definition/process-definiti
 })
 export class DocumentationComponent implements OnInit {
   processDefinition$: Observable<ProcessDefinition>;
-  xml$: Observable<string>;
+  diagram$: Observable<string>;
   searchParams = new URL(document.location.href.replace("#/", "")).searchParams;
 
   constructor(private processDefinitionService: ProcessDefinitionService) {}
@@ -21,7 +21,7 @@ export class DocumentationComponent implements OnInit {
         this.searchParams.get("id")
       );
 
-    this.xml$ = this.processDefinition$.pipe(
+    this.diagram$ = this.processDefinition$.pipe(
       mergeMap(({ id }) =>
         this.processDefinitionService.findOneDiagramByProcessDefinitionId(id)
       )

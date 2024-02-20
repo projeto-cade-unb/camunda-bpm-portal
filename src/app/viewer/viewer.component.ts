@@ -3,14 +3,14 @@ import Viewer from "bpmn-js/lib/Viewer";
 import { Observable, from, mergeMap, timer } from "rxjs";
 
 @Component({
-  selector: "custom-viewer",
+  selector: "custom-viewer[diagram], custom-viewer[containerElement]",
   templateUrl: "./viewer.component.html",
   styleUrls: ["./viewer.component.css"],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  @Input() el: HTMLElement;
+  @Input() containerElement: HTMLElement;
 
-  @Input() xml: string;
+  @Input() diagram: string;
 
   viewer = new Viewer();
   resizeCanvas$ = timer(0, 1000).pipe(mergeMap(() => this.resizeCanvas()));
@@ -33,8 +33,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    from(this.viewer.importXML(this.xml)).subscribe(() => {
-      this.viewer.attachTo(this.el);
+    from(this.viewer.importXML(this.diagram)).subscribe(() => {
+      this.viewer.attachTo(this.containerElement);
       this.resizeCanvas$.subscribe();
     });
   }
