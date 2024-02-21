@@ -7,6 +7,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { DocumentationComponent } from "./documentation/documentation.component";
 import { ViewerComponent } from "./viewer/viewer.component";
 import { DiagramDocumentationComponent } from './documentation/diagram-documentation/diagram-documentation.component';
+import { ProcessDiagramDocumentationComponent } from './documentation/process-diagram-documentation/process-diagram-documentation.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { DiagramDocumentationComponent } from './documentation/diagram-documenta
     DashboardComponent,
     ViewerComponent,
     DiagramDocumentationComponent,
+    ProcessDiagramDocumentationComponent,
   ],
   imports: [BrowserModule],
   entryComponents: [DocumentationComponent, DashboardComponent],
