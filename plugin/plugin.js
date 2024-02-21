@@ -31,8 +31,7 @@ export default [
     pluginPoint: "cockpit.navigation",
     priority: 5,
     render: (container) => {
-      container.innerHTML =
-        "<a href='#/portal-doc'>Portal de documentação BPMN</a>";
+      container.innerHTML = "<a href='#/portal-doc'>Portal BPMN</a>";
     },
     properties: {
       path: "/portal-doc",
@@ -46,7 +45,7 @@ export default [
       container.innerHTML = `<custom-dashboard></custom-dashboard>`;
     },
     properties: {
-      label: "Portal de documentação BPMN",
+      label: "Portal BPMN",
     },
   },
 ];

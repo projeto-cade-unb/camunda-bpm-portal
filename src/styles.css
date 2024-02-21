@@ -3,3 +3,7 @@
 :host {
   display: block;
 }
+
+* {
+  overflow: visible !important;
+}

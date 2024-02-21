@@ -4,16 +4,24 @@
       {{ processDefinition.name }}
     </h4>
 
-    <span #viewer class="tile-body">
-      <custom-viewer
-        *ngIf="diagram$ | async as d"
-        [containerElement]="viewer"
-        [diagram]="d"
-      ></custom-viewer>
-    </span>
+    <ng-container *ngIf="diagram$ | async as d">
+      <span #viewer class="tile-body">
+        <custom-viewer
+          [containerElement]="viewer"
+          [diagram]="d"
+        ></custom-viewer>
+      </span>
 
-    <span class="tile-footer">
-      {{ processDefinition.id }}
-    </span>
+      <span class="tile-footer">
+        <custom-process-diagram-documentation
+          #pd
+          [diagram]="d"
+        ></custom-process-diagram-documentation>
+
+        <p [title]="pd.diagramDocumentation?.documentation">
+          {{ pd.diagramDocumentation.documentation || processDefinition.id }}
+        </p>
+      </span>
+    </ng-container>
   </a>
 </div>

@@ -4,6 +4,6 @@ div:nth-child(1) {
 }
 
 #documentation-viewer {
-  height: 70vh;
+  height: 100vh;
   overflow: visible;
 }

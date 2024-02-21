@@ -13,31 +13,38 @@ export class DiagramDocumentationComponent implements OnInit {
 
   diagramDocumentation: DiagramDocumentation[] = [];
 
-  ngOnInit(): void {
-    const document = this.domParser.parseFromString(this.diagram, "text/xml");
+  document: Document;
 
-    const processContainer = document.querySelector("process");
+  ngOnInit(): void {
+    this.document = this.domParser.parseFromString(this.diagram, "text/xml");
+
+    const processContainer = this.document.querySelector("process");
 
     if (!processContainer) return;
 
-    const processChildren = processContainer.querySelectorAll("*");
+    const processChildren = processContainer.children;
+    const processFirstChild = processChildren.item(0);
 
     this.diagramDocumentation.push({
+      id: processFirstChild.getAttribute("id"),
       documentation:
-        processChildren[0].tagName === "documentation" &&
-        processChildren[0]?.textContent,
+        processFirstChild.tagName === "bpmn:documentation" &&
+        processFirstChild?.textContent,
       extendedDocumentation: processContainer.getAttribute(
         "documentation:extendedDocumentation"
       ),
     });
 
-    processChildren.forEach((processChild) => {
+    for (let i = 0; i < processChildren.length; i++) {
+      const processChild = processChildren[i];
+
       this.diagramDocumentation.push({
+        id: processChild.getAttribute("id"),
         documentation: processChild.querySelector("documentation")?.textContent,
         extendedDocumentation: processChild.getAttribute(
           "documentation:extendedDocumentation"
         ),
       });
-    });
+    }
   }
 }
