@@ -1,0 +1,9 @@
+div:nth-child(1) {
+  display: block;
+  padding: 0 2em;
+}
+
+#documentation-viewer {
+  height: 70vh;
+  overflow: visible;
+}

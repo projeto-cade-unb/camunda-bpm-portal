@@ -1,10 +1,6 @@
-<div>
-  <h2 class="section-title col-xs-4">Portal de documentação BPMN</h2>
-
-  <div class="tile-grid">
-    <custom-card
-      [processDefinition]="processDefinition"
-      *ngFor="let processDefinition of processDefinitions"
-    ></custom-card>
-  </div>
+<div class="tile-grid">
+  <custom-card
+    [processDefinition]="p"
+    *ngFor="let p of processDefinition"
+  ></custom-card>
 </div>

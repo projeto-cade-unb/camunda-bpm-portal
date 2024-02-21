@@ -1,0 +1,8 @@
+<div *ngFor="let d of diagramDocumentation" class="row">
+  <div *ngIf="d.documentation" class="col-md-6">{{ d.documentation }}</div>
+  <div
+    *ngIf="d.extendedDocumentation"
+    class="col-md-6"
+    [innerHTML]="d.extendedDocumentation"
+  ></div>
+</div>
