@@ -4,12 +4,18 @@
 
     <hr />
 
-    <div #viewer id="documentation-viewer" *ngIf="diagram$ | async as d">
+    <ng-container *ngIf="diagram$ | async as d">
+      <div #viewer id="documentation-viewer">
+        <custom-viewer
+          [diagram]="d"
+          [containerElement]="viewer"
+        ></custom-viewer>
+      </div>
+
       <custom-diagram-documentation
         [diagram]="d"
       ></custom-diagram-documentation>
-      <custom-viewer [diagram]="d" [containerElement]="viewer"></custom-viewer>
-    </div>
+    </ng-container>
   </ng-container>
 
   <ng-template #dashboard>

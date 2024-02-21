@@ -23,7 +23,15 @@ export default [
       path: "/portal-doc",
     },
     render: (container) => {
-      container.innerHTML = `<custom-documentation></custom-documentation>`;
+      container.innerHTML = `
+        <style>
+          .ctn-main {
+            overflow: visible !important;
+          }
+        </style>
+
+        <custom-documentation></custom-documentation>
+      `;
     },
   },
   {
