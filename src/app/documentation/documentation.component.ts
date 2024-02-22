@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { Observable, mergeMap } from "rxjs";
 import { ProcessDefinition } from "../process-definition/process-definition";
 import { ProcessDefinitionService } from "../process-definition/process-definition.service";
@@ -7,6 +7,7 @@ import { ProcessDefinitionService } from "../process-definition/process-definiti
   selector: "custom-documentation",
   templateUrl: "./documentation.component.html",
   styleUrls: ["./documentation.component.css"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DocumentationComponent implements OnInit {
   processDefinition$: Observable<ProcessDefinition>;

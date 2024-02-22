@@ -1,9 +1,15 @@
-div:nth-child(1) {
+#documentation {
   display: block;
   padding: 0 2em;
 }
 
 #documentation-viewer {
+  padding: 0 2em;
   height: 100vh;
+  border: 1px solid lightgray;
   overflow: visible;
+}
+
+.ctn-main {
+  overflow: visible !important;
 }
