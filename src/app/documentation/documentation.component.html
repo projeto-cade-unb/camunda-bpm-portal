@@ -9,6 +9,7 @@
         <custom-viewer
           [diagram]="d"
           [containerElement]="viewer"
+          (importXML)="selectionChanged($event)"
         ></custom-viewer>
       </div>
 

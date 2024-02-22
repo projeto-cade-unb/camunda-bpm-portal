@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewEncapsulation,
 } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
@@ -22,6 +24,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   @Input() containerElement: HTMLElement;
 
   @Input() diagram: string;
+
+  @Output() importXML = new EventEmitter<Viewer>();
 
   viewer = new Viewer();
   resizeCanvas$ = timer(0, 1000).pipe(mergeMap(() => this.resizeCanvas()));
@@ -47,13 +51,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     from(this.viewer.importXML(this.diagram)).subscribe(() => {
       this.viewer.attachTo(this.containerElement);
       this.resizeCanvas$.subscribe();
-
-      this.viewer.on("selection.changed", () => {
-        const selection: any = this.viewer.get("selection");
-        const id = selection.get()?.at(0)?.id;
-
-        if (id) document.getElementById(id).scrollIntoView();
-      });
+      this.importXML.emit(this.viewer);
     });
   }
 
