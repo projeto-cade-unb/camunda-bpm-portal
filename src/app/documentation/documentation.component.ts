@@ -30,7 +30,7 @@ export class DocumentationComponent {
       const selection: any = viewer.get("selection");
       const id = selection.get()?.at(0)?.id;
 
-      if (id) document.getElementById(id).scrollIntoView();
+      if (id) document.getElementById(id)?.scrollIntoView();
     });
   }
 }
