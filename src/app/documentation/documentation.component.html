@@ -1,4 +1,4 @@
-<div>
+<div id="documentation">
   <ng-container *ngIf="processDefinition$ | async as p; else dashboard">
     <h1 class="section-title">{{ p.name || p.id }}</h1>
 
@@ -9,6 +9,7 @@
         <custom-viewer
           [diagram]="d"
           [containerElement]="viewer"
+          (importXML)="selectionChanged($event)"
         ></custom-viewer>
       </div>
 

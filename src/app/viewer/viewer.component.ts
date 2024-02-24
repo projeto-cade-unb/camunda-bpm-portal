@@ -1,16 +1,31 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
 import { Observable, from, mergeMap, timer } from "rxjs";
 
 @Component({
   selector: "custom-viewer[diagram], custom-viewer[containerElement]",
   templateUrl: "./viewer.component.html",
-  styleUrls: ["./viewer.component.css"],
+  styleUrls: [
+    "./viewer.component.css",
+    "../../../node_modules/bpmn-js/dist/assets/diagram-js.css",
+    "../../../node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css",
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   @Input() containerElement: HTMLElement;
 
   @Input() diagram: string;
+
+  @Output() importXML = new EventEmitter<Viewer>();
 
   viewer = new Viewer();
   resizeCanvas$ = timer(0, 1000).pipe(mergeMap(() => this.resizeCanvas()));
@@ -36,6 +51,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     from(this.viewer.importXML(this.diagram)).subscribe(() => {
       this.viewer.attachTo(this.containerElement);
       this.resizeCanvas$.subscribe();
+      this.importXML.emit(this.viewer);
     });
   }
 
