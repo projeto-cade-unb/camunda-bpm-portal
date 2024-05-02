@@ -4,6 +4,12 @@
 
 Este projeto visa construir um portal de documentação de Processos integrados ao Software Camunda BPM Plataform
 
+## Build
+git clone 
+npm install
+npm run buildPlugin
+
+## Install
 
 
 ## Funcionalidades
