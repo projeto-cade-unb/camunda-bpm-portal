@@ -22,7 +22,7 @@ Copy  dist/plugin.js Para portal-bpm
 * adicionar ao arquivo config.js
 
  customScripts: [
- 'scripts/plugin.js'
+ 'scripts/portal-bpm/plugin.js'
 ]
 
 ## Funcionalidades
