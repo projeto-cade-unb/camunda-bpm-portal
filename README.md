@@ -13,11 +13,17 @@ npm run buildPlugin
 
 ## Install
 
-Copiar a pasta dist/
+cd /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
+mkdir portal-bpm
+Copy  dist/plugin.js Para portal-bpm 
 
-adicionar 
 
-dist/plugin.js
+
+* adicionar ao arquivo config.js
+
+ customScripts: [
+ 'scripts/plugin.js'
+]
 
 ## Funcionalidades
 
