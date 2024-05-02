@@ -13,6 +13,11 @@ npm run buildPlugin
 
 ## Install
 
+Copiar a pasta dist/
+
+adicionar 
+
+dist/plugin.js
 
 ## Funcionalidades
 
