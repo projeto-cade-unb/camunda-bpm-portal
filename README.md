@@ -6,7 +6,9 @@ Este projeto visa construir um portal de documentação de Processos integrados 
 
 ## Build
 git clone 
+
 npm install
+
 npm run buildPlugin
 
 ## Install
