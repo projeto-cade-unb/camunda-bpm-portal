@@ -12,18 +12,26 @@ npm install
 npm run buildPlugin
 
 ## Install
+## Apache Tomcat no Linux (após build)
+Exemplo em Camunda 7.20.0:
 
-cd /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
+1) acesse sua pasta de script do cockpit
+ cd /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
+
+2) Crie um diratório para seu plugin 
 mkdir portal-bpm
-Copy  dist/plugin.js Para portal-bpm 
 
+3) Copie toda a pasta dist para a past criada no camunda cockpit
 
+cp  dist/* -R /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/portal-bpm
 
-* adicionar ao arquivo config.js
+4) Configurar ao arquivo config.js
+nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
 
  customScripts: [
  'scripts/portal-bpm/plugin.js'
 ]
+5) Reinicie seu tomcat e limpe o cache do browser.
 
 ## Funcionalidades
 
