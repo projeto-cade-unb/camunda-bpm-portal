@@ -14,8 +14,21 @@ npm run buildPlugin
 ## Install
 
 ## Apache Tomcat 
-1) baixe o release do plugin na última versão de 
-2) 
+1) Realise o download o release do plugin na última versão de https://github.com/projeto-cade-unb/camunda-bpm-portal/releases
+   exemplo portal-bpm-v0.1.0.zip 
+
+2) Descompacte na pasta de script do seu Camunda Server
+   <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
+
+3) Configurar ao arquivo config.js
+Local do arquico <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
+Adicione as linhas abaixo no customScripts
+
+ customScripts: [
+ 'scripts/portal-bpm/plugin.js'
+]
+
+3) Reiniciel seu Camunda
 
 
 ## Apache Tomcat no Linux (com build)
