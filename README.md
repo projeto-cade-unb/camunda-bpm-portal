@@ -28,7 +28,7 @@ Adicione as linhas abaixo no customScripts
  'scripts/portal-bpm/plugin.js'
 ]
 
-3) Reiniciel seu Camunda
+3) Reinicie seu Camunda
 
 
 ## Apache Tomcat no Linux (com build)
