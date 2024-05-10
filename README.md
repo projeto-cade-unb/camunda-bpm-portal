@@ -2,14 +2,9 @@
 
  [![Plugin Type](https://img.shields.io/badge/Plugin_Type-BPMN_(Camunda_Platform_7)-orange.svg)](#)
 
-Este projeto visa construir um portal de documentação de Processos integrados ao Software Camunda BPM Plataform
+Este projeto visa construir um portal de documentação de Processos integrados ao Software Camunda BPM Plataform.
+Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do  Camunda Modeler [WYSIWYG Documentation editor for Camunda Modeler](https://github.com/sharedchains/camunda-wysiwyg-documentation)
 
-## Build
-git clone 
-
-npm install
-
-npm run buildPlugin
 
 ## Install
 
@@ -31,7 +26,7 @@ Adicione as linhas abaixo no customScripts
 3) Reinicie seu Camunda
 
 
-## Apache Tomcat no Linux (com build)
+## Apache Tomcat no Linux (Realizando build)
 Exemplo em Camunda 7.20.0:
 
 1) realize o Build (veja sessão Build)
@@ -53,6 +48,14 @@ nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/
  'scripts/portal-bpm/plugin.js'
 ]
 6) Reinicie seu tomcat e limpe o cache do browser.
+
+## Build - Desenvolvedores
+git clone 
+
+npm install
+
+npm run buildPlugin
+
 
 ## Funcionalidades
 
