@@ -8,7 +8,7 @@ Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do 
 
 ## Install
 
-## Apache Tomcat 
+### Apache Tomcat 
 1) Realise o download o release do plugin na última versão de https://github.com/projeto-cade-unb/camunda-bpm-portal/releases
    exemplo portal-bpm-v0.1.0.zip 
 
@@ -26,7 +26,7 @@ Adicione as linhas abaixo no customScripts
 3) Reinicie seu Camunda
 
 
-## Apache Tomcat no Linux (Realizando build)
+### Apache Tomcat no Linux (Realizando build)
 Exemplo em Camunda 7.20.0:
 
 1) realize o Build (veja sessão Build)
@@ -49,7 +49,7 @@ nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/
 ]
 6) Reinicie seu tomcat e limpe o cache do browser.
 
-## Build - Desenvolvedores
+## Build (Desenvolvedores)
 git clone 
 
 npm install
