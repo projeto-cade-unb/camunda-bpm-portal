@@ -69,12 +69,14 @@ nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/
 ]
 6) Reinicie seu tomcat e limpe o cache do browser.
 
-## Build (Desenvolvedores).
-git clone 
+Build (Desenvolvedores).
+-----------------------
 
-npm install
-
-npm run buildPlugin
+```bash
+$ git clone 
+$ npm install
+$ npm run buildPlugin
+```
 
 ## Road Map.
 
