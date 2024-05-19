@@ -90,9 +90,6 @@ npm run buildPlugin
 
 * Possibilidade de acesso público configurável (embeeded Camunda BPM Portal)
 
-## Licença.
-Apache 2.0
-
 ## Contribuições.
  Envie sua contribuição via pull request.
 
