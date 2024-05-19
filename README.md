@@ -59,8 +59,24 @@ npm run buildPlugin
 
 ## Funcionalidades
 
+* Apresenta última versão do processo do camunda com o elemento description e o elemento complementar de descrição em HTML.
+* Navegação visual ao clicar no processo direta para documentação 
+
 
 ## Telas
+
+
+## Road Map
+
+### Correções:
+ * A Documentação geral no element "process" quando apresentada e listada como o elemento start aparentando ter dois starts no fluxo , apresentar este elemento como process.
+
+### Melhorias
+* Versionamento: Suporte a versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir defaul sempre a última como está)
+
+* Controle -de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
+
+
 
 
 ## Contribuições.
