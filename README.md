@@ -71,6 +71,8 @@ npm run buildPlugin
 ### Correções:
  * A Documentação geral no element "process" quando apresentada e listada como o elemento start aparentando ter dois starts no fluxo , apresentar este elemento como process.
 
+ * Na apresentação de 6 processos as divs da página inicial ficaram quebradas quando a descrição do processo usa duas linhas.
+
 ### Melhorias
 * Versionamento: Suporte a versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir defaul sempre a última como está)
 
@@ -80,7 +82,7 @@ npm run buildPlugin
 
 
 ## Contribuições.
-
+ Envie sua contribuição via pull request.
 
 
 
