@@ -2,8 +2,25 @@
 
  [![Plugin Type](https://img.shields.io/badge/Plugin_Type-BPMN_(Camunda_Platform_7)-orange.svg)](#)
 
-Este projeto visa construir um portal de documentação de Processos integrados ao Software Camunda BPM Plataform.
+Este projeto visa construir um portal de documentação de processos integrados ao software Camunda BPM Plataform.
 Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do  Camunda Modeler [WYSIWYG Documentation editor for Camunda Modeler](https://github.com/sharedchains/camunda-wysiwyg-documentation)
+
+
+## Funcionalidades
+
+* Apresenta última versão do processo do camunda com o elemento description e o elemento complementar de descrição em HTML.
+* Navegação visual ao clicar no processo direta para documentação.
+* Integrado ao Camunda Cockpit. 
+
+
+## Telas do Camunda BPM Portal
+
+Home
+![image]https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_home_camunda-bpm_portal.png
+
+Visualização do Processo.
+![image]https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_processo_camunda_bpm_portal.png
+
 
 
 ## Install
@@ -57,13 +74,6 @@ npm install
 npm run buildPlugin
 
 
-## Funcionalidades
-
-* Apresenta última versão do processo do camunda com o elemento description e o elemento complementar de descrição em HTML.
-* Navegação visual ao clicar no processo direta para documentação 
-
-
-## Telas
 
 
 ## Road Map
@@ -74,11 +84,11 @@ npm run buildPlugin
  * Na apresentação de 6 processos as divs da página inicial ficaram quebradas quando a descrição do processo usa duas linhas.
 
 ### Melhorias
-* Versionamento: Suporte a versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir defaul sempre a última como está)
+* Versionamento: Suporte a versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
 
 * Controle -de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
 
-
+* Possobilidade de acesso público configurável (embeeded Camunda BPM Portal)
 
 
 ## Contribuições.
