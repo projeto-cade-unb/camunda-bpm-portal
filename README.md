@@ -73,9 +73,9 @@ Build (Desenvolvedores).
 -----------------------
 
 ```bash
-$ git clone 
-$ npm install
-$ npm run buildPlugin
+git clone 
+npm install
+npm run buildPlugin
 ```
 
 ## Road Map.
