@@ -114,6 +114,3 @@ npm run buildPlugin
 
 ## Contribuições.
  Envie sua contribuição via pull request.
-
-
-
