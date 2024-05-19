@@ -35,9 +35,11 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 Local do arquico <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
 Adicione as linhas abaixo no customScripts
 
+```js
  customScripts: [
  'scripts/portal-bpm/plugin.js'
 ]
+```
 
 3) Reinicie seu Camunda.
 
