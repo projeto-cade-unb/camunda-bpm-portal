@@ -14,8 +14,6 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 * Navegação visual ao clicar no processo direta para documentação.
 * Integrado ao Camunda Cockpit. 
 
-
-
 ## Telas do Camunda BPM Portal.
 
 ## Home do Portal.
@@ -23,8 +21,6 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 ## Visualização de um Processo com Documentação.
 ![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_processo_camunda_bpm_portal.png)
-
-
 
 ## Instalação.
 
@@ -45,21 +41,28 @@ Adicione as linhas abaixo no customScripts
 
 3) Reinicie seu Camunda.
 
-
 ### Apache Tomcat no Linux (Realizando build).
 Exemplo em Camunda 7.20.0:
 
-1) realize o Build (veja sessão Build)
+1) Realize o Build (veja sessão Build).
 
-2) acesse sua pasta de script do cockpit
+2) Acesse sua pasta de script do cockpit.
+
+```bash
  cd /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
+```
 
-3) Crie um diratório para seu plugin 
+3) Crie um diratório para seu plugin. 
+
+```bash
 mkdir portal-bpm
+```
 
 4) Copie toda a pasta dist para a past criada no camunda cockpit
 
+```bash
 cp  dist/* -R /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/portal-bpm
+```
 
 5) Configurar ao arquivo config.js
 nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
