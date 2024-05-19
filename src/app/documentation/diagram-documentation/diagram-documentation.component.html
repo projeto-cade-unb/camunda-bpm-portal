@@ -1,15 +1,18 @@
 <ng-container *ngFor="let d of diagramDocumentation">
   <ng-container *ngIf="d.documentation || d.extendedDocumentation">
     <h2 [id]="d.id">
-      {{ d.id }}
+      {{ d.name }}
     </h2>
-
     <p *ngIf="d.documentation">{{ d.documentation }}</p>
 
     <div
       *ngIf="d.extendedDocumentation"
       [innerHTML]="d.extendedDocumentation"
     ></div>
+    <small><b>Technical details:</b></small><br>
+    <small [id]="d.id">
+      Element Name: {{ d.id }}
+    </small>
 
     <hr />
   </ng-container>

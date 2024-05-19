@@ -22,6 +22,7 @@ export class ProcessDiagramDocumentationComponent implements OnInit {
 
     this.diagramDocumentation = {
       id: processContainer.getAttribute("id"),
+      name: processContainer.getAttribute("name"),
       documentation:
         processContainer.querySelector("documentation")?.textContent,
       extendedDocumentation: processContainer.getAttribute(
