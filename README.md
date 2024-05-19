@@ -5,17 +5,20 @@
 Este projeto visa construir um portal de documentação de processos integrados ao software Camunda BPM Plataform.
 Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do  Camunda Modeler [WYSIWYG Documentation editor for Camunda Modeler](https://github.com/sharedchains/camunda-wysiwyg-documentation)
 
+## Suporte de Versões.
+Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por toda versões 7.20 ou Superior
 
-## Funcionalidades
+## Funcionalidades.
 
 * Apresenta última versão do processo do camunda com o elemento description e o elemento complementar de descrição em HTML.
 * Navegação visual ao clicar no processo direta para documentação.
 * Integrado ao Camunda Cockpit. 
 
 
-## Telas do Camunda BPM Portal
 
-## Home do Portal
+## Telas do Camunda BPM Portal.
+
+## Home do Portal.
 ![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_home_camunda-bpm_portal.png)
 
 ## Visualização de um Processo com Documentação.
@@ -23,7 +26,7 @@ Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do 
 
 
 
-## Install
+## Instalação
 
 ### Apache Tomcat 
 1) Realise o download o release do plugin na última versão de https://github.com/projeto-cade-unb/camunda-bpm-portal/releases
@@ -40,7 +43,7 @@ Adicione as linhas abaixo no customScripts
  'scripts/portal-bpm/plugin.js'
 ]
 
-3) Reinicie seu Camunda
+3) Reinicie seu Camunda.
 
 
 ### Apache Tomcat no Linux (Realizando build)
@@ -73,9 +76,6 @@ npm install
 
 npm run buildPlugin
 
-
-
-
 ## Road Map
 
 ### Correções:
@@ -88,8 +88,10 @@ npm run buildPlugin
 
 * Controle -de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
 
-* Possobilidade de acesso público configurável (embeeded Camunda BPM Portal)
+* Possibilidade de acesso público configurável (embeeded Camunda BPM Portal)
 
+## Licença 
+Apache 2.0
 
 ## Contribuições.
  Envie sua contribuição via pull request.
