@@ -52,24 +52,28 @@ Exemplo em Camunda 7.20.0:
  cd /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
 ```
 
-3) Crie um diratório para seu plugin. 
+3) Crie um diretório para seu plugin. 
 
 ```bash
 mkdir portal-bpm
 ```
 
-4) Copie toda a pasta dist para a past criada no camunda cockpit
+4) Copie toda o conteúdo da pasta "dist" para a pasta criada no Camunda Cockpit.
 
 ```bash
 cp  dist/* -R /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/portal-bpm
 ```
 
-5) Configurar ao arquivo config.js
+5) Configurar ao arquivo config.js.
 nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
 
+
+```js
  customScripts: [
  'scripts/portal-bpm/plugin.js'
 ]
+```
+
 6) Reinicie seu tomcat e limpe o cache do browser.
 
 Build (Desenvolvedores).
