@@ -28,6 +28,9 @@ export class DiagramDocumentationComponent implements OnInit {
     this.diagramDocumentation.push({
       id: processFirstChild.getAttribute("id"),
       name: processFirstChild.getAttribute("name"),
+      assignee: processFirstChild.getAttribute("camunda:assignee"),
+      candidateGroups: processFirstChild.getAttribute("camunda:candidateGroups"),
+      dueDate: processFirstChild.getAttribute("camunda:dueDate"),
       documentation:
         processFirstChild.tagName === "bpmn:documentation" &&
         processFirstChild?.textContent,
@@ -42,6 +45,9 @@ export class DiagramDocumentationComponent implements OnInit {
       this.diagramDocumentation.push({
         id: processChild.getAttribute("id"),
         name: processChild.getAttribute("name"),
+        assignee: processChild.getAttribute("camunda:assignee"),
+        candidateGroups: processChild.getAttribute("camunda:candidateGroups"),
+        dueDate: processChild.getAttribute("camunda:dueDate"),
         documentation: processChild.querySelector("documentation")?.textContent,
         extendedDocumentation: processChild.getAttribute(
           "documentation:extendedDocumentation"

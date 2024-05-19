@@ -1,75 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:documentation="http://documentation.sh4.red" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0rtvlcp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.19.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
-  <bpmn:process id="entrega-de-trabalho" documentation:extendedDocumentation="&#60;p&#62;&#60;strong&#62;Este processo permite a gestão dos trabalhos escolares da instuição de ensino fictícia.&#60;/strong&#62;&#60;/p&#62;&#60;p&#62;O processos consiste em os alunos iniciarem um fluxo e incluirem seus trabalhos escolares e enviar para os professores analisarem, os professores posteriormente vão incluir uma nota e com base nisto o aluno vai receber uma notificação via tarefa com a situação dele que pode ser reprovada, aprovada ou em recuperação.&#60;/p&#62;&#60;p&#62;&#60;/p&#62;&#60;p&#62;&#60;/p&#62;" name="Entrega de Trabalho Escolar" isExecutable="true" camunda:historyTimeToLive="P36500D">
-    <bpmn:startEvent id="StartEvent_1" documentation:extendedDocumentation="&#60;p&#62;Aluno Inicia fluxo via formulário inicial sem nenhuma informação.&#60;/p&#62;" name="Entrega de Trabalho Escolar" camunda:initiator="initiator">
-      <bpmn:outgoing>Flow_1vr9qxo</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1vr9qxo" sourceRef="StartEvent_1" targetRef="Activity_1ma3bpu" />
-    <bpmn:sequenceFlow id="Flow_0cqtwvj" sourceRef="Activity_13zi7zv" targetRef="Activity_1a60v00" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:documentation="http://documentation.sh4.red" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0rtvlcp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.19.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:collaboration id="Collaboration_1t82937">
+    <bpmn:participant id="Participant_0jvk4qx" name="Escola Hacker" processRef="entrega-de-trabalho">
+      <bpmn:documentation>Atividadas da Escola Hacker</bpmn:documentation>
+    </bpmn:participant>
+  </bpmn:collaboration>
+  <bpmn:process id="entrega-de-trabalho" documentation:extendedDocumentation="&#60;p&#62;&#60;strong&#62;Este processo permite a gestão dos trabalhos escolares da instuição de ensino fictícia.&#60;/strong&#62;&#60;/p&#62;&#60;p&#62;O processos consiste em os alunos iniciarem um fluxo e incluirem seus trabalhos escolares e enviar para os professores analisarem, os professores posteriormente vão incluir uma nota e com base nisto o aluno vai receber uma notificação via tarefa com a situação dele que pode ser reprovada, aprovada ou em recuperação.&#60;/p&#62;&#60;p style=&#34;text-align:left;&#34;&#62;&#60;/p&#62;&#60;div style=&#34;text-align:left;&#34;&#62;&#60;img src=&#34;data:image/jpeg;base64,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&#34; alt=&#34;&#34; style=&#34;height: auto;width: auto&#34;/&#62;&#60;/div&#62;&#60;p&#62;&#60;/p&#62;&#60;p&#62;&#60;/p&#62;" name="Entrega de Trabalho Escolar" isExecutable="true" camunda:historyTimeToLive="P36500D">
+    <bpmn:laneSet id="LaneSet_18zrssu">
+      <bpmn:lane id="Lane_0cittgj" documentation:extendedDocumentation="&#60;p&#62;Atividades desempenhadas pelos atores Professores.&#60;/p&#62;" name="Professor">
+        <bpmn:flowNodeRef>Activity_1a60v00</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_19qcb6j</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0flwzkn</bpmn:flowNodeRef>
+        <bpmn:childLaneSet id="LaneSet_0ekr41v" />
+      </bpmn:lane>
+      <bpmn:lane id="Lane_0d3kb9q" documentation:extendedDocumentation="&#60;p&#62;Atividades desempenhadas de forma automatizadas, sejam programatimamente por RPA ou IA.&#60;/p&#62;" name="Automação">
+        <bpmn:flowNodeRef>Event_1v8uqvt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0duj47i</bpmn:flowNodeRef>
+        <bpmn:childLaneSet id="LaneSet_1ikvin3" />
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1tba9zg" documentation:extendedDocumentation="&#60;p&#62;Atividades desempenhada pelos alunos.&#60;/p&#62;" name="Aluno">
+        <bpmn:flowNodeRef>Activity_1ma3bpu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_13zi7zv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0z1623s</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0p1gyo7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0qo8s3n</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ibxlzn</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
     <bpmn:userTask id="Activity_1a60v00" name="Professor Recebe Trabalho" camunda:formRef="Form_Professor" camunda:formRefBinding="latest" camunda:candidateGroups="professores" camunda:dueDate="${dateTime().plusDays(1).toDate()}">
       <bpmn:documentation>O professor deve baixar o arquivo do sistema de EAD e aplicar a nota.</bpmn:documentation>
       <bpmn:incoming>Flow_0cqtwvj</bpmn:incoming>
       <bpmn:outgoing>Flow_1vh5lcz</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:endEvent id="Event_0flwzkn" name="Trabalho Recebido">
-      <bpmn:incoming>Flow_1i831ep</bpmn:incoming>
-      <bpmn:incoming>Flow_13m40z4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:userTask id="Activity_13zi7zv" name="Aluno envia Trabalho" camunda:formRef="Form_Aluno" camunda:formRefBinding="latest" camunda:assignee="${initiator}" camunda:dueDate="${dateTime().plusDays(2).toDate()}" camunda:followUpDate="${dateTime().plusDays(1).toDate()}">
-      <bpmn:documentation>O Aluno deve enviar o trabalho em arquivo PDF.</bpmn:documentation>
-      <bpmn:incoming>Flow_06ztch1</bpmn:incoming>
-      <bpmn:incoming>Flow_068vdxb</bpmn:incoming>
-      <bpmn:outgoing>Flow_0cqtwvj</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_19qcb6j">
-      <bpmn:incoming>Flow_1vh5lcz</bpmn:incoming>
-      <bpmn:outgoing>Flow_18g2tu1</bpmn:outgoing>
-      <bpmn:outgoing>Flow_05ofe7p</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1vh5lcz" sourceRef="Activity_1a60v00" targetRef="Gateway_19qcb6j" />
-    <bpmn:sequenceFlow id="Flow_18g2tu1" name="Nota &#62;= 7" sourceRef="Gateway_19qcb6j" targetRef="Activity_1ibxlzn">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${nota &gt;= 7}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_05ofe7p" name="Nota &#60; 7" sourceRef="Gateway_19qcb6j" targetRef="Activity_0duj47i">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${nota &lt; 7}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:userTask id="Activity_1ibxlzn" name="Aluno Aprovado" camunda:assignee="${initiator}">
-      <bpmn:incoming>Flow_18g2tu1</bpmn:incoming>
-      <bpmn:outgoing>Flow_1i831ep</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Activity_0qo8s3n" name="Aluno Reprovado" camunda:assignee="${initiator}">
-      <bpmn:incoming>Flow_0i6w4a3</bpmn:incoming>
-      <bpmn:outgoing>Flow_13m40z4</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_1i831ep" sourceRef="Activity_1ibxlzn" targetRef="Event_0flwzkn" />
-    <bpmn:sequenceFlow id="Flow_13m40z4" sourceRef="Activity_0qo8s3n" targetRef="Event_0flwzkn" />
-    <bpmn:businessRuleTask id="Activity_0duj47i" name="Aplica Conceito" camunda:resultVariable="conceito" camunda:decisionRef="dmnconceito" camunda:mapDecisionResult="singleEntry">
-      <bpmn:incoming>Flow_05ofe7p</bpmn:incoming>
-      <bpmn:outgoing>Flow_0td6kjb</bpmn:outgoing>
-    </bpmn:businessRuleTask>
-    <bpmn:exclusiveGateway id="Gateway_0p1gyo7">
-      <bpmn:incoming>Flow_0td6kjb</bpmn:incoming>
-      <bpmn:outgoing>Flow_0i6w4a3</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1pql851</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0td6kjb" sourceRef="Activity_0duj47i" targetRef="Gateway_0p1gyo7" />
-    <bpmn:sequenceFlow id="Flow_0i6w4a3" name="Se conceito = F" sourceRef="Gateway_0p1gyo7" targetRef="Activity_0qo8s3n">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${conceito == "F"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1pql851" name="Se conceito = D ou E" sourceRef="Gateway_0p1gyo7" targetRef="Activity_0z1623s">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${conceito == "D" or conceito == "E"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:userTask id="Activity_0z1623s" name="Aluno em Recuperação" camunda:assignee="${initiator}">
-      <bpmn:incoming>Flow_1pql851</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ymo0tv</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_0ymo0tv" sourceRef="Activity_0z1623s" targetRef="Event_1v8uqvt" />
-    <bpmn:sequenceFlow id="Flow_06ztch1" sourceRef="Activity_1ma3bpu" targetRef="Activity_13zi7zv" />
-    <bpmn:manualTask id="Activity_1ma3bpu" documentation:extendedDocumentation="&#60;p&#62;O Aluno vai desenvolver o trabalho solicitado pelo professor em sala de aula. Todas informações para este desenvolvimento são passadas em sala e o aluno deve realizar conforme acordado com professor.&#38;nbsp;&#60;/p&#62;" name="Aluno realiza o Trablaho">
-      <bpmn:incoming>Flow_1vr9qxo</bpmn:incoming>
-      <bpmn:outgoing>Flow_06ztch1</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:sequenceFlow id="Flow_068vdxb" sourceRef="Event_1v8uqvt" targetRef="Activity_13zi7zv" />
     <bpmn:intermediateCatchEvent id="Event_1v8uqvt">
       <bpmn:incoming>Flow_0ymo0tv</bpmn:incoming>
       <bpmn:outgoing>Flow_068vdxb</bpmn:outgoing>
@@ -77,115 +40,203 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT45S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
+    <bpmn:businessRuleTask id="Activity_0duj47i" documentation:extendedDocumentation="&#60;p&#62;Assista o Video para entender como foi criado esta regra de decisão e aprenda a fazer.&#60;/p&#62;&#60;iframe width=&#34;auto&#34; height=&#34;auto&#34; src=&#34;https://www.youtube-nocookie.com/embed/T8dWMFSMJNE?si=ziXLaH6_6C3TntF_&#34; frameBorder=&#34;0&#34;&#62;&#60;/iframe&#62;&#60;p style=&#34;text-align:left;&#34;&#62;Tutorial Camunda DMN.&#60;/p&#62;" name="Aplica Conceito" camunda:resultVariable="conceito" camunda:decisionRef="dmnconceito" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_05ofe7p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0td6kjb</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Gateway_19qcb6j">
+      <bpmn:incoming>Flow_1vh5lcz</bpmn:incoming>
+      <bpmn:outgoing>Flow_18g2tu1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_05ofe7p</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_0flwzkn" name="Trabalho Recebido">
+      <bpmn:incoming>Flow_1i831ep</bpmn:incoming>
+      <bpmn:incoming>Flow_13m40z4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:manualTask id="Activity_1ma3bpu" documentation:extendedDocumentation="&#60;p&#62;O Aluno vai desenvolver o trabalho solicitado pelo professor em sala de aula. Todas informações para este desenvolvimento são passadas em sala e o aluno deve realizar conforme acordado com professor.&#38;nbsp;&#60;/p&#62;" name="Aluno realiza o Trabalho">
+      <bpmn:incoming>Flow_1vr9qxo</bpmn:incoming>
+      <bpmn:outgoing>Flow_06ztch1</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:userTask id="Activity_13zi7zv" documentation:extendedDocumentation="&#60;p&#62;Os trabalhos que podem ser enviado são das seguintes matérias:&#60;/p&#62;&#60;ul&#62;&#60;li&#62;Gestão de Processos com BPM.&#60;/li&#62;&#60;li&#62;Automação de Processos com Camunda.&#60;/li&#62;&#60;li&#62;Desenvolvimento de Microsserviços.&#60;/li&#62;&#60;/ul&#62;&#60;p&#62;&#60;span style=&#34;color: rgb(34,36,42);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62;Composição do Trabalho:&#60;/span&#62;&#60;/p&#62;&#60;ol&#62;&#60;li&#62;&#60;span style=&#34;color: rgb(34,36,42);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62;O trabalho deve ter código.&#60;/span&#62;&#60;/li&#62;&#60;li&#62;&#60;span style=&#34;color: rgb(34,36,42);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62;O trabalho deve ser documentado para uso e desenvolvimento.&#60;/span&#62;&#60;/li&#62;&#60;li&#62;&#60;span style=&#34;color: rgb(34,36,42);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62;Um resumo de artigo acadêmico deve ser descrito &#60;/span&#62;&#60;span style=&#34;color: rgb(226,80,65);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62;defendendo a tese&#60;/span&#62;&#60;span style=&#34;color: rgb(34,36,42);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62; do trabalho.&#60;/span&#62;&#60;/li&#62;&#60;/ol&#62;&#60;p&#62;&#60;/p&#62;&#60;p&#62;&#60;span style=&#34;color: rgb(34,36,42);background-color: rgb(255,255,255);font-size: 15.4;font-family: IBM Plex Sans&#34;, system-ui, Arial, sans-serif;&#34;&#62;Boa Sorte Alunos Hackers 😀&#60;/span&#62;&#60;/p&#62;" name="Aluno envia Trabalho" camunda:formRef="Form_Aluno" camunda:formRefBinding="latest" camunda:assignee="${initiator}" camunda:candidateGroups="alunos" camunda:dueDate="${dateTime().plusDays(2).toDate()}" camunda:followUpDate="${dateTime().plusDays(1).toDate()}">
+      <bpmn:documentation>O Aluno deve enviar o trabalho em arquivo PDF.</bpmn:documentation>
+      <bpmn:incoming>Flow_06ztch1</bpmn:incoming>
+      <bpmn:incoming>Flow_068vdxb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cqtwvj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_0z1623s" name="Aluno em Recuperação" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_1pql851</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ymo0tv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0p1gyo7">
+      <bpmn:incoming>Flow_0td6kjb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0i6w4a3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1pql851</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_0qo8s3n" name="Aluno Reprovado" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_0i6w4a3</bpmn:incoming>
+      <bpmn:outgoing>Flow_13m40z4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1ibxlzn" name="Aluno Aprovado" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_18g2tu1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i831ep</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_1" documentation:extendedDocumentation="&#60;p&#62;Aluno Inicia fluxo via formulário inicial sem nenhuma informação.&#60;/p&#62;" name="Entrega de Trabalho Escolar" camunda:initiator="initiator">
+      <bpmn:outgoing>Flow_1vr9qxo</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0cqtwvj" sourceRef="Activity_13zi7zv" targetRef="Activity_1a60v00" />
+    <bpmn:sequenceFlow id="Flow_1vh5lcz" sourceRef="Activity_1a60v00" targetRef="Gateway_19qcb6j" />
+    <bpmn:sequenceFlow id="Flow_0ymo0tv" sourceRef="Activity_0z1623s" targetRef="Event_1v8uqvt" />
+    <bpmn:sequenceFlow id="Flow_068vdxb" sourceRef="Event_1v8uqvt" targetRef="Activity_13zi7zv" />
+    <bpmn:sequenceFlow id="Flow_05ofe7p" name="Nota &#60; 7" sourceRef="Gateway_19qcb6j" targetRef="Activity_0duj47i">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${nota &lt; 7}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0td6kjb" sourceRef="Activity_0duj47i" targetRef="Gateway_0p1gyo7" />
+    <bpmn:sequenceFlow id="Flow_18g2tu1" name="Nota &#62;= 7" sourceRef="Gateway_19qcb6j" targetRef="Activity_1ibxlzn">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${nota &gt;= 7}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1i831ep" sourceRef="Activity_1ibxlzn" targetRef="Event_0flwzkn" />
+    <bpmn:sequenceFlow id="Flow_13m40z4" sourceRef="Activity_0qo8s3n" targetRef="Event_0flwzkn" />
+    <bpmn:sequenceFlow id="Flow_1vr9qxo" sourceRef="StartEvent_1" targetRef="Activity_1ma3bpu" />
+    <bpmn:sequenceFlow id="Flow_06ztch1" sourceRef="Activity_1ma3bpu" targetRef="Activity_13zi7zv" />
+    <bpmn:sequenceFlow id="Flow_1pql851" name="Se conceito = D ou E" sourceRef="Gateway_0p1gyo7" targetRef="Activity_0z1623s">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${conceito == "D" or conceito == "E"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0i6w4a3" name="Se conceito = F" sourceRef="Gateway_0p1gyo7" targetRef="Activity_0qo8s3n">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${conceito == "F"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="entrega-de-trabalho">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="182" y="99" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="158" y="142" width="84" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1o3m7aw_di" bpmnElement="Activity_1a60v00">
-        <dc:Bounds x="600" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0flwzkn_di" bpmnElement="Event_0flwzkn">
-        <dc:Bounds x="1072" y="99" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1066" y="61.5" width="47" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1wt7kbf_di" bpmnElement="Activity_13zi7zv">
-        <dc:Bounds x="450" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_19qcb6j_di" bpmnElement="Gateway_19qcb6j" isMarkerVisible="true">
-        <dc:Bounds x="755" y="92" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1qtpu8y_di" bpmnElement="Activity_1ibxlzn">
-        <dc:Bounds x="890" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1d6zngn_di" bpmnElement="Activity_0qo8s3n">
-        <dc:Bounds x="1040" y="330" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_07tj7qu_di" bpmnElement="Activity_0duj47i">
-        <dc:Bounds x="730" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0p1gyo7_di" bpmnElement="Gateway_0p1gyo7" isMarkerVisible="true">
-        <dc:Bounds x="755" y="355" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_172pfrd_di" bpmnElement="Activity_0z1623s">
-        <dc:Bounds x="450" y="340" width="100" height="80" />
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1t82937">
+      <bpmndi:BPMNShape id="Participant_0jvk4qx_di" bpmnElement="Participant_0jvk4qx" isHorizontal="true">
+        <dc:Bounds x="131" y="44" width="1039" height="506" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1is0itq_di" bpmnElement="Activity_1ma3bpu">
-        <dc:Bounds x="280" y="77" width="100" height="80" />
+      <bpmndi:BPMNShape id="Lane_0cittgj_di" bpmnElement="Lane_0cittgj" isHorizontal="true">
+        <dc:Bounds x="161" y="44" width="1009" height="136" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0d3kb9q_di" bpmnElement="Lane_0d3kb9q" isHorizontal="true">
+        <dc:Bounds x="161" y="180" width="1009" height="140" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1tba9zg_di" bpmnElement="Lane_1tba9zg" isHorizontal="true">
+        <dc:Bounds x="161" y="320" width="1009" height="230" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1o3m7aw_di" bpmnElement="Activity_1a60v00">
+        <dc:Bounds x="440" y="60" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0pxngpq_di" bpmnElement="Event_1v8uqvt">
-        <dc:Bounds x="482" y="222" width="36" height="36" />
+        <dc:Bounds x="572" y="242" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1vr9qxo_di" bpmnElement="Flow_1vr9qxo">
-        <di:waypoint x="218" y="117" />
-        <di:waypoint x="280" y="117" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_07tj7qu_di" bpmnElement="Activity_0duj47i">
+        <dc:Bounds x="750" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_19qcb6j_di" bpmnElement="Gateway_19qcb6j" isMarkerVisible="true">
+        <dc:Bounds x="775" y="75" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0flwzkn_di" bpmnElement="Event_0flwzkn">
+        <dc:Bounds x="1092" y="89" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1086" y="52" width="47" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1is0itq_di" bpmnElement="Activity_1ma3bpu">
+        <dc:Bounds x="200" y="350" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wt7kbf_di" bpmnElement="Activity_13zi7zv">
+        <dc:Bounds x="390" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_172pfrd_di" bpmnElement="Activity_0z1623s">
+        <dc:Bounds x="590" y="450" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0p1gyo7_di" bpmnElement="Gateway_0p1gyo7" isMarkerVisible="true">
+        <dc:Bounds x="775" y="465" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d6zngn_di" bpmnElement="Activity_0qo8s3n" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
+        <dc:Bounds x="1050" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qtpu8y_di" bpmnElement="Activity_1ibxlzn">
+        <dc:Bounds x="890" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="518" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0cqtwvj_di" bpmnElement="Flow_0cqtwvj">
-        <di:waypoint x="550" y="117" />
-        <di:waypoint x="600" y="117" />
+        <di:waypoint x="440" y="350" />
+        <di:waypoint x="440" y="309" />
+        <di:waypoint x="490" y="309" />
+        <di:waypoint x="490" y="140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1vh5lcz_di" bpmnElement="Flow_1vh5lcz">
-        <di:waypoint x="700" y="117" />
-        <di:waypoint x="755" y="117" />
+        <di:waypoint x="540" y="100" />
+        <di:waypoint x="775" y="100" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_18g2tu1_di" bpmnElement="Flow_18g2tu1">
-        <di:waypoint x="805" y="117" />
-        <di:waypoint x="890" y="117" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="816" y="99" width="49" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_0ymo0tv_di" bpmnElement="Flow_0ymo0tv">
+        <di:waypoint x="640" y="450" />
+        <di:waypoint x="640" y="260" />
+        <di:waypoint x="608" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_068vdxb_di" bpmnElement="Flow_068vdxb">
+        <di:waypoint x="590" y="278" />
+        <di:waypoint x="590" y="380" />
+        <di:waypoint x="490" y="380" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_05ofe7p_di" bpmnElement="Flow_05ofe7p">
-        <di:waypoint x="780" y="142" />
-        <di:waypoint x="780" y="240" />
+        <di:waypoint x="800" y="125" />
+        <di:waypoint x="800" y="220" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="729" y="171" width="42" height="14" />
+          <dc:Bounds x="749" y="143" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0td6kjb_di" bpmnElement="Flow_0td6kjb">
+        <di:waypoint x="800" y="300" />
+        <di:waypoint x="800" y="465" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18g2tu1_di" bpmnElement="Flow_18g2tu1">
+        <di:waypoint x="825" y="100" />
+        <di:waypoint x="940" y="100" />
+        <di:waypoint x="940" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="875" y="136" width="49" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1i831ep_di" bpmnElement="Flow_1i831ep">
-        <di:waypoint x="990" y="117" />
-        <di:waypoint x="1072" y="117" />
+        <di:waypoint x="990" y="400" />
+        <di:waypoint x="1046" y="400" />
+        <di:waypoint x="1046" y="107" />
+        <di:waypoint x="1092" y="107" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_13m40z4_di" bpmnElement="Flow_13m40z4">
-        <di:waypoint x="1090" y="330" />
-        <di:waypoint x="1090" y="135" />
+        <di:waypoint x="1110" y="440" />
+        <di:waypoint x="1110" y="125" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0td6kjb_di" bpmnElement="Flow_0td6kjb">
-        <di:waypoint x="780" y="320" />
-        <di:waypoint x="780" y="355" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0i6w4a3_di" bpmnElement="Flow_0i6w4a3">
-        <di:waypoint x="805" y="380" />
-        <di:waypoint x="1040" y="380" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="886" y="362" width="78" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1pql851_di" bpmnElement="Flow_1pql851">
-        <di:waypoint x="755" y="380" />
-        <di:waypoint x="550" y="380" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="617" y="346" width="79" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ymo0tv_di" bpmnElement="Flow_0ymo0tv">
-        <di:waypoint x="500" y="340" />
-        <di:waypoint x="500" y="258" />
+      <bpmndi:BPMNEdge id="Flow_1vr9qxo_di" bpmnElement="Flow_1vr9qxo">
+        <di:waypoint x="250" y="472" />
+        <di:waypoint x="250" y="430" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_06ztch1_di" bpmnElement="Flow_06ztch1">
-        <di:waypoint x="380" y="117" />
-        <di:waypoint x="450" y="117" />
+        <di:waypoint x="300" y="390" />
+        <di:waypoint x="390" y="390" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_068vdxb_di" bpmnElement="Flow_068vdxb">
-        <di:waypoint x="500" y="222" />
-        <di:waypoint x="500" y="157" />
+      <bpmndi:BPMNEdge id="Flow_1pql851_di" bpmnElement="Flow_1pql851">
+        <di:waypoint x="775" y="490" />
+        <di:waypoint x="690" y="490" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="710" y="456" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0i6w4a3_di" bpmnElement="Flow_0i6w4a3">
+        <di:waypoint x="825" y="490" />
+        <di:waypoint x="1050" y="490" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="902" y="472" width="78" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -6,7 +6,7 @@ Este projeto visa construir um portal de documentação de processos integrados 
 Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do  Camunda Modeler [WYSIWYG Documentation editor for Camunda Modeler](https://github.com/sharedchains/camunda-wysiwyg-documentation)
 
 ## Suporte de Versões.
-Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por toda versões 7.20 ou Superior
+Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por toda versões 7.20 ou superiores.
 
 ## Funcionalidades.
 
@@ -36,7 +36,7 @@ Local do arquico <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camun
 Adicione as linhas abaixo no customScripts
 
 ```js
- customScripts: [
+customScripts: [
  'scripts/portal-bpm/plugin.js'
 ]
 ```
@@ -71,7 +71,7 @@ nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/
 
 
 ```js
- customScripts: [
+customScripts: [
  'scripts/portal-bpm/plugin.js'
 ]
 ```
@@ -94,7 +94,18 @@ npm run buildPlugin
 
  * Na apresentação de 6 processos as divs da página inicial ficaram quebradas quando a descrição do processo usa duas linhas.
 
+ * Apresentar video youtube incorporado. NO WYSIWYG funciona mas no portal não. 
+
+ * As cores adicionadas no editor, por exemplo vermelho não estão aparecendo no Portal.
+
 ### Melhorias:
+
+* i18N - Implementar internacionalização e traduzir em en,de  e pt_BR.
+
+* UI: Colocar uma ação para apresentar e esconder a área "Technical details", estas informações não são relevantes para usuários de negócio.
+
+* UI: Colocar o Icone do tipo de Element HTML miniatura antes do nome do Elemento.
+
 * Versionamento: Suporte a versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
 
 * Controle -de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
