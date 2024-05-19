@@ -15,10 +15,10 @@ Para um uso de todas funcionalidades deve ser usado em conjunto com o Plugin do 
 
 ## Telas do Camunda BPM Portal
 
-Home
+## Home do Portal
 ![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_home_camunda-bpm_portal.png)
 
-Visualização do Processo.
+## Visualização de um Processo com Documentação.
 ![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_processo_camunda_bpm_portal.png)
 
 
