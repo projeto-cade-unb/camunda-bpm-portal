@@ -90,7 +90,7 @@ npm install
 npm run buildPlugin
 ```
 
-## Road Map.
+## Roadmap.
 
 ### Correções:
  * A Documentação geral no element "process" quando apresentada e listada como o elemento start aparentando ter dois starts no fluxo , apresentar este elemento como process.
