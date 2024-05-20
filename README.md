@@ -111,13 +111,15 @@ npm run buildPlugin
 
 * UI: Colocar o Icone do tipo de Element HTML miniatura antes do nome do Elemento.
 
-* Versionamento: Suporte a versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
+* Versionamento: Suporte a visualizar versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
 
-* Controle -de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
+* Controle de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
 
-* Possibilidade de acesso público configurável (embeeded Camunda BPM Portal)
+* Controle de Acesso: Possibilidade de acesso público configurável (embeeded Camunda BPM Portal)
 
-* Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
+* UI: Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
+  
+* UI: Exportação para PDF ou Doc.
 
 ## Contribuições.
  Envie sua contribuição via pull request.
