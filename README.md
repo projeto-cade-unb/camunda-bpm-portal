@@ -29,7 +29,7 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 ### Apache Tomcat. 
 1) Realise o download o release do plugin na última versão de https://github.com/projeto-cade-unb/camunda-bpm-portal/releases
-   exemplo portal-bpm-v0.1.0.zip 
+   exemplo portal-bpm-v0.2.0.zip 
 
 2) Descompacte na pasta de script e mova o diretório **portal-bpm** para o seu Camunda Server
    <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
