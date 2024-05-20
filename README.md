@@ -12,7 +12,8 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 * Apresenta última versão do processo do camunda com o elemento description e o elemento complementar de descrição em HTML.
 * Navegação visual ao clicar no processo direta para documentação.
-* Integrado ao Camunda Cockpit. 
+* Integrado ao Camunda Cockpit.
+* Exemplos de Processos documentados com  [WYSIWYG Documentation editor for Camunda Modeler](https://github.com/sharedchains/camunda-wysiwyg-documentation)
 
 ## Telas do Camunda BPM Portal.
 
@@ -21,6 +22,9 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 ## Visualização de um Processo com Documentação.
 ![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_processo_camunda_bpm_portal.png)
+
+## Detalhamento da Documentação do Processo.
+![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot-details-camunda-bpm_portal.png)
 
 ## Instalação.
 
@@ -102,6 +106,8 @@ npm run buildPlugin
 
 * i18N - Implementar internacionalização e traduzir em en,de  e pt_BR.
 
+* i18N - Traduzir o Plugin WYSIWYG e submeter no github.
+
 * UI: Colocar uma ação para apresentar e esconder a área "Technical details", estas informações não são relevantes para usuários de negócio.
 
 * UI: Colocar o Icone do tipo de Element HTML miniatura antes do nome do Elemento.
@@ -111,6 +117,8 @@ npm run buildPlugin
 * Controle -de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
 
 * Possibilidade de acesso público configurável (embeeded Camunda BPM Portal)
+
+* Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
 
 ## Contribuições.
  Envie sua contribuição via pull request.
