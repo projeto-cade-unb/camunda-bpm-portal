@@ -16,10 +16,11 @@ export class ProcessDefinitionService {
     );
   }
 
-  findAllProcessDefinition(params) {
-    params.latestVersion = true;
-
-    return this.processDefinitionRepository.findAllProcessDefinition(params);
+  findAllProcessDefinition(params?) {
+    return this.processDefinitionRepository.findAllProcessDefinition({
+      ...params,
+      latestVersion: true,
+    });
   }
 
   findOneDiagramByProcessDefinitionId(id: string) {
