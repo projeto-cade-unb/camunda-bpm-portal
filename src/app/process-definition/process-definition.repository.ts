@@ -16,7 +16,7 @@ export class ProcessDefinitionRepository {
 
   findAllProcessDefinition(params) {
     return this.httpClient.get<ProcessDefinition[]>(
-      "/camunda/api/engine/engine/default/process-definition?latestVersion=true",
+      "/camunda/api/engine/engine/default/process-definition",
       { params }
     );
   }
