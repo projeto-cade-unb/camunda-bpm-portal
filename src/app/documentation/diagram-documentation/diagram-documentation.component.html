@@ -1,9 +1,8 @@
 <ng-container *ngFor="let d of diagramDocumentation">
   <ng-container *ngIf="d.documentation || d.extendedDocumentation">
     <h2 [id]="d.id">
-      {{ d.id }}
+      {{ d.name }}
     </h2>
-
     <p *ngIf="d.documentation">{{ d.documentation }}</p>
 
     <div
@@ -11,6 +10,11 @@
       [innerHTML]="d.extendedDocumentation"
     ></div>
 
+    <small><b>Detalhes técnicos Camunda:</b></small><br>
+    <small><b>Nome do Elemento: </b>{{ d.id }}<br></small>
+    <small *ngIf="d.assignee"><b>Responsável: </b>{{ d.assignee }}<br></small>
+    <small *ngIf="d.candidateGroups"><b>Grupo Candidato: </b>{{ d.candidateGroups }}<br></small>
+    <small *ngIf="d.dueDate"><b>Prazo: </b>{{ d.dueDate }}<br></small>
     <hr />
   </ng-container>
 </ng-container>

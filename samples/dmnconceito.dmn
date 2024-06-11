@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0xt4zda" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.8.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <decision id="dmnconceito" name="Conceito de Nota">
+    <decisionTable id="DecisionTable_1suo809" hitPolicy="FIRST">
+      <input id="Input_1" camunda:inputVariable="nota">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>nota</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="conceito" typeRef="string" />
+      <rule id="DecisionRule_1286nav">
+        <description>Melhor conceito possível</description>
+        <inputEntry id="UnaryTests_0k4rc9j">
+          <text>&gt;9</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_193wuty">
+          <text>"A"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03aum99">
+        <inputEntry id="UnaryTests_1yt76tk">
+          <text>&gt;8</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_127epjg">
+          <text>"B"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_168ru8k">
+        <inputEntry id="UnaryTests_0fxmmqx">
+          <text>&gt;=7</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1aki4ul">
+          <text>"C"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0nzv4t9">
+        <inputEntry id="UnaryTests_1y50355">
+          <text>&gt;5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wocfav">
+          <text>"D"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_180dn19">
+        <inputEntry id="UnaryTests_1f3dxqr">
+          <text>&gt;3</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k4r4rk">
+          <text>"E"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bj70sw">
+        <inputEntry id="UnaryTests_1azup54">
+          <text>&gt;=0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0iwf3w5">
+          <text>"F"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="dmnconceito">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
