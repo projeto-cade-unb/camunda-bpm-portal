@@ -10,11 +10,24 @@
       [innerHTML]="d.extendedDocumentation"
     ></div>
 
-    <small><b>Detalhes técnicos Camunda:</b></small><br>
-    <small><b>Nome do Elemento: </b>{{ d.id }}<br></small>
-    <small *ngIf="d.assignee"><b>Responsável: </b>{{ d.assignee }}<br></small>
-    <small *ngIf="d.candidateGroups"><b>Grupo Candidato: </b>{{ d.candidateGroups }}<br></small>
-    <small *ngIf="d.dueDate"><b>Prazo: </b>{{ d.dueDate }}<br></small>
+    <small
+      ><b>{{ "ELEMENT_DETAIL_LABEL" | translate }}:</b></small
+    ><br />
+
+    <small
+      ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
+      >{{ d.id }}<br
+    /></small>
+
+    <small *ngIf="d.assignee"><b>{{ 'ASSIGNEE' | translate }}: </b>{{ d.assignee }}<br /></small>
+
+    <small *ngIf="d.candidateGroups"
+      ><b>{{ 'CADIDATE_GROUP' | translate}}: </b>{{ d.candidateGroups }}<br
+    /></small>
+
+    <small *ngIf="d.dueDate"
+      ><b>{{ "DUEDATE" | translate }}: </b>{{ d.dueDate }}<br
+    /></small>
     <hr />
   </ng-container>
 </ng-container>
