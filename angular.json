@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demo": {
+    "portal-bpm": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,18 +56,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "portal-bpm:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "demo:build:production"
+              "browserTarget": "portal-bpm:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "portal-bpm:build"
           }
         },
         "test": {
@@ -97,16 +97,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "demo:serve"
+            "devServerTarget": "portal-bpm:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "demo:serve:production"
+              "devServerTarget": "portal-bpm:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "demo"
+  "defaultProject": "portal-bpm",
+  "cli": {
+    "analytics": false
+  }
 }

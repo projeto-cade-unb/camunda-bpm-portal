@@ -6,8 +6,8 @@ import { CardComponent } from "./card/card.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { DocumentationComponent } from "./documentation/documentation.component";
 import { ViewerComponent } from "./viewer/viewer.component";
-import { DiagramDocumentationComponent } from './documentation/diagram-documentation/diagram-documentation.component';
-import { ProcessDiagramDocumentationComponent } from './documentation/process-diagram-documentation/process-diagram-documentation.component';
+import { DiagramDocumentationComponent } from "./documentation/diagram-documentation/diagram-documentation.component";
+import { ProcessDiagramDocumentationComponent } from "./documentation/process-diagram-documentation/process-diagram-documentation.component";
 
 @NgModule({
   declarations: [
@@ -27,16 +27,18 @@ export class AppModule {
   constructor(private injector: Injector) {
     customElements.define(
       "custom-dashboard",
-      createCustomElement(DashboardComponent, {
-        injector: this.injector,
-      })
+      customElements.get("custom-dashboard") ||
+        createCustomElement(DashboardComponent, {
+          injector: this.injector,
+        })
     );
 
     customElements.define(
       "custom-documentation",
-      createCustomElement(DocumentationComponent, {
-        injector: this.injector,
-      })
+      customElements.get("custom-documentation") ||
+        createCustomElement(DocumentationComponent, {
+          injector: this.injector,
+        })
     );
   }
 
