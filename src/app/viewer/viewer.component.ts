@@ -8,7 +8,6 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
-import { Observable, from, mergeMap, timer } from "rxjs";
 
 @Component({
   selector: "custom-viewer[diagram], custom-viewer[containerElement]",
@@ -28,34 +27,31 @@ export class ViewerComponent implements OnInit, OnDestroy {
   @Output() importXML = new EventEmitter<Viewer>();
 
   viewer = new Viewer();
-  resizeCanvas$ = timer(0, 1000).pipe(mergeMap(() => this.resizeCanvas()));
+
+  private handleResizeEvent = () => this.resizeCanvas();
 
   resizeCanvas() {
-    return new Observable<void>((subscription) => {
-      const canvas: any = this.viewer.get("canvas");
+    const canvas: any = this.viewer.get("canvas");
 
-      const { inner } = canvas.viewbox();
+    const { inner } = canvas.viewbox();
 
-      if (!(inner.x && inner.y)) subscription.complete();
-
-      canvas.zoom("fit-viewport", {
-        x: inner.x + inner.width / 2,
-        y: inner.y + inner.height / 2,
-      });
-
-      subscription.next();
+    canvas.zoom("fit-viewport", {
+      x: inner.x + inner.width / 2,
+      y: inner.y + inner.height / 2,
     });
   }
 
-  ngOnInit(): void {
-    from(this.viewer.importXML(this.diagram)).subscribe(() => {
-      this.viewer.attachTo(this.containerElement);
-      this.resizeCanvas$.subscribe();
-      this.importXML.emit(this.viewer);
-    });
+  async ngOnInit() {
+    await this.viewer.importXML(this.diagram);
+    this.viewer.attachTo(this.containerElement);
+    this.resizeCanvas();
+    this.importXML.emit(this.viewer);
+    addEventListener("resize", this.handleResizeEvent);
   }
 
   ngOnDestroy(): void {
     this.viewer.destroy();
+    this.importXML.complete();
+    removeEventListener("resize", this.handleResizeEvent);
   }
 }
