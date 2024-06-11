@@ -1,33 +1,30 @@
 import { Injectable } from "@angular/core";
-import { from } from "rxjs";
-import { get } from "../../utils/request";
-import { ProcessDefinition } from "./process-definition";
+import { map } from "rxjs";
+import { ProcessDefinitionRepository } from "./process-definition.repository";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProcessDefinitionService {
+  constructor(
+    private processDefinitionRepository: ProcessDefinitionRepository
+  ) {}
+
   findOneProcessDefinitionByProcessDefinitionId(id: string) {
-    return from(
-      get(
-        `%API%/engine/%ENGINE%/process-definition/${id}`
-      ).then<ProcessDefinition>((response) => response.json())
+    return this.processDefinitionRepository.findOneProcessDefinitionByProcessDefinitionId(
+      id
     );
   }
 
-  findAllProcessDefinition() {
-    return from(
-      get(
-        "%COCKPIT_API%/plugin/base/default/process-definition/statistics"
-      ).then<ProcessDefinition[]>((response) => response.json())
-    );
+  findAllProcessDefinition(params) {
+    params.latestVersion = true;
+
+    return this.processDefinitionRepository.findAllProcessDefinition(params);
   }
 
   findOneDiagramByProcessDefinitionId(id: string) {
-    return from(
-      get(`%API%/engine/%ENGINE%/process-definition/${id}/xml`)
-        .then((response) => response.json())
-        .then<string>(({ bpmn20Xml }) => bpmn20Xml)
-    );
+    return this.processDefinitionRepository
+      .findOneDiagramByProcessDefinitionId(id)
+      .pipe(map(({ bpmn20Xml }) => bpmn20Xml));
   }
 }
