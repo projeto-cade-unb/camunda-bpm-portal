@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from "@angular/core";
 import Viewer from "bpmn-js/lib/Viewer";
-import { mergeMap } from "rxjs";
+import { filter, mergeMap, of, switchMap } from "rxjs";
 import { ProcessDefinitionService } from "../process-definition/process-definition.service";
 
 @Component({
@@ -12,10 +12,14 @@ import { ProcessDefinitionService } from "../process-definition/process-definiti
 export class DocumentationComponent {
   searchParams = new URL(document.location.href.replace("#/", "")).searchParams;
 
-  processDefinition$ =
-    this.processDefinitionService.findOneProcessDefinitionByProcessDefinitionId(
-      this.searchParams.get("id")
-    );
+  processDefinition$ = of(this.searchParams.get("id")).pipe(
+    filter((id) => !!id),
+    switchMap((id) =>
+      this.processDefinitionService.findOneProcessDefinitionByProcessDefinitionId(
+        id
+      )
+    )
+  );
 
   diagram$ = this.processDefinition$.pipe(
     mergeMap(({ id }) =>

@@ -3,9 +3,26 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demo": {
+    "portal-bpm": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "css",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "custom",
@@ -56,18 +73,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "portal-bpm:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "demo:build:production"
+              "browserTarget": "portal-bpm:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "portal-bpm:build"
           }
         },
         "test": {
@@ -97,19 +114,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "demo:serve"
+            "devServerTarget": "portal-bpm:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "demo:serve:production"
+              "devServerTarget": "portal-bpm:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "demo",
+  "defaultProject": "portal-bpm",
   "cli": {
-    "analytics": "316e5d87-b03d-466b-ae82-6b07b1cdf96c"
+    "analytics": false
   }
 }
