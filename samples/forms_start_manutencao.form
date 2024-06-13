@@ -1,0 +1,38 @@
+{
+  "components": [
+    {
+      "label": "Numero da NF",
+      "type": "number",
+      "layout": {
+        "row": "Row_0ga3yqe",
+        "columns": null
+      },
+      "id": "Field_05qalqj",
+      "key": "notafiscal",
+      "validate": {
+        "required": true,
+        "min": 100,
+        "max": 2000
+      }
+    },
+    {
+      "label": "Nome do Cliente",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1rmi4gv",
+        "columns": null
+      },
+      "id": "Field_0pn4di6",
+      "key": "cliente"
+    }
+  ],
+  "type": "default",
+  "id": "Form_manutencao",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.19.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.20.0",
+  "schemaVersion": 14
+}
