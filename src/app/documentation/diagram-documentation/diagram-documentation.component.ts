@@ -44,7 +44,7 @@ export class DiagramDocumentationComponent implements OnInit {
       ),
     });
 
-    for (let i = 0; i < processChildren.length; i++) {
+    for (let i = 1; i < processChildren.length; i++) {
       const processChild = processChildren[i];
 
       this.diagramDocumentation.push({
