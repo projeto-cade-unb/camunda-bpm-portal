@@ -54,24 +54,24 @@ customScripts: ["scripts/portal-bpm/plugin.js"];
 
 Se a documentação do contem a iframe de uma fonte externa ao Camunda é necessário permitir requisição.
 
-1. Adicione esse código para permitir requisições externas para o YouTube:
+1. Adicione esse código na arquivo `conf/web.xml` do Tomcat para permitir requisições externas para o YouTube:
 
    - ```xml
-        <filter>
+      <filter>
          <filter-name>HttpHeaderSecurity</filter-name>
          <filter-class>
-             org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
+            org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
          </filter-class>
 
          <init-param>
-             <param-name>contentSecurityPolicyValue</param-name>
-             <param-value>
-                 base-uri 'self';
-                 default-src 'self' 'unsafe-inline';
-                 frame-src 'self' https://www.youtube-nocookie.com;
-             </param-value>
+            <param-name>contentSecurityPolicyValue</param-name>
+            <param-value>
+               base-uri 'self';
+               default-src 'self' 'unsafe-inline';
+               frame-src 'self' https://www.youtube-nocookie.com;
+            </param-value>
          </init-param>
-     </filter>
+      </filter>
      ```
 
 ### Apache Tomcat no Linux (Realizando build).
