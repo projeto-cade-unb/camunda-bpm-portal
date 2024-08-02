@@ -117,16 +117,6 @@ npm run buildPlugin
 
 ## Roadmap.
 
-### Correções:
-
-- A Documentação geral no element "process" quando apresentada e listada como o elemento start aparentando ter dois starts no fluxo , apresentar este elemento como process.
-
-- Na apresentação de 6 processos as divs da página inicial ficaram quebradas quando a descrição do processo usa duas linhas.
-
-- Apresentar video youtube incorporado. NO WYSIWYG funciona mas no portal não.
-
-- As cores adicionadas no editor, por exemplo vermelho não estão aparecendo no Portal.
-
 ### Melhorias:
 
 - i18N - Implementar internacionalização e traduzir em en,de e pt_BR.
