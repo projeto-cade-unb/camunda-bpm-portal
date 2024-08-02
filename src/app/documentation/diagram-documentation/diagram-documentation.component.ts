@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { DiagramDocumentation } from "./diagram-documentation";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "custom-diagram-documentation[diagram]",
@@ -15,6 +16,8 @@ export class DiagramDocumentationComponent implements OnInit {
 
   document: Document;
 
+  constructor(private domSanitizer: DomSanitizer) {}
+
   ngOnInit(): void {
     this.document = this.domParser.parseFromString(this.diagram, "text/xml");
 
@@ -29,17 +32,19 @@ export class DiagramDocumentationComponent implements OnInit {
       id: processFirstChild.getAttribute("id"),
       name: processFirstChild.getAttribute("name"),
       assignee: processFirstChild.getAttribute("camunda:assignee"),
-      candidateGroups: processFirstChild.getAttribute("camunda:candidateGroups"),
+      candidateGroups: processFirstChild.getAttribute(
+        "camunda:candidateGroups"
+      ),
       dueDate: processFirstChild.getAttribute("camunda:dueDate"),
       documentation:
         processFirstChild.tagName === "bpmn:documentation" &&
         processFirstChild?.textContent,
-      extendedDocumentation: processContainer.getAttribute(
-        "documentation:extendedDocumentation"
+      extendedDocumentation: this.domSanitizer.bypassSecurityTrustHtml(
+        processContainer.getAttribute("documentation:extendedDocumentation")
       ),
     });
 
-    for (let i = 0; i < processChildren.length; i++) {
+    for (let i = 1; i < processChildren.length; i++) {
       const processChild = processChildren[i];
 
       this.diagramDocumentation.push({
@@ -49,8 +54,8 @@ export class DiagramDocumentationComponent implements OnInit {
         candidateGroups: processChild.getAttribute("camunda:candidateGroups"),
         dueDate: processChild.getAttribute("camunda:dueDate"),
         documentation: processChild.querySelector("documentation")?.textContent,
-        extendedDocumentation: processChild.getAttribute(
-          "documentation:extendedDocumentation"
+        extendedDocumentation: this.domSanitizer.bypassSecurityTrustHtml(
+          processChild.getAttribute("documentation:extendedDocumentation")
         ),
       });
     }

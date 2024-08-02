@@ -1,3 +1,5 @@
+import { SafeHtml } from "@angular/platform-browser";
+
 export interface DiagramDocumentation {
   id: string;
   name: string;
@@ -5,5 +7,5 @@ export interface DiagramDocumentation {
   candidateGroups: string;
   dueDate: string;
   documentation: string;
-  extendedDocumentation: string;
+  extendedDocumentation: string | SafeHtml;
 }

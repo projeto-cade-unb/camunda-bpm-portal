@@ -3,26 +3,25 @@
     <h2 [id]="d.id">
       {{ d.name }}
     </h2>
-    <p *ngIf="d.documentation">{{ d.documentation }}</p>
+
+    <p *ngIf="d.documentation" [innerHTML]="d.documentation"></p>
 
     <div
       *ngIf="d.extendedDocumentation"
       [innerHTML]="d.extendedDocumentation"
     ></div>
 
-    <small
-      ><b>{{ "ELEMENT_DETAIL_LABEL" | translate }}:</b></small
-    ><br />
-
-    <small
+    <small *ngIf="d.id"
       ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
       >{{ d.id }}<br
     /></small>
 
-    <small *ngIf="d.assignee"><b>{{ 'ASSIGNEE' | translate }}: </b>{{ d.assignee }}<br /></small>
+    <small *ngIf="d.assignee"
+      ><b>{{ "ASSIGNEE" | translate }}: </b>{{ d.assignee }}<br
+    /></small>
 
     <small *ngIf="d.candidateGroups"
-      ><b>{{ 'CADIDATE_GROUP' | translate}}: </b>{{ d.candidateGroups }}<br
+      ><b>{{ "CADIDATE_GROUP" | translate }}: </b>{{ d.candidateGroups }}<br
     /></small>
 
     <small *ngIf="d.dueDate"
