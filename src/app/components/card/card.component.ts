@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { ProcessDefinition } from "../process-definition/process-definition";
-import { ProcessDefinitionService } from "../process-definition/process-definition.service";
+import { ProcessDefinition } from "../../api/process-definition/process-definition";
+import { ProcessDefinitionService } from "../../api/process-definition/process-definition.service";
+import { ProcessDocumentationService } from "src/app/pages/process-documentation.service";
 
 @Component({
   selector: "custom-card",
@@ -13,7 +14,10 @@ export class CardComponent implements OnInit {
 
   diagram$: Observable<string>;
 
-  constructor(private processDefinitionService: ProcessDefinitionService) {}
+  constructor(
+    private processDefinitionService: ProcessDefinitionService,
+    public processDocumentationService: ProcessDocumentationService
+  ) {}
 
   ngOnInit(): void {
     this.diagram$ =
