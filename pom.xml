@@ -56,11 +56,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-    </dependency>
-
     <!-- required to use H2 as a file based database  (otherwise it's in-memory) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

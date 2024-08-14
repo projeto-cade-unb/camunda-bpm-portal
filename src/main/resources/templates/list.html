@@ -26,10 +26,10 @@
 
           <span
             class="tile-footer"
-            th:title="${processDoc.documentation != null and not #lists.isEmpty(processDoc.documentation) ? processDoc.documentation[0].documentation : processDoc.key}"
+            th:title="${processDoc.documentation[0].documentation != null ? processDoc.documentation[0].documentation : processDoc.key}"
           >
             <span
-              th:text="${processDoc.documentation != null and not #lists.isEmpty(processDoc.documentation) ? processDoc.documentation[0].documentation : processDoc.key}"
+              th:text="${processDoc.documentation[0].documentation != null ? processDoc.documentation[0].documentation : processDoc.key}"
             ></span>
           </span>
         </a>

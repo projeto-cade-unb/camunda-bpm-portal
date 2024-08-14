@@ -49,9 +49,7 @@ public class ProcessDefinitionDocumentationService {
             ProcessDefinitionDocumentationElement processDoc = modelInstance
                     .getModelElementsByType(Process.class)
                     .stream()
-                    .map(process -> {
-                        return createDocumentation(process);
-                    })
+                    .map(this::createDocumentation)
                     .findFirst()
                     .orElse(null);
 
@@ -95,15 +93,15 @@ public class ProcessDefinitionDocumentationService {
     }
 
     // TODO: fix duplicated method
-    private ProcessDefinitionDocumentationElement createDocumentation(Process flowNode) {
+    private ProcessDefinitionDocumentationElement createDocumentation(Process process) {
         return new ProcessDefinitionDocumentationElement(
-                flowNode.getId(),
-                flowNode.getName(),
-                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "assignee"),
-                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "candidateGroups"),
-                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
-                getDocumentation(flowNode),
-                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION, "extendedDocumentation"));
+                process.getId(),
+                process.getName(),
+                process.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "assignee"),
+                process.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "candidateGroups"),
+                process.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
+                getDocumentation(process),
+                process.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION, "extendedDocumentation"));
     }
 
     private String getDocumentation(BaseElement flowNode) {
