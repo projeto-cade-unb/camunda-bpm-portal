@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="/camunda/app/cockpit/camunda-cockpit-bootstrap.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bpmn-js@17.9.2/dist/assets/diagram-js.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bpmn-js@17.9.2/dist/bpmn-modeler.development.min.js"></script>
+  </head>
+  <body>
+    <a
+      th:href="@{'/'}"
+      type="button"
+      class="btn btn-info"
+    >
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </a>
+
+    <div id="diagram-container"></div>
+
+    <div th:each="d : ${processDocumentation.documentation}">
+      <div
+        th:if="${d.documentation != null or d.extendedDocumentation != null}"
+      >
+        <h2 th:id="${d.id}" th:text="${d.name}"></h2>
+
+        <p th:if="${d.documentation != null}" th:utext="${d.documentation}"></p>
+
+        <div
+          th:if="${d.extendedDocumentation != null}"
+          th:utext="${d.extendedDocumentation}"
+        ></div>
+
+        <small th:if="${d.id != null}">
+          <b th:text="#{ELEMENT_DETAIL_NAME}"></b>
+          <span th:text="${d.id}"></span><br />
+        </small>
+
+        <small th:if="${d.assignee != null}">
+          <b th:text="#{ASSIGNEE} + ': '"></b>
+          <span th:text="${d.assignee}"></span><br />
+        </small>
+
+        <small th:if="${d.candidateGroups != null}">
+          <b th:text="#{CADIDATE_GROUP} + ': '"></b>
+          <span th:text="${d.candidateGroups}"></span><br />
+        </small>
+
+        <small th:if="${d.dueDate != null}">
+          <b th:text="#{DUEDATE} + ': '"></b>
+          <span th:text="${d.dueDate}"></span><br />
+        </small>
+
+        <hr />
+      </div>
+    </div>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      document.addEventListener("DOMContentLoaded", function () {
+        var processDocumentation = /*[[${processDocumentation}]]*/ {};
+
+        var viewer = new BpmnJS.Viewer({
+          container: "#diagram-container",
+        });
+
+        viewer
+          .importXML(processDocumentation.diagram)
+          .then(function (result) {
+            function resize() {
+              const canvas = viewer.get("canvas");
+              const { inner } = canvas.viewbox();
+              canvas.zoom("fit-viewport", {
+                x: inner.x + inner.width / 2,
+                y: inner.y + inner.height / 2,
+              });
+            }
+
+            resize();
+            addEventListener("resize", resize);
+          })
+          .catch(function (err) {
+            console.error("Error rendering diagram", err);
+          });
+      });
+      /*]]>*/
+    </script>
+  </body>
+</html>
