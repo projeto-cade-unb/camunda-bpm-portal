@@ -104,8 +104,11 @@ public class ProcessDefinitionDocumentationService {
                 process.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION, "extendedDocumentation"));
     }
 
-    private String getDocumentation(BaseElement flowNode) {
-        Documentation doc = flowNode.getDocumentations().stream().findFirst().orElse(null);
+    private String getDocumentation(BaseElement baseElement) {
+        Documentation doc = baseElement.getDocumentations()
+                .stream()
+                .findFirst()
+                .orElse(null);
         return doc != null ? doc.getTextContent() : "";
     }
 }
