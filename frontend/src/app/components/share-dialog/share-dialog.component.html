@@ -1,33 +1,21 @@
-<button class="btn btn-info" (click)="visible = !visible">
+<button class="btn btn-info" (click)="op.toggle($event)">
   <span class="glyphicon glyphicon-share-alt"></span>
 </button>
 
-<p-dialog
-  header="Share"
-  [modal]="true"
-  [(visible)]="visible"
-  [style]="{ width: '48rem' }"
-  style="font-size: 1rem"
->
-  <div
-    class="flex align-items-center gap-3 mb-3"
-    style="display: flex; gap: 1em; align-items: center ; padding-top: 2em;"
-  >
-    <label class="font-semibold w-6rem">URL</label>
-    <input
-      (click)="copy(shareInput)"
-      #shareInput
-      pInputText
-      width="100%"
-      [value]="url"
-      readonly
-    />
-
-    <p-button
-      icon="pi pi-clipboard"
-      (click)="copy(shareInput)"
-      [rounded]="true"
-      [text]="true"
-    />
-  </div>
-</p-dialog>
+<p-overlayPanel #op [style]="{ width: '48rem' }" styleClass="font-size-1rem">
+  <ng-template pTemplate>
+    <h3>Share</h3>
+    <div
+      class="flex align-items-center gap-3 mb-3"
+      style="display: flex; gap: 1em; align-items: center"
+    >
+      <label class="font-semibold w-6rem">URL</label>
+      <p-inputGroup (click)="copy(shareInput)">
+        <input #shareInput pInputText [value]="url" readonly />
+        <p-inputGroupAddon [style]="{ cursor: 'pointer' }">
+          <i class="pi pi-clipboard"></i>
+        </p-inputGroupAddon>
+      </p-inputGroup>
+    </div>
+  </ng-template>
+</p-overlayPanel>

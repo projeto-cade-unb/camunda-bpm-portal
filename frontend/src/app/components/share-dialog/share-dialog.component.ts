@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { Button } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { InputGroupModule } from 'primeng/inputgroup';
+import {
+  InputGroupAddonModule
+} from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @Component({
   selector: 'app-share-dialog',
   standalone: true,
-  imports: [DialogModule, InputTextModule, Button],
+  imports: [
+    DialogModule,
+    InputTextModule,
+    InputGroupModule,
+    OverlayPanelModule,
+    InputGroupAddonModule,
+  ],
   templateUrl: './share-dialog.component.html',
   styleUrl: './share-dialog.component.scss',
 })
