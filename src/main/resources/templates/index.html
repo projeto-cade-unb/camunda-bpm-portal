@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Document</title>
+    <base href="/portal-documentation/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="/camunda/app/cockpit/camunda-cockpit-bootstrap.css"
+    />
+  </head>
+  <body>
+    <app-root></app-root>
+
+    <script
+      type="module"
+      th:inline="javascript"
+      th:src="@{/polyfills.js}"
+    ></script>
+    <script type="module" th:inline="javascript" th:src="@{/main.js}"></script>
+  </body>
+</html>

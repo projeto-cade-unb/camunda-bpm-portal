@@ -159,6 +159,68 @@
           <mainClass>com.ambientelivre.plugin.CamundaApplication</mainClass>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>install node and yarn</id>
+            <goals>
+              <goal>install-node-and-yarn</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>latest-v21.x</nodeVersion>
+              <yarnVersion>v1.22.22</yarnVersion>
+            </configuration>
+          </execution>
+
+          <!-- <execution>
+            <id>yarn install</id>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution> -->
+
+          <execution>
+            <id>yarn build</id>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>build</arguments>
+            </configuration>
+          </execution>
+        </executions>
+
+        <configuration>
+          <workingDirectory>frontend</workingDirectory>
+          <installDirectory>target</installDirectory>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <configuration>
+              <target>
+                <copy todir="${project.build.directory}/classes/static">
+                  <fileset
+                    dir="${project.basedir}/frontend/dist/portal-documentation/browser" />
+                </copy>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

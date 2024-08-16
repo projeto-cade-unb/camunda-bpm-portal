@@ -1,0 +1,9 @@
+<a [routerLink]="['./', processDefinition.key]">
+  <h4 class="tile-header">
+    {{ processDefinition.name }}
+  </h4>
+
+  <span [appViewer]="processDefinition.diagram" class="tile-body"></span>
+
+  <span class="tile-footer"></span>
+</a>

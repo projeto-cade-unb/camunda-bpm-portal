@@ -62,7 +62,6 @@ public class ProcessDefinitionDocumentationService {
                             .getModelElementsByType(FlowNode.class)
                             .stream()
                             .map(this::createDocumentation)
-                            .filter(doc -> doc != null)
                             .collect(Collectors.toList()));
 
             String bpmnXmlText = Bpmn.convertToString(modelInstance);

@@ -1,0 +1,45 @@
+<ng-container *ngIf="processDefinition$ | async as pd">
+  <div [routerLink]="['../']" style="top: 0; position: sticky">
+    <button class="btn btn-info">
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+
+    <div [appViewer]="pd.diagram"></div>
+  </div>
+
+  <ng-container *ngFor="let d of pd.documentation">
+    <h2 [id]="d.id">
+      {{ d.name }}
+    </h2>
+
+    <p
+      *ngIf="d.documentation"
+      [innerHTML]="domSanitizer.bypassSecurityTrustHtml(d.documentation)"
+    ></p>
+
+    <div
+      *ngIf="d.extendedDocumentation"
+      [innerHTML]="
+        domSanitizer.bypassSecurityTrustHtml(d.extendedDocumentation)
+      "
+    ></div>
+
+    <small *ngIf="d.id"
+      ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
+      >{{ d.id }}<br
+    /></small>
+
+    <small *ngIf="d.assignee"
+      ><b>{{ "ASSIGNEE" | translate }}: </b>{{ d.assignee }}<br
+    /></small>
+
+    <small *ngIf="d.candidateGroups"
+      ><b>{{ "CADIDATE_GROUP" | translate }}: </b>{{ d.candidateGroups }}<br
+    /></small>
+
+    <small *ngIf="d.dueDate"
+      ><b>{{ "DUEDATE" | translate }}: </b>{{ d.dueDate }}<br
+    /></small>
+    <hr />
+  </ng-container>
+</ng-container>
