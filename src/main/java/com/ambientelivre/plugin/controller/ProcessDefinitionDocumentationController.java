@@ -22,7 +22,6 @@ public class ProcessDefinitionDocumentationController {
             @PathVariable String processDefinitionKey) {
         return processDefinitionDocumentationService
                 .findOneProcessDefinitionDocumentation(processDefinitionKey);
-
     }
 
     @GetMapping

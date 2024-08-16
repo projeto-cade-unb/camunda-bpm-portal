@@ -1,5 +1,6 @@
 package com.ambientelivre.plugin.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,54 +31,60 @@ public class ProcessDefinitionDocumentationService {
                 .latestVersion()
                 .list()
                 .stream()
-                .map(processDefinition -> findOneProcessDefinitionDocumentation(
-                        processDefinition.getKey()))
+                .map(this::createProcessDefinitionDocumentation)
                 .collect(Collectors.toList());
     }
 
     public ProcessDefinitionDocumentation findOneProcessDefinitionDocumentation(String processDefinitionKey) {
+        return createProcessDefinitionDocumentation(repositoryService
+                .createProcessDefinitionQuery()
+                .processDefinitionKey(processDefinitionKey)
+                .latestVersion()
+                .singleResult());
+    }
+
+    private ProcessDefinitionDocumentation createProcessDefinitionDocumentation(ProcessDefinition processDefinition) {
+        InputStream bpmnXmlFile = repositoryService.getProcessModel(processDefinition.getId());
+        BpmnModelInstance modelInstance = Bpmn.readModelFromStream(bpmnXmlFile);
+
+        List<ProcessDefinitionDocumentationElement> documentationList = extractDocumentation(modelInstance);
+        String bpmnXmlText = Bpmn.convertToString(modelInstance);
+
         try {
-            ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
-                    .processDefinitionKey(processDefinitionKey).latestVersion().singleResult();
-
-            InputStream bpmnXmlFile = repositoryService.getProcessModel(processDefinition.getId());
-
-            BpmnModelInstance modelInstance = Bpmn.readModelFromStream(bpmnXmlFile);
-
-            List<ProcessDefinitionDocumentationElement> documentationList = new ArrayList<>();
-
-            ProcessDefinitionDocumentationElement processDoc = modelInstance
-                    .getModelElementsByType(Process.class)
-                    .stream()
-                    .map(this::createDocumentation)
-                    .findFirst()
-                    .orElse(null);
-
-            if (processDoc != null) {
-                documentationList.add(processDoc);
-            }
-
-            documentationList.addAll(
-                    modelInstance
-                            .getModelElementsByType(FlowNode.class)
-                            .stream()
-                            .map(this::createDocumentation)
-                            .collect(Collectors.toList()));
-
-            String bpmnXmlText = Bpmn.convertToString(modelInstance);
-
             bpmnXmlFile.close();
-
-            return new ProcessDefinitionDocumentation(
-                    processDefinition.getKey(),
-                    processDefinition.getName(),
-                    bpmnXmlText,
-                    documentationList);
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+
+        return new ProcessDefinitionDocumentation(
+                processDefinition.getKey(),
+                processDefinition.getName(),
+                bpmnXmlText,
+                documentationList);
+    }
+
+    private List<ProcessDefinitionDocumentationElement> extractDocumentation(BpmnModelInstance modelInstance) {
+        List<ProcessDefinitionDocumentationElement> documentationList = new ArrayList<>();
+
+        ProcessDefinitionDocumentationElement processDoc = modelInstance
+                .getModelElementsByType(Process.class)
+                .stream()
+                .map(this::createDocumentation)
+                .findFirst()
+                .orElse(null);
+
+        if (processDoc != null) {
+            documentationList.add(processDoc);
+        }
+
+        documentationList.addAll(
+                modelInstance
+                        .getModelElementsByType(FlowNode.class)
+                        .stream()
+                        .map(this::createDocumentation)
+                        .collect(Collectors.toList()));
+
+        return documentationList;
     }
 
     private ProcessDefinitionDocumentationElement createDocumentation(FlowNode flowNode) {
