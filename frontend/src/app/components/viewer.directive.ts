@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import Viewer from 'bpmn-js/lib/Viewer';
 
 @Directive({
@@ -7,6 +13,9 @@ import Viewer from 'bpmn-js/lib/Viewer';
 })
 export class ViewerDirective {
   @Input({ required: true }) appViewer!: string;
+
+  @Output()
+  elementClick = new EventEmitter<string>();
 
   #viewer = new Viewer();
 
@@ -29,6 +38,12 @@ export class ViewerDirective {
     await this.#viewer.importXML(this.appViewer);
     this.#viewer.attachTo(this.elementRef.nativeElement);
     this.resizeCanvas();
+
+    const eventBus: any = this.#viewer.get('eventBus');
+    eventBus.on('element.click', (event: any) => {
+      this.elementClick.emit(event.element.id);
+    });
+
     addEventListener('resize', this.#handleResizeEvent);
   }
 

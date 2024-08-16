@@ -1,5 +1,5 @@
 <ng-container *ngIf="processDefinition$ | async as pd">
-  <div style="display: flex; gap: 1em">
+  <div class="flex gap-2">
     <button [routerLink]="['../']" class="btn btn-info">
       <span class="glyphicon glyphicon-arrow-left"></span>
     </button>
@@ -7,10 +7,14 @@
     <app-share-dialog></app-share-dialog>
   </div>
 
-  <div [appViewer]="pd.diagram"></div>
+  <div
+    [appViewer]="pd.diagram"
+    (elementClick)="selectedDocumentation = $event; scrollToElementById($event)"
+    style="height: 22em"
+  ></div>
 
   <ng-container *ngFor="let d of pd.documentation">
-    <h2 [id]="d.id">
+    <h2 [class.active]="selectedDocumentation === d.id" [id]="d.id">
       {{ d.name }}
     </h2>
 
@@ -44,4 +48,11 @@
     /></small>
     <hr />
   </ng-container>
+
+  <p-scrollTop
+    target="parent"
+    styleClass="custom-scrolltop"
+    [threshold]="100"
+    icon="pi pi-arrow-up"
+  />
 </ng-container>

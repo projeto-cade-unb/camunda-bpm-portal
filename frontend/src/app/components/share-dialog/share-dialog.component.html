@@ -5,13 +5,11 @@
 <p-overlayPanel #op [style]="{ width: '48rem' }" styleClass="font-size-1rem">
   <ng-template pTemplate>
     <h3>Share</h3>
-    <div
-      class="flex align-items-center gap-3 mb-3"
-      style="display: flex; gap: 1em; align-items: center"
-    >
-      <label class="font-semibold w-6rem">URL</label>
-      <p-inputGroup (click)="copy(shareInput)">
-        <input #shareInput pInputText [value]="url" readonly />
+
+    <div class="flex items-center gap-3">
+      <label class="font-semibold w-6rem">Code</label>
+      <p-inputGroup (click)="copy(iframeInput)">
+        <input #iframeInput pInputText [value]="iframe" readonly />
         <p-inputGroupAddon [style]="{ cursor: 'pointer' }">
           <i class="pi pi-clipboard"></i>
         </p-inputGroupAddon>

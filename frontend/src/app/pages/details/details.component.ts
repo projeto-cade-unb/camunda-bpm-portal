@@ -6,15 +6,24 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
+import { ScrollTopModule } from 'primeng/scrolltop';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, TranslateModule, ViewerDirective, RouterLink, ShareDialogComponent],
+  imports: [
+    CommonModule,
+    ScrollTopModule,
+    TranslateModule,
+    ViewerDirective,
+    RouterLink,
+    ShareDialogComponent,
+  ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
 })
 export class DetailsComponent {
+  selectedDocumentation = '';
   processDefinition$;
 
   constructor(
@@ -25,5 +34,9 @@ export class DetailsComponent {
     this.processDefinition$ = processDefinitionDocumentationService.findOne(
       activeRoute.snapshot.params['id']
     );
+  }
+
+  scrollToElementById(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
 }

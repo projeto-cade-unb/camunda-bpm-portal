@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 
 @Component({

@@ -5,5 +5,7 @@
 
   <span [appViewer]="processDefinition.diagram" class="tile-body"></span>
 
-  <span class="tile-footer"></span>
+  <span class="tile-footer">
+    {{ processDefinition.documentation[0].documentation }}
+  </span>
 </a>

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
-import {
-  InputGroupAddonModule
-} from 'primeng/inputgroupaddon';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
@@ -22,7 +20,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 })
 export class ShareDialogComponent {
   visible = false;
-  url = location.href;
+  iframe = `<iframe src="${location.href}" height="1000px" width="100%" title="Portal Documentation"></iframe>`;
 
   copy(element: HTMLInputElement) {
     element.select();
