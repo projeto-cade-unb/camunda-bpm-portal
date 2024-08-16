@@ -1,11 +1,13 @@
 <ng-container *ngIf="processDefinition$ | async as pd">
-  <div [routerLink]="['../']" style="top: 0; position: sticky">
-    <button class="btn btn-info">
+  <div style="display: flex; gap: 1em">
+    <button [routerLink]="['../']" class="btn btn-info">
       <span class="glyphicon glyphicon-arrow-left"></span>
     </button>
 
-    <div [appViewer]="pd.diagram"></div>
+    <app-share-dialog></app-share-dialog>
   </div>
+
+  <div [appViewer]="pd.diagram"></div>
 
   <ng-container *ngFor="let d of pd.documentation">
     <h2 [id]="d.id">
