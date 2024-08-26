@@ -7,7 +7,7 @@
   <groupId>com.ambientelivre.plugin</groupId>
   <artifactId>portal-documentation</artifactId>
   <version>1</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -112,6 +112,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.camunda.bpm.webapp</groupId>
+      <artifactId>camunda-webapp</artifactId>
+      <classifier>classes</classifier>
+      <version>7.21.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.camunda.bpm</groupId>
       <artifactId>camunda-engine-spring</artifactId>
     </dependency>
@@ -213,6 +220,26 @@
                   <fileset
                     dir="${project.basedir}/frontend/dist/portal-documentation/browser" />
                 </copy>
+
+                <copy
+                  todir="${project.build.directory}/classes/plugin-webapp/portal-documentation/app">
+                  <fileset
+                    dir="${project.basedir}/frontend/dist/portal-documentation/browser" />
+                </copy>
+
+                <copy
+                  todir="${project.build.directory}/classes/plugin-webapp/portal-documentation/app">
+                  <fileset
+                    file="${project.basedir}/frontend/dist/portal-documentation/browser/styles.css" />
+                  <globmapper from="styles.css" to="plugin.css" />
+                </copy>
+
+                <copy
+                todir="${project.build.directory}/classes/plugin-webapp/portal-documentation/app">
+                <fileset
+                  file="${project.basedir}/frontend/dist/portal-documentation/browser/main.js" />
+                <globmapper from="main.js" to="plugin.js" />
+              </copy>
               </target>
             </configuration>
             <goals>

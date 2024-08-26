@@ -11,4 +11,8 @@ export const routes: Routes = [
     path: ':id',
     component: DetailsComponent,
   },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

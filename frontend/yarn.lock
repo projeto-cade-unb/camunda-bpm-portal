@@ -5294,7 +5294,7 @@ pkg-dir@^7.0.0:
     "@ngx-translate/core" "^15.0.0"
     bpmn-js "^17.9.2"
     global "^4.4.0"
-    portal-documentation "file:../../../.cache/yarn/v6/npm-portal-documentation-0.0.0-e93f2222-2c4d-407e-86d6-8e587da720dc-1723846702007/node_modules/portal-documentation"
+    portal-documentation "file:../../../.cache/yarn/v6/npm-portal-documentation-0.0.0-bac3bde7-bec5-4626-97e6-cfe4820b0671-1724714679795/node_modules/portal-documentation"
     primeicons "^7.0.0"
     primeng "^17.18.9"
     rxjs "~7.8.0"
