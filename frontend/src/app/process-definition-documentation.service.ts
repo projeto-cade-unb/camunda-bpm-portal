@@ -8,10 +8,14 @@ export class ProcessDefinitionDocumentationService {
   constructor(private http: HttpClient) {}
 
   findOne(processDefinitionId: string) {
-    return this.http.get<any>(`api/process-definition/${processDefinitionId}`);
+    return this.http.get<any>(
+      `/camunda/api/cockpit/plugin/portal-documentation/process-definition/${processDefinitionId}`
+    );
   }
 
   findMany() {
-    return this.http.get<any[]>(`api/process-definition`);
+    return this.http.get<any[]>(
+      `/camunda/api/cockpit/plugin/portal-documentation/process-definition`
+    );
   }
 }
