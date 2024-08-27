@@ -42,6 +42,9 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
     return List.of(
         "app/plugin.js",
         "app/plugin.css",
+        "app/styles.css",
+        "app/main.js",
+        "app/polyfills.js",
         "app/index.html",
         "app/media/Inter-roman.var.woff2");
   }
