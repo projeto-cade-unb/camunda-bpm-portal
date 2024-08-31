@@ -23,7 +23,7 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
 
   @GET
   @Path("process-definition")
-  public List<ProcessDefinitionDocumentation> getProcessDefinitionDocumentationController() {
+  public List<ProcessDefinitionDocumentation> findManyProcessDefinitionDocumentation() {
     return subResource(new ProcessDefinitionDocumentationService(ENGINE_NAME), ENGINE_NAME)
         .findManyProcessDefinitionDocumentation();
   }
@@ -31,7 +31,6 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @GET
   @Path("process-definition/{processDefinitionKey}")
   public ProcessDefinitionDocumentation findOneProcessDefinitionDocumentation(
-
       @PathParam("processDefinitionKey") String processDefinitionKey) {
     return subResource(new ProcessDefinitionDocumentationService(ENGINE_NAME), ENGINE_NAME)
         .findOneProcessDefinitionDocumentation(processDefinitionKey);
