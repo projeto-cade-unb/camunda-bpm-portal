@@ -1,4 +1,4 @@
-package com.ambientelivre.plugin;
+package com.ambientelivre.plugin.documentation;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

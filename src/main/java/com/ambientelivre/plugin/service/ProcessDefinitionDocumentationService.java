@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginResource;
 import org.camunda.bpm.engine.authorization.Authorization;
-import org.camunda.bpm.engine.authorization.AuthorizationQuery;
-import org.camunda.bpm.engine.authorization.Permission;
 import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -20,8 +19,9 @@ import org.camunda.bpm.model.bpmn.instance.Documentation;
 import org.camunda.bpm.model.bpmn.instance.FlowNode;
 import org.camunda.bpm.model.bpmn.instance.Process;
 
-import com.ambientelivre.plugin.ProcessDefinitionDocumentation;
-import com.ambientelivre.plugin.ProcessDefinitionDocumentationElement;
+import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentation;
+import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentationElement;
+import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.utils.BpmnXmlNamespaceUri;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
@@ -29,12 +29,17 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 super(engineName);
         }
 
-        public List<ProcessDefinitionDocumentation> findManyProcessDefinitionDocumentation() {
-                return processDefinitionsToDocumentation(getProcessEngine()
-                                .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion()
-                                .list());
+        public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
+                        String processDefinitionKey) {
+                return processDefinitionKey == null
+                                ? new ProcessDefinitionDocumentationAuthorizationDto(
+                                                hasEditablePermission(),
+                                                processDefinitionsToDocumentation(getProcessEngine()
+                                                                .getRepositoryService()
+                                                                .createProcessDefinitionQuery()
+                                                                .latestVersion()
+                                                                .list()))
+                                : findOneProcessDefinitionDocumentation(processDefinitionKey);
         }
 
         public List<ProcessDefinitionDocumentation> processDefinitionsToDocumentation(
@@ -48,26 +53,16 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 Boolean isAuthenticated = currentUserId != null ? !currentUserId.isBlank() : false;
 
                 if (!isAuthenticated) {
-                        AuthorizationQuery authorizationQuery = getProcessEngine()
+                        List<String> authorizedResourceIds = getProcessEngine()
                                         .getAuthorizationService()
                                         .createAuthorizationQuery()
-                                        .resourceType(6);
-
-                        Permission[] requiredPermissions = new Permission[] {
-                                        Permissions.READ,
-                                        Permissions.READ_HISTORY
-                        };
-
-                        List<String> authorizedResourceIds = authorizationQuery
+                                        .resourceType(6)
+                                        .hasPermission(Permissions.READ)
                                         .list()
                                         .stream()
                                         .map(currentAuthorization -> {
-                                                Permission[] grantedPermissions = currentAuthorization
-                                                                .getPermissions(requiredPermissions);
-
-                                                if (currentAuthorization
-                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL
-                                                                && grantedPermissions.length > 0
+                                                if ((currentAuthorization
+                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
                                                                 && (currentAuthorization.getUserId().equals("*")
                                                                                 || currentAuthorization.getGroupId()
                                                                                                 .equals("*"))) {
@@ -105,15 +100,41 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .collect(Collectors.toList());
         }
 
-        public ProcessDefinitionDocumentation findOneProcessDefinitionDocumentation(
+        public ProcessDefinitionDocumentationAuthorizationDto findOneProcessDefinitionDocumentation(
                         String processDefinitionKey) {
-                return processDefinitionsToDocumentation(getProcessEngine()
-                                .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .processDefinitionKey(processDefinitionKey)
-                                .latestVersion()
-                                .listPage(0, 1))
-                                .get(0);
+                return new ProcessDefinitionDocumentationAuthorizationDto(
+                                hasEditablePermission(),
+                                processDefinitionsToDocumentation(getProcessEngine()
+                                                .getRepositoryService()
+                                                .createProcessDefinitionQuery()
+                                                .startablePermissionCheck()
+                                                .processDefinitionKey(processDefinitionKey)
+                                                .latestVersion()
+                                                .list()));
+        }
+
+        private Boolean hasEditablePermission() {
+                Authentication currentAuthentication = getProcessEngine()
+                                .getIdentityService()
+                                .getCurrentAuthentication();
+
+                if (currentAuthentication == null || currentAuthentication.getUserId().isBlank()) {
+                        return false;
+                }
+
+                return getProcessEngine().getAuthorizationService().createAuthorizationQuery()
+                                .resourceType(6)
+                                .list()
+                                .stream()
+                                .anyMatch(authorization -> (authorization.getUserId() != null
+                                                && authorization.getUserId()
+                                                                .equals(currentAuthentication.getUserId()))
+                                                ||
+                                                currentAuthentication.getGroupIds().stream().anyMatch(
+                                                                group -> group.equals(authorization.getGroupId()))
+                                                                && (authorization
+                                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GRANT
+                                                                                || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL));
         }
 
         private ProcessDefinitionDocumentation createProcessDefinitionDocumentation(
@@ -132,10 +153,27 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                         e.printStackTrace();
                 }
 
+                Optional<Authorization> editable = getProcessEngine()
+                                .getAuthorizationService()
+                                .createAuthorizationQuery()
+                                .resourceType(6)
+                                .authorizationType(Authorization.AUTH_TYPE_GLOBAL)
+                                .hasPermission(Permissions.READ)
+                                .resourceId(processDefinition.getKey())
+                                .list()
+                                .stream()
+                                .filter(authorization -> (authorization.getUserId() != null
+                                                && authorization.getUserId().equals("*"))
+                                                || (authorization.getGroupId() != null
+                                                                && authorization.getGroupId().equals("*")))
+                                .findFirst();
+
                 return new ProcessDefinitionDocumentation(
                                 processDefinition.getKey(),
                                 processDefinition.getName(),
                                 bpmnXmlText,
+                                editable.isPresent(),
+                                editable.isPresent() ? editable.get().getId() : null,
                                 documentationList);
         }
 

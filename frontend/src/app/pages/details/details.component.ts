@@ -31,7 +31,7 @@ export class DetailsComponent {
     activeRoute: ActivatedRoute,
     processDefinitionDocumentationService: ProcessDefinitionDocumentationService
   ) {
-    this.processDefinition$ = processDefinitionDocumentationService.findOne(
+    this.processDefinition$ = processDefinitionDocumentationService.findMany(
       activeRoute.snapshot.params['id']
     );
   }

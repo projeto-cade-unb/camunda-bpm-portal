@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { CardGridComponent } from '../../components/card-grid/card-grid.component';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
-import { CardGridComponent } from "../../components/card-grid/card-grid.component";
 
 @Component({
   selector: 'app-list',
@@ -13,7 +13,8 @@ import { CardGridComponent } from "../../components/card-grid/card-grid.componen
 export class ListComponent {
   processDefinition$ = this.processDefinitionDocumentationService.findMany();
 
+
   constructor(
-    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService
+    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService,
   ) {}
 }

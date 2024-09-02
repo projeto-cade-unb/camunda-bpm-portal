@@ -1,3 +1,20 @@
+<div *ngIf="editable">
+  <button
+    class="btn btn-success"
+    (click)="setGlobalProcessDefinitionAuthorization(processDefinition)"
+  >
+    Enable
+  </button>
+  <button
+    class="btn btn-danger"
+    (click)="deleteGlobalProcessDefinitionAuthorization(processDefinition)"
+  >
+    Disable
+  </button>
+
+  | {{ processDefinition.editable ? "Editable" : "Not Editable" }}
+</div>
+
 <a [routerLink]="['./', processDefinition.key]">
   <h4 class="tile-header">
     {{ processDefinition.name }}

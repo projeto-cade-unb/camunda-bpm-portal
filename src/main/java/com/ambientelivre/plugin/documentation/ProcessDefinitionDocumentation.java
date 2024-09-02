@@ -1,4 +1,4 @@
-package com.ambientelivre.plugin;
+package com.ambientelivre.plugin.documentation;
 
 import java.util.List;
 
@@ -11,5 +11,7 @@ public class ProcessDefinitionDocumentation {
     private String key;
     private String name;
     private String diagram;
+    private Boolean editable;
+    private String authorizationId;
     private List<ProcessDefinitionDocumentationElement> documentation;
 }
