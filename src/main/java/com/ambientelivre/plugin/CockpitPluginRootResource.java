@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginRootResource;
 
@@ -19,6 +20,18 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
 
   public CockpitPluginRootResource() {
     super(CockpitPlugin.ID);
+  }
+
+  @GET
+  @Path("/")
+  public Response index() {
+    return standaloneWebappResponse();
+  }
+
+  @GET
+  @Path("/{any:.*}")
+  public Response handleUnmatchedPaths(@PathParam("any") String any) {
+    return standaloneWebappResponse();
   }
 
   @GET
@@ -46,5 +59,9 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
         "app/polyfills.js",
         "app/index.html",
         "app/media/Inter-roman.var.woff2");
+  }
+
+  private Response standaloneWebappResponse() {
+    return getAsset("app/index.html");
   }
 }
