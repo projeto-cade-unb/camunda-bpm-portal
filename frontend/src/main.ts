@@ -24,4 +24,19 @@ const cockpitDashboard = {
   },
 };
 
-export default [cockpitDashboard];
+const cockpitDashboardPage = {
+  id: 'portal-documentation.dashboardPage',
+  pluginPoint: 'cockpit.route',
+  priority: 0,
+  render: (container: any) => {
+    container.innerHTML = `<app-root></app-root>`;
+    bootstrapApplication(AppComponent, appConfig).catch((err) =>
+      console.error(err)
+    );
+  },
+  properties: {
+    path: '/portal-documentation',
+  },
+};
+
+export default [cockpitDashboard, cockpitDashboardPage];

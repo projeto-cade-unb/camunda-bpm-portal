@@ -13,8 +13,7 @@ import { ProcessDefinitionDocumentationService } from '../../process-definition-
 export class ListComponent {
   processDefinition$ = this.processDefinitionDocumentationService.findMany();
 
-
   constructor(
-    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService,
+    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService
   ) {}
 }

@@ -4,49 +4,53 @@
       <span class="glyphicon glyphicon-arrow-left"></span>
     </button>
 
-    <app-share-dialog></app-share-dialog>
+    <app-share-dialog *ngIf="pd.editable"></app-share-dialog>
   </div>
 
-  <div
-    [appViewer]="pd.diagram"
-    (elementClick)="selectedDocumentation = $event; scrollToElementById($event)"
-    style="height: 22em"
-  ></div>
-
-  <ng-container *ngFor="let d of pd.documentation">
-    <h2 [class.active]="selectedDocumentation === d.id" [id]="d.id">
-      {{ d.name }}
-    </h2>
-
-    <p
-      *ngIf="d.documentation"
-      [innerHTML]="domSanitizer.bypassSecurityTrustHtml(d.documentation)"
-    ></p>
-
+  <ng-container *ngFor="let dddd of pd.definitionDocumentation">
     <div
-      *ngIf="d.extendedDocumentation"
-      [innerHTML]="
-        domSanitizer.bypassSecurityTrustHtml(d.extendedDocumentation)
+      [appViewer]="dddd.diagram"
+      (elementClick)="
+        selectedDocumentation = $event; scrollToElementById($event)
       "
+      style="height: 22em"
     ></div>
 
-    <small *ngIf="d.id"
-      ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
-      >{{ d.id }}<br
-    /></small>
+    <ng-container *ngFor="let d of dddd.documentation">
+      <h2 [class.active]="selectedDocumentation === d.id" [id]="d.id">
+        {{ d.name }}
+      </h2>
 
-    <small *ngIf="d.assignee"
-      ><b>{{ "ASSIGNEE" | translate }}: </b>{{ d.assignee }}<br
-    /></small>
+      <p
+        *ngIf="d.documentation"
+        [innerHTML]="domSanitizer.bypassSecurityTrustHtml(d.documentation)"
+      ></p>
 
-    <small *ngIf="d.candidateGroups"
-      ><b>{{ "CADIDATE_GROUP" | translate }}: </b>{{ d.candidateGroups }}<br
-    /></small>
+      <div
+        *ngIf="d.extendedDocumentation"
+        [innerHTML]="
+          domSanitizer.bypassSecurityTrustHtml(d.extendedDocumentation)
+        "
+      ></div>
 
-    <small *ngIf="d.dueDate"
-      ><b>{{ "DUEDATE" | translate }}: </b>{{ d.dueDate }}<br
-    /></small>
-    <hr />
+      <small *ngIf="d.id"
+        ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
+        >{{ d.id }}<br
+      /></small>
+
+      <small *ngIf="d.assignee"
+        ><b>{{ "ASSIGNEE" | translate }}: </b>{{ d.assignee }}<br
+      /></small>
+
+      <small *ngIf="d.candidateGroups"
+        ><b>{{ "CADIDATE_GROUP" | translate }}: </b>{{ d.candidateGroups }}<br
+      /></small>
+
+      <small *ngIf="d.dueDate"
+        ><b>{{ "DUEDATE" | translate }}: </b>{{ d.dueDate }}<br
+      /></small>
+      <hr />
+    </ng-container>
   </ng-container>
 
   <p-scrollTop

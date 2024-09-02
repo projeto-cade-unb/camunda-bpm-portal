@@ -2,11 +2,12 @@ package com.ambientelivre.plugin;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -30,14 +31,25 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @Path("/")
   @Produces(MediaType.TEXT_HTML)
   public Response index() {
-    return standaloneWebappResponse();
+    return getAsset("app/index.html");
   }
 
   @GET
-  @Path("/{any:.*}")
-  @Produces(MediaType.TEXT_HTML)
-  public Response handleUnmatchedPaths(@PathParam("any") String any) {
-    return standaloneWebappResponse();
+  @Path("{path:.*}")
+  public Response index(@Context HttpServletRequest request) {
+    String path = request.getPathInfo().replace("/plugin/" + CockpitPlugin.ID, "");
+
+    try {
+      Response response = getAsset("app" + path);
+
+      if (response.getStatus() == 404 || response.getStatus() == 403) {
+        return getAsset("app/index.html");
+      }
+
+      return response;
+    } catch (Exception e) {
+      return getAsset("app/index.html");
+    }
   }
 
   @GET
@@ -58,9 +70,5 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
         "app/polyfills.js",
         "app/index.html",
         "app/media/Inter-roman.var.woff2");
-  }
-
-  private Response standaloneWebappResponse() {
-    return getAsset("app/index.html");
   }
 }
