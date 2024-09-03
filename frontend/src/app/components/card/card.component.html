@@ -15,7 +15,7 @@
   | {{ processDefinition.editable ? "Editable" : "Not Editable" }}
 </div>
 
-<a [routerLink]="['./', processDefinition.key]">
+<a [routerLink]="'/portal-documentation/' + processDefinition.key">
   <h4 class="tile-header">
     {{ processDefinition.name }}
   </h4>

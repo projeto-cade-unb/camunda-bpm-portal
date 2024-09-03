@@ -12,7 +12,7 @@ export const routes: Routes = [
     component: DetailsComponent,
   },
   {
-    path: '**',
-    redirectTo: 'portal-documentation',
+    path: 'dashboard',
+    component: ListComponent,
   },
 ];

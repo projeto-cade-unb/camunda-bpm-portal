@@ -48,8 +48,4 @@ const cockpitNavigation = {
   },
 };
 
-export default [
-  // cockpitDashboard,
-  cockpitDashboardPage,
-  cockpitNavigation,
-];
+export default [cockpitDashboard, cockpitDashboardPage, cockpitNavigation];
