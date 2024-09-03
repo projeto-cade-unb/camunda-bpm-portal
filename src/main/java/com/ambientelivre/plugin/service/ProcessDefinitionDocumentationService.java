@@ -13,6 +13,7 @@ import org.camunda.bpm.engine.authorization.Permission;
 import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.BaseElement;
@@ -32,19 +33,20 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
         public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
                         String processDefinitionKey) {
-                return new ProcessDefinitionDocumentationAuthorizationDto(
-                                hasEditablePermission(),
-                                processDefinitionsToDocumentation(getProcessEngine()
-                                                .getRepositoryService()
-                                                .createProcessDefinitionQuery()
-                                                .startablePermissionCheck()
-                                                .processDefinitionKey(
-                                                                processDefinitionKey != null
-                                                                                && !processDefinitionKey.isBlank()
-                                                                                                ? processDefinitionKey
-                                                                                                : new String())
-                                                .latestVersion()
-                                                .list()));
+                ProcessDefinitionQuery query = getProcessEngine()
+                                .getRepositoryService()
+                                .createProcessDefinitionQuery()
+                                .latestVersion();
+
+                if (processDefinitionKey != null
+                                && !processDefinitionKey.isBlank()) {
+                        query.processDefinitionKey(processDefinitionKey);
+
+                }
+
+                return new ProcessDefinitionDocumentationAuthorizationDto(hasEditablePermission(),
+                                processDefinitionsToDocumentation(query.list()));
+
         }
 
         public List<ProcessDefinitionDocumentation> processDefinitionsToDocumentation(
@@ -64,20 +66,24 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         .resourceType(6)
                                         .list()
                                         .stream()
-                                        .map(currentAuthorization -> {
-                                                if (processDefinitions.stream().anyMatch(
-                                                                processDefinition -> processDefinition.getKey().equals(
-                                                                                currentAuthorization.getResourceId()))
-                                                                && currentAuthorization
-                                                                                .getPermissions(new Permission[] {
-                                                                                                Permissions.READ }).length > 0
-                                                                && (currentAuthorization
+                                        .map(authorization -> {
+                                                if (authorization
+                                                                .getPermissions(new Permission[] {
+                                                                                Permissions.READ,
+                                                                                Permissions.ALL }).length > 0
+                                                                && (authorization
                                                                                 .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
-                                                                && (currentAuthorization.getUserId()
-                                                                                .equals(Authorization.ANY)
-                                                                                || currentAuthorization.getGroupId()
-                                                                                                .equals(Authorization.ANY))) {
-                                                        return currentAuthorization.getResourceId();
+                                                                && ((authorization.getUserId() != null
+                                                                                && authorization.getUserId()
+                                                                                                .equals(Authorization.ANY))
+                                                                                || (authorization.getGroupId() != null
+                                                                                                && authorization.getGroupId()
+                                                                                                                .equals(Authorization.ANY)))
+                                                                && processDefinitions.stream().anyMatch(
+                                                                                processDefinition -> processDefinition
+                                                                                                .getKey().equals(
+                                                                                                                authorization.getResourceId()))) {
+                                                        return authorization.getResourceId();
                                                 }
 
                                                 return null;
@@ -125,21 +131,30 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                         return false;
                 }
 
-                return getProcessEngine().getAuthorizationService().createAuthorizationQuery()
+                return getProcessEngine()
+                                .getAuthorizationService()
+                                .createAuthorizationQuery()
                                 .resourceType(6)
                                 .list()
                                 .stream()
-                                .anyMatch(authorization -> (authorization.getUserId() != null
-                                                && authorization.getUserId()
-                                                                .equals(currentAuthentication.getUserId()))
-                                                || (currentAuthentication
-                                                                .getGroupIds()
-                                                                .stream()
-                                                                .anyMatch(group -> group
-                                                                                .equals(authorization.getGroupId()))
-                                                                && (authorization
-                                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GRANT
-                                                                                || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)));
+                                .anyMatch(authorization -> (authorization
+                                                .getPermissions(new Permission[] {
+                                                                Permissions.CREATE,
+                                                                Permissions.DELETE,
+                                                                Permissions.ALL }).length >= 2
+                                                && (authorization
+                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GRANT
+                                                                || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
+                                                && ((authorization.getUserId() != null
+                                                                && authorization.getUserId()
+                                                                                .equals(currentAuthentication
+                                                                                                .getUserId()))
+                                                                || currentAuthentication
+                                                                                .getGroupIds()
+                                                                                .stream()
+                                                                                .anyMatch(group -> group
+                                                                                                .equals(authorization
+                                                                                                                .getGroupId())))));
         }
 
         private ProcessDefinitionDocumentation createProcessDefinitionDocumentation(
@@ -170,8 +185,10 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                                                 .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL
                                                                 || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GRANT)
                                                 && (authorization
-                                                                .getPermissions(new Permission[] { Permissions.CREATE,
-                                                                                Permissions.DELETE }).length > 0
+                                                                .getPermissions(new Permission[] {
+                                                                                Permissions.CREATE,
+                                                                                Permissions.DELETE,
+                                                                                Permissions.ALL }).length >= 2
                                                                 && (authorization.getUserId() != null
                                                                                 && authorization.getUserId()
                                                                                                 .equals(Authorization.ANY))

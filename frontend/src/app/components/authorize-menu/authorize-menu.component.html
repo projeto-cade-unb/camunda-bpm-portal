@@ -1,0 +1,23 @@
+<div class="flex items-center gap-2 h-full">
+  <label class="label-control">
+    {{
+      processDefinition.editable
+        ? ("ENABLED_GLOBAL" | translate)
+        : ("DISABLED_GLOBAL" | translate)
+    }}
+  </label>
+  <input
+    class="form-control scale-125 !m-0"
+    type="checkbox"
+    [checked]="processDefinition.editable"
+    (change)="
+      processDefinition.editable
+        ? authorizationService.deleteGlobalProcessDefinitionAuthorization(
+            processDefinition
+          )
+        : authorizationService.setGlobalProcessDefinitionAuthorization(
+            processDefinition
+          )
+    "
+  />
+</div>

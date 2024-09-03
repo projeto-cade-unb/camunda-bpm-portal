@@ -29,7 +29,13 @@ const cockpitDashboardPage = {
   pluginPoint: 'cockpit.route',
   priority: 0,
   render: (container: HTMLElement) => {
-    container.innerHTML = `<app-root></app-root>`;
+    container.innerHTML = `
+    <style>
+      .ctn-wrapper {
+        overflow: scroll !important;
+      }
+    </style>
+    <app-root></app-root>`;
     bootstrapApplication(AppComponent, appConfig).catch((err) =>
       console.error(err)
     );

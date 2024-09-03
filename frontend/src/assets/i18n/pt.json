@@ -3,5 +3,17 @@
   "ELEMENT_DETAIL_NAME": "Nome do Elemento",
   "ASSIGNEE": "Responsável",
   "DUEDATE": "Prazo",
-  "CADIDATE_GROUP": "Grupo Candidato"
+  "CADIDATE_GROUP": "Grupo Candidato",
+  "SHARED": "Compartilhado",
+  "SHARE": "Compartilhar",
+  "UNSHARE": "Não Compartilhar",
+  "CODIGO": "Código",
+  "EDITAR": "Editar",
+  "CANCELAR": "Cancelar",
+  "SALVAR": "Salvar",
+  "DELETAR": "Deletar",
+  "ENABLE_GLOBAL": "Ativar Global",
+  "ENABLED_GLOBAL": "Ativado Global",
+  "DISABLE_GLOBAL": "Desativar Global",
+  "DISABLED_GLOBAL": "Desativado Global"
 }

@@ -1,53 +1,67 @@
-<ng-container *ngIf="processDefinition$ | async as pd">
-  <div class="flex gap-2">
-    <button [routerLink]="['../']" class="btn btn-info">
-      <span class="glyphicon glyphicon-arrow-left"></span>
-    </button>
+<ng-container *ngIf="processDefinition$ | async as processDefinitions">
+  <ng-container
+    *ngFor="let processDefinition of processDefinitions.definitionDocumentation"
+  >
+    <div class="flex gap-2">
+      <button [routerLink]="['../']" class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+      </button>
 
-    <app-share-dialog></app-share-dialog>
-  </div>
+      <app-share-dialog></app-share-dialog>
+    </div>
 
-  <ng-container *ngFor="let dddd of pd.definitionDocumentation">
+    <app-authorize-menu
+      [processDefinition]="processDefinition"
+    ></app-authorize-menu>
+
     <div
-      [appViewer]="dddd.diagram"
+      [appViewer]="processDefinition.diagram"
       (elementClick)="
         selectedDocumentation = $event; scrollToElementById($event)
       "
       style="height: 22em"
     ></div>
 
-    <ng-container *ngFor="let d of dddd.documentation">
-      <h2 [class.active]="selectedDocumentation === d.id" [id]="d.id">
-        {{ d.name }}
+    <ng-container *ngFor="let documentation of processDefinition.documentation">
+      <h2
+        [class.active]="selectedDocumentation === documentation.id"
+        [id]="documentation.id"
+      >
+        {{ documentation.name }}
       </h2>
 
       <p
-        *ngIf="d.documentation"
-        [innerHTML]="domSanitizer.bypassSecurityTrustHtml(d.documentation)"
+        *ngIf="documentation.documentation"
+        [innerHTML]="
+          domSanitizer.bypassSecurityTrustHtml(documentation.documentation)
+        "
       ></p>
 
       <div
-        *ngIf="d.extendedDocumentation"
+        *ngIf="documentation.extendedDocumentation"
         [innerHTML]="
-          domSanitizer.bypassSecurityTrustHtml(d.extendedDocumentation)
+          domSanitizer.bypassSecurityTrustHtml(
+            documentation.extendedDocumentation
+          )
         "
       ></div>
 
-      <small *ngIf="d.id"
+      <small *ngIf="documentation.id"
         ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
-        >{{ d.id }}<br
+        >{{ documentation.id }}<br
       /></small>
 
-      <small *ngIf="d.assignee"
-        ><b>{{ "ASSIGNEE" | translate }}: </b>{{ d.assignee }}<br
+      <small *ngIf="documentation.assignee"
+        ><b>{{ "ASSIGNEE" | translate }}: </b>{{ documentation.assignee }}<br
       /></small>
 
-      <small *ngIf="d.candidateGroups"
-        ><b>{{ "CADIDATE_GROUP" | translate }}: </b>{{ d.candidateGroups }}<br
+      <small *ngIf="documentation.candidateGroups"
+        ><b>{{ "CADIDATE_GROUP" | translate }}: </b
+        >{{ documentation.candidateGroups }}<br
       /></small>
 
-      <small *ngIf="d.dueDate"
-        ><b>{{ "DUEDATE" | translate }}: </b>{{ d.dueDate }}<br
+      <small *ngIf="documentation.dueDate"
+        ><b>{{ "DUEDATE" | translate }}: </b>{{ documentation.dueDate }}<br
       /></small>
       <hr />
     </ng-container>

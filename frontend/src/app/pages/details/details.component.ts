@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ScrollTopModule } from 'primeng/scrolltop';
+import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
+import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
-import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
-import { ScrollTopModule } from 'primeng/scrolltop';
 
 @Component({
   selector: 'app-details',
@@ -18,6 +19,7 @@ import { ScrollTopModule } from 'primeng/scrolltop';
     ViewerDirective,
     RouterLink,
     ShareDialogComponent,
+    AuthorizeMenuComponent,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
@@ -29,7 +31,7 @@ export class DetailsComponent {
   constructor(
     public domSanitizer: DomSanitizer,
     activeRoute: ActivatedRoute,
-    processDefinitionDocumentationService: ProcessDefinitionDocumentationService
+    processDefinitionDocumentationService: ProcessDefinitionDocumentationService,
   ) {
     this.processDefinition$ = processDefinitionDocumentationService.findMany(
       activeRoute.snapshot.params['id']

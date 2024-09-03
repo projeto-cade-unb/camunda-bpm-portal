@@ -1,20 +1,3 @@
-<div *ngIf="editable">
-  <button
-    class="btn btn-success"
-    (click)="setGlobalProcessDefinitionAuthorization(processDefinition)"
-  >
-    Enable
-  </button>
-  <button
-    class="btn btn-danger"
-    (click)="deleteGlobalProcessDefinitionAuthorization(processDefinition)"
-  >
-    Disable
-  </button>
-
-  | {{ processDefinition.editable ? "Editable" : "Not Editable" }}
-</div>
-
 <a [routerLink]="'/portal-documentation/' + processDefinition.key">
   <h4 class="tile-header">
     {{ processDefinition.name }}
@@ -22,7 +5,13 @@
 
   <span [appViewer]="processDefinition.diagram" class="tile-body"></span>
 
-  <span class="tile-footer">
+  <span class="tile-footer h-11">
     {{ processDefinition.documentation.at(0)?.documentation }}
+  </span>
+
+  <span class="tile-footer" *ngIf="editable">
+    <app-authorize-menu
+      [processDefinition]="processDefinition"
+    ></app-authorize-menu>
   </span>
 </a>

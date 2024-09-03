@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ListComponent } from './pages/list/list.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ListComponent } from './pages/list/list.component';
 
 @Component({
   selector: 'app-root',

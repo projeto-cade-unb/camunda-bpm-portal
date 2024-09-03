@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -14,13 +15,15 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     InputGroupModule,
     OverlayPanelModule,
     InputGroupAddonModule,
+    RouterLink,
   ],
   templateUrl: './share-dialog.component.html',
   styleUrl: './share-dialog.component.scss',
 })
 export class ShareDialogComponent {
   visible = false;
-  iframe = `<iframe src="${location.host}/camunda/api/cockpit/plugin/portal-documentation/static/app/${location.hash}" height="100vh" width="100%" title="Portal Documentation"></iframe>`;
+  appPath = `${location.host}/camunda/api/cockpit/plugin/portal-documentation/static/app/${location.hash}`;
+  iframe = `<iframe src="${this.appPath}" height="100vh" width="100%" title="Portal Documentation"></iframe>`;
 
   copy(element: HTMLInputElement) {
     element.select();

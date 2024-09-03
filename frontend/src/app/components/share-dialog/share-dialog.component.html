@@ -6,10 +6,21 @@
   <ng-template pTemplate>
     <h3>Share</h3>
 
-    <div class="flex items-center gap-3">
-      <label class="font-semibold w-6rem">Code</label>
-      <p-inputGroup (click)="copy(iframeInput)">
+    <div class="grid gap-2">
+      <p-inputGroup (click)="copy(iframeInput)" class="flex items-center gap-2">
+        <label class="font-semibold w-6rem">Code</label>
         <input #iframeInput pInputText [value]="iframe" readonly />
+        <p-inputGroupAddon [style]="{ cursor: 'pointer' }">
+          <i class="pi pi-clipboard"></i>
+        </p-inputGroupAddon>
+      </p-inputGroup>
+
+      <p-inputGroup
+        (click)="copy(appPathInput)"
+        class="flex items-center gap-2"
+      >
+        <label class="font-semibold w-6rem">App</label>
+        <input #appPathInput pInputText [value]="appPath" readonly />
         <p-inputGroupAddon [style]="{ cursor: 'pointer' }">
           <i class="pi pi-clipboard"></i>
         </p-inputGroupAddon>
