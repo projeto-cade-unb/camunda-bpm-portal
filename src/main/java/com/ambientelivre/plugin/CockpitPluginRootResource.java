@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginRootResource;
+import org.camunda.bpm.engine.rest.exception.RestException;
 
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.service.ProcessDefinitionDocumentationService;
@@ -28,28 +29,26 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   }
 
   @GET
-  @Path("/")
-  @Produces(MediaType.TEXT_HTML)
-  public Response index() {
-    return getAsset("app/index.html");
-  }
-
-  @GET
-  @Path("{path:.*}")
+  @Path("/static/{file:.*}")
   public Response index(@Context HttpServletRequest request) {
-    String path = request.getPathInfo().replace("/plugin/" + CockpitPlugin.ID, "");
+    String path = request.getPathInfo().replace("/plugin/" + CockpitPlugin.ID + "/static/app", "");
 
     try {
       Response response = getAsset("app" + path);
-
       if (response.getStatus() == 404 || response.getStatus() == 403) {
         return getAsset("app/index.html");
       }
 
       return response;
-    } catch (Exception e) {
+    } catch (RestException e) {
       return getAsset("app/index.html");
     }
+  }
+
+  @GET
+  @Path("/static/app")
+  public Response index() {
+    return getAsset("app/index.html");
   }
 
   @GET
@@ -57,7 +56,6 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @Produces(MediaType.APPLICATION_JSON)
   public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
       @QueryParam("processDefinitionKey") String processDefinitionKey) {
-    System.out.println(processDefinitionKey);
     return processDefinitionDocumentationService.findManyProcessDefinitionDocumentation(processDefinitionKey);
   }
 

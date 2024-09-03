@@ -4,19 +4,15 @@ import { ListComponent } from './pages/list/list.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'portal-documentation',
     component: ListComponent,
   },
   {
-    path: ':id',
-    component: DetailsComponent,
-  },
-  {
-    path: '#/portal-documentation/:id',
+    path: 'portal-documentation/:id',
     component: DetailsComponent,
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'portal-documentation',
   },
 ];

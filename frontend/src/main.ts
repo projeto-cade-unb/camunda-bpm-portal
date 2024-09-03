@@ -13,7 +13,7 @@ const cockpitDashboard = {
   id: 'portal-documentation.dashboard',
   pluginPoint: 'cockpit.dashboard',
   priority: 0,
-  render: (container: any) => {
+  render: (container: HTMLElement) => {
     container.innerHTML = `<app-root></app-root>`;
     bootstrapApplication(AppComponent, appConfig).catch((err) =>
       console.error(err)
@@ -28,7 +28,7 @@ const cockpitDashboardPage = {
   id: 'portal-documentation.dashboardPage',
   pluginPoint: 'cockpit.route',
   priority: 0,
-  render: (container: any) => {
+  render: (container: HTMLElement) => {
     container.innerHTML = `<app-root></app-root>`;
     bootstrapApplication(AppComponent, appConfig).catch((err) =>
       console.error(err)
@@ -39,4 +39,17 @@ const cockpitDashboardPage = {
   },
 };
 
-export default [cockpitDashboard, cockpitDashboardPage];
+const cockpitNavigation = {
+  id: 'portal-documentation.navigation',
+  pluginPoint: 'cockpit.navigation',
+  priority: 0,
+  render: (container: HTMLElement) => {
+    container.innerHTML = `<a href="#/portal-documentation">Portal Documentation</a>`;
+  },
+};
+
+export default [
+  // cockpitDashboard,
+  cockpitDashboardPage,
+  cockpitNavigation,
+];
