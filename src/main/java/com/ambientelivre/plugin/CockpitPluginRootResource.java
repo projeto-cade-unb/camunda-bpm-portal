@@ -68,6 +68,10 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
         "app/main.js",
         "app/polyfills.js",
         "app/index.html",
-        "app/media/Inter-roman.var.woff2");
+        "app/media/Inter-roman.var.woff2",
+        "app/assets/i18n/en.json",
+        "app/assets/i18n/pt.json",
+        "app/assets/i18n/es.json",
+        "app/assets/i18n/de.json");
   }
 }
