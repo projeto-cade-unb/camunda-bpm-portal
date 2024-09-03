@@ -57,6 +57,7 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @Produces(MediaType.APPLICATION_JSON)
   public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
       @QueryParam("processDefinitionKey") String processDefinitionKey) {
+    System.out.println(processDefinitionKey);
     return processDefinitionDocumentationService.findManyProcessDefinitionDocumentation(processDefinitionKey);
   }
 

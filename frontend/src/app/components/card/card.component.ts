@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { ViewerDirective } from '../viewer.directive';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthorizationService } from '../../authorization.service';
+import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { first } from 'rxjs';
+import { AuthorizationService } from '../../authorization.service';
+import { ViewerDirective } from '../viewer.directive';
 
 @Component({
   selector: 'app-card',

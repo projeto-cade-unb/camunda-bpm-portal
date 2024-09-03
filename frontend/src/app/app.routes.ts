@@ -12,6 +12,10 @@ export const routes: Routes = [
     component: DetailsComponent,
   },
   {
+    path: '#/portal-documentation/:id',
+    component: DetailsComponent,
+  },
+  {
     path: '**',
     redirectTo: '',
   },

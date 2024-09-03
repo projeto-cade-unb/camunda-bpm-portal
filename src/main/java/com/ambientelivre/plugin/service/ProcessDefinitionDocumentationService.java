@@ -32,15 +32,19 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
         public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
                         String processDefinitionKey) {
-                return processDefinitionKey == null
-                                ? new ProcessDefinitionDocumentationAuthorizationDto(
-                                                hasEditablePermission(),
-                                                processDefinitionsToDocumentation(getProcessEngine()
-                                                                .getRepositoryService()
-                                                                .createProcessDefinitionQuery()
-                                                                .latestVersion()
-                                                                .list()))
-                                : findOneProcessDefinitionDocumentation(processDefinitionKey);
+                return new ProcessDefinitionDocumentationAuthorizationDto(
+                                hasEditablePermission(),
+                                processDefinitionsToDocumentation(getProcessEngine()
+                                                .getRepositoryService()
+                                                .createProcessDefinitionQuery()
+                                                .startablePermissionCheck()
+                                                .processDefinitionKey(
+                                                                processDefinitionKey != null
+                                                                                && !processDefinitionKey.isBlank()
+                                                                                                ? processDefinitionKey
+                                                                                                : new String())
+                                                .latestVersion()
+                                                .list()));
         }
 
         public List<ProcessDefinitionDocumentation> processDefinitionsToDocumentation(
@@ -66,9 +70,10 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                                                                 Permissions.READ }).length > 0
                                                                 && (currentAuthorization
                                                                                 .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
-                                                                && (currentAuthorization.getUserId().equals("*")
+                                                                && (currentAuthorization.getUserId()
+                                                                                .equals(Authorization.ANY)
                                                                                 || currentAuthorization.getGroupId()
-                                                                                                .equals("*"))) {
+                                                                                                .equals(Authorization.ANY))) {
                                                         return currentAuthorization.getResourceId();
                                                 }
 
@@ -101,19 +106,6 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .stream()
                                 .map(this::createProcessDefinitionDocumentation)
                                 .collect(Collectors.toList());
-        }
-
-        public ProcessDefinitionDocumentationAuthorizationDto findOneProcessDefinitionDocumentation(
-                        String processDefinitionKey) {
-                return new ProcessDefinitionDocumentationAuthorizationDto(
-                                hasEditablePermission(),
-                                processDefinitionsToDocumentation(getProcessEngine()
-                                                .getRepositoryService()
-                                                .createProcessDefinitionQuery()
-                                                .startablePermissionCheck()
-                                                .processDefinitionKey(processDefinitionKey)
-                                                .latestVersion()
-                                                .list()));
         }
 
         private Boolean hasEditablePermission() {
@@ -179,10 +171,10 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                                                                 Permissions.DELETE }).length > 0
                                                                 && (authorization.getUserId() != null
                                                                                 && authorization.getUserId()
-                                                                                                .equals("*"))
+                                                                                                .equals(Authorization.ANY))
                                                                 || (authorization.getGroupId() != null
                                                                                 && authorization.getGroupId()
-                                                                                                .equals("*"))))
+                                                                                                .equals(Authorization.ANY))))
                                 .findFirst();
 
                 return new ProcessDefinitionDocumentation(
