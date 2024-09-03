@@ -65,9 +65,12 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         .list()
                                         .stream()
                                         .map(currentAuthorization -> {
-                                                if (currentAuthorization
-                                                                .getPermissions(new Permission[] {
-                                                                                Permissions.READ }).length > 0
+                                                if (processDefinitions.stream().anyMatch(
+                                                                processDefinition -> processDefinition.getKey().equals(
+                                                                                currentAuthorization.getResourceId()))
+                                                                && currentAuthorization
+                                                                                .getPermissions(new Permission[] {
+                                                                                                Permissions.READ }).length > 0
                                                                 && (currentAuthorization
                                                                                 .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
                                                                 && (currentAuthorization.getUserId()
@@ -102,6 +105,11 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .createProcessDefinitionQuery()
                                 .latestVersion()
                                 .startablePermissionCheck()
+                                .processDefinitionKeysIn(processDefinitions
+                                                .stream()
+                                                .map(ProcessDefinition::getKey)
+                                                .collect(Collectors.toList())
+                                                .toArray(new String[0]))
                                 .list()
                                 .stream()
                                 .map(this::createProcessDefinitionDocumentation)
@@ -121,19 +129,14 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .resourceType(6)
                                 .list()
                                 .stream()
-                                .anyMatch(authorization -> (authorization
-                                                .getUserId() != null
+                                .anyMatch(authorization -> (authorization.getUserId() != null
                                                 && authorization.getUserId()
-                                                                .equals(currentAuthentication
-                                                                                .getUserId()))
-                                                ||
-                                                (currentAuthentication
+                                                                .equals(currentAuthentication.getUserId()))
+                                                || (currentAuthentication
                                                                 .getGroupIds()
                                                                 .stream()
-                                                                .anyMatch(
-                                                                                group -> group
-                                                                                                .equals(authorization
-                                                                                                                .getGroupId()))
+                                                                .anyMatch(group -> group
+                                                                                .equals(authorization.getGroupId()))
                                                                 && (authorization
                                                                                 .getAuthorizationType() == Authorization.AUTH_TYPE_GRANT
                                                                                 || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)));
