@@ -1,17 +1,22 @@
-<a [routerLink]="'/portal-documentation/' + processDefinition.key">
-  <h4 class="tile-header">
-    {{ processDefinition.name }}
-  </h4>
+<h4
+  class="tile-header"
+  [routerLink]="'/portal-documentation/' + processDefinition.key"
+>
+  {{ processDefinition.name }}
+</h4>
 
-  <span [appViewer]="processDefinition.diagram" class="tile-body"></span>
+<span
+  [appViewer]="processDefinition.diagram"
+  class="tile-body"
+  [routerLink]="'/portal-documentation/' + processDefinition.key"
+></span>
 
-  <span class="tile-footer h-11">
-    {{ processDefinition.documentation.at(0)?.documentation }}
-  </span>
+<span class="tile-footer h-11">
+  {{ processDefinition.documentation.at(0)?.documentation }}
+</span>
 
-  <span class="tile-footer" *ngIf="editable">
-    <app-authorize-menu
-      [processDefinition]="processDefinition"
-    ></app-authorize-menu>
-  </span>
-</a>
+<span class="tile-footer" *ngIf="editable">
+  <app-authorize-menu
+    [processDefinition]="processDefinition"
+  ></app-authorize-menu>
+</span>
