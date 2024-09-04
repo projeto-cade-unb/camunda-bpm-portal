@@ -1,5 +1,34 @@
-<ng-container *ngIf="processDefinition$ | async as processDefinitions">
-  <ng-container
+<div
+  class="flex gap-3"
+  *ngIf="processDefinition$ | async as processDefinitions"
+>
+  <div class="w-40 shadow-sm h-full">
+    <div
+      class="w-full"
+      [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
+      (elementClick)="scrollToElementById($event)"
+    ></div>
+
+    <hr />
+
+    <div class="tile">
+      <div
+        *ngFor="
+          let documentation of processDefinitions.definitionDocumentation.at(0)
+            .documentation
+        "
+        class="tile-footer text-ellipsis whitespace-nowrap overflow-hidden"
+        [class.active]="selectedDocumentation === documentation.id"
+        [id]="documentation.id"
+        (click)="scrollToElementById(documentation.id)"
+      >
+        {{ documentation.name || documentation.id }}
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="h-full"
     *ngFor="let processDefinition of processDefinitions.definitionDocumentation"
   >
     <div class="flex gap-2">
@@ -16,9 +45,7 @@
 
     <div
       [appViewer]="processDefinition.diagram"
-      (elementClick)="
-        selectedDocumentation = $event; scrollToElementById($event)
-      "
+      (elementClick)="scrollToElementById($event)"
       style="height: 22em"
     ></div>
 
@@ -65,12 +92,12 @@
       /></small>
       <hr />
     </ng-container>
-  </ng-container>
 
-  <p-scrollTop
-    target="parent"
-    styleClass="custom-scrolltop"
-    [threshold]="100"
-    icon="pi pi-arrow-up"
-  />
-</ng-container>
+    <p-scrollTop
+      target="parent"
+      styleClass="custom-scrolltop"
+      [threshold]="100"
+      icon="pi pi-arrow-up"
+    />
+  </div>
+</div>

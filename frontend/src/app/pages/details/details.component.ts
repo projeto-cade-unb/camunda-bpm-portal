@@ -31,7 +31,7 @@ export class DetailsComponent {
   constructor(
     public domSanitizer: DomSanitizer,
     activeRoute: ActivatedRoute,
-    processDefinitionDocumentationService: ProcessDefinitionDocumentationService,
+    processDefinitionDocumentationService: ProcessDefinitionDocumentationService
   ) {
     this.processDefinition$ = processDefinitionDocumentationService.findMany(
       activeRoute.snapshot.params['id']
@@ -39,6 +39,7 @@ export class DetailsComponent {
   }
 
   scrollToElementById(id: string) {
+    this.selectedDocumentation = id;
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
 }
