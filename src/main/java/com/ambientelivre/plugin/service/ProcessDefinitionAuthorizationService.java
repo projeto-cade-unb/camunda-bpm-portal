@@ -8,11 +8,13 @@ import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginResource;
 import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.authorization.Permission;
 import org.camunda.bpm.engine.authorization.Permissions;
+import org.camunda.bpm.engine.authorization.Resource;
+import org.camunda.bpm.engine.authorization.Resources;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 public class ProcessDefinitionAuthorizationService extends AbstractCockpitPluginResource {
-    private static final int PROCESS_DEFINITION_RESOURCE_TYPE = 6;
+    private static final Resource PROCESS_DEFINITION_RESOURCE_TYPE = Resources.PROCESS_DEFINITION;
     private static final Permission[] EDIT_PERMISSIONS = { Permissions.CREATE, Permissions.DELETE, Permissions.ALL };
     private static final Permission[] READ_PERMISSIONS = { Permissions.READ, Permissions.ALL };
 
@@ -65,6 +67,7 @@ public class ProcessDefinitionAuthorizationService extends AbstractCockpitPlugin
                         processDefinition -> processDefinition.getKey().equals(authorization.getResourceId()))) {
             return authorization.getResourceId();
         }
+
         return null;
     }
 
@@ -78,14 +81,20 @@ public class ProcessDefinitionAuthorizationService extends AbstractCockpitPlugin
         return authorization.getPermissions(READ_PERMISSIONS).length > 0;
     }
 
+    private boolean hasEditingPermissions(Authorization authorization) {
+        return authorization.getPermissions(EDIT_PERMISSIONS).length >= 2;
+    }
+
     private boolean isEditableAuthorization(Authorization authorization, Authentication currentAuthentication) {
         return (authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GRANT ||
-                authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL) &&
-                authorization.getPermissions(EDIT_PERMISSIONS).length >= 2 &&
-                (authorization.getUserId() != null
+                authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
+
+                && (authorization.getUserId() != null
                         && authorization.getUserId().equals(currentAuthentication.getUserId()) ||
                         currentAuthentication.getGroupIds().stream()
-                                .anyMatch(group -> group.equals(authorization.getGroupId())));
+                                .anyMatch(group -> group.equals(authorization.getGroupId())))
+
+                && hasEditingPermissions(authorization);
     }
 
     private boolean isEditableProcessDefinitionAuthorization(Authorization authorization,
@@ -93,11 +102,11 @@ public class ProcessDefinitionAuthorizationService extends AbstractCockpitPlugin
         return authorization.getResourceId().equals(processDefinition.getKey()) &&
                 (authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL ||
                         authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GRANT)
-                &&
-                ((authorization.getUserId() != null && authorization.getUserId().equals(Authorization.ANY)) ||
+
+                && ((authorization.getUserId() != null && authorization.getUserId().equals(Authorization.ANY)) ||
                         (authorization.getGroupId() != null && authorization.getGroupId().equals(Authorization.ANY)))
-                &&
-                authorization.getPermissions(EDIT_PERMISSIONS).length >= 2;
+
+                && hasReadPermissions(authorization);
     }
 
     protected Authentication getCurrentAuthentication() {
