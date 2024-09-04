@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginResource;
 import org.camunda.bpm.engine.authorization.Authorization;
-import org.camunda.bpm.engine.authorization.Permission;
-import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
@@ -27,8 +25,11 @@ import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationD
 import com.ambientelivre.plugin.utils.BpmnXmlNamespaceUri;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
+        private final ProcessDefinitionAuthorizationService processDefinitionAuthorizationService;
+
         public ProcessDefinitionDocumentationService(String engineName) {
-                super(engineName);
+            super(engineName);
+            processDefinitionAuthorizationService = new ProcessDefinitionAuthorizationService(engineName);
         }
 
         public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
@@ -38,172 +39,93 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .createProcessDefinitionQuery()
                                 .latestVersion();
 
-                if (processDefinitionKey != null
-                                && !processDefinitionKey.isBlank()) {
+                if (processDefinitionKey != null && !processDefinitionKey.isBlank()) {
                         query.processDefinitionKey(processDefinitionKey);
-
                 }
 
-                return new ProcessDefinitionDocumentationAuthorizationDto(hasEditablePermission(),
+                return new ProcessDefinitionDocumentationAuthorizationDto(
+                                processDefinitionAuthorizationService.hasEditablePermission(),
                                 processDefinitionsToDocumentation(query.list()));
-
         }
 
         public List<ProcessDefinitionDocumentation> processDefinitionsToDocumentation(
                         List<ProcessDefinition> processDefinitions) {
-                Authentication currentAuthentication = getProcessEngine()
-                                .getIdentityService()
-                                .getCurrentAuthentication();
-
+                Authentication currentAuthentication = getCurrentAuthentication();
                 String currentUserId = currentAuthentication != null ? currentAuthentication.getUserId() : null;
-
-                Boolean isAuthenticated = currentUserId != null ? !currentUserId.isBlank() : false;
+                boolean isAuthenticated = currentUserId != null && !currentUserId.isBlank();
 
                 if (!isAuthenticated) {
-                        List<String> authorizedResourceIds = getProcessEngine()
-                                        .getAuthorizationService()
-                                        .createAuthorizationQuery()
-                                        .resourceType(6)
-                                        .list()
-                                        .stream()
-                                        .map(authorization -> {
-                                                if (authorization
-                                                                .getPermissions(new Permission[] {
-                                                                                Permissions.READ,
-                                                                                Permissions.ALL }).length > 0
-                                                                && (authorization
-                                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
-                                                                && ((authorization.getUserId() != null
-                                                                                && authorization.getUserId()
-                                                                                                .equals(Authorization.ANY))
-                                                                                || (authorization.getGroupId() != null
-                                                                                                && authorization.getGroupId()
-                                                                                                                .equals(Authorization.ANY)))
-                                                                && processDefinitions.stream().anyMatch(
-                                                                                processDefinition -> processDefinition
-                                                                                                .getKey().equals(
-                                                                                                                authorization.getResourceId()))) {
-                                                        return authorization.getResourceId();
-                                                }
-
-                                                return null;
-                                        })
-                                        .filter(value -> value != null)
-                                        .collect(Collectors.toList());
-
-                        if (authorizedResourceIds.size() > 0) {
-                                return getProcessEngine()
-                                                .getRepositoryService()
-                                                .createProcessDefinitionQuery()
-                                                .latestVersion()
-                                                .processDefinitionKeysIn(authorizedResourceIds.toArray(new String[0]))
-                                                .list()
-                                                .stream()
-                                                .map(this::createProcessDefinitionDocumentation)
-                                                .collect(Collectors.toList());
-                        }
-
-                        return List.of();
+                        return getUnauthenticatedProcessDefinitions(processDefinitions);
                 }
 
+                return getAuthenticatedProcessDefinitions(processDefinitions);
+        }
+
+        private List<ProcessDefinitionDocumentation> getUnauthenticatedProcessDefinitions(
+                        List<ProcessDefinition> processDefinitions) {
+                List<String> authorizedResourceIds = processDefinitionAuthorizationService
+                                .getAuthorizedResourceIds(processDefinitions);
+
+                if (!authorizedResourceIds.isEmpty()) {
+                        return getProcessDefinitionDocumentations(authorizedResourceIds);
+                }
+
+                return List.of();
+        }
+
+        private List<ProcessDefinitionDocumentation> getAuthenticatedProcessDefinitions(
+                        List<ProcessDefinition> processDefinitions) {
                 return getProcessEngine()
                                 .getRepositoryService()
                                 .createProcessDefinitionQuery()
                                 .latestVersion()
                                 .startablePermissionCheck()
-                                .processDefinitionKeysIn(processDefinitions
-                                                .stream()
-                                                .map(ProcessDefinition::getKey)
-                                                .collect(Collectors.toList())
-                                                .toArray(new String[0]))
+                                .processDefinitionKeysIn(processDefinitions.stream().map(ProcessDefinition::getKey)
+                                                .toArray(String[]::new))
                                 .list()
                                 .stream()
                                 .map(this::createProcessDefinitionDocumentation)
                                 .collect(Collectors.toList());
         }
 
-        private Boolean hasEditablePermission() {
-                Authentication currentAuthentication = getProcessEngine()
-                                .getIdentityService()
-                                .getCurrentAuthentication();
-
-                if (currentAuthentication == null || currentAuthentication.getUserId().isBlank()) {
-                        return false;
-                }
-
+        private List<ProcessDefinitionDocumentation> getProcessDefinitionDocumentations(
+                        List<String> authorizedResourceIds) {
                 return getProcessEngine()
-                                .getAuthorizationService()
-                                .createAuthorizationQuery()
-                                .resourceType(6)
+                                .getRepositoryService()
+                                .createProcessDefinitionQuery()
+                                .latestVersion()
+                                .processDefinitionKeysIn(authorizedResourceIds.toArray(new String[0]))
                                 .list()
                                 .stream()
-                                .anyMatch(authorization -> (authorization
-                                                .getPermissions(new Permission[] {
-                                                                Permissions.CREATE,
-                                                                Permissions.DELETE,
-                                                                Permissions.ALL }).length >= 2
-                                                && (authorization
-                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GRANT
-                                                                || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL)
-                                                && ((authorization.getUserId() != null
-                                                                && authorization.getUserId()
-                                                                                .equals(currentAuthentication
-                                                                                                .getUserId()))
-                                                                || currentAuthentication
-                                                                                .getGroupIds()
-                                                                                .stream()
-                                                                                .anyMatch(group -> group
-                                                                                                .equals(authorization
-                                                                                                                .getGroupId())))));
+                                .map(this::createProcessDefinitionDocumentation)
+                                .collect(Collectors.toList());
         }
 
         private ProcessDefinitionDocumentation createProcessDefinitionDocumentation(
                         ProcessDefinition processDefinition) {
-                InputStream bpmnXmlFile = getProcessEngine()
-                                .getRepositoryService()
-                                .getProcessModel(processDefinition.getId());
-                BpmnModelInstance modelInstance = Bpmn.readModelFromStream(bpmnXmlFile);
-
+                BpmnModelInstance modelInstance = getBpmnModelInstance(processDefinition);
                 List<ProcessDefinitionDocumentationElement> documentationList = extractDocumentation(modelInstance);
                 String bpmnXmlText = Bpmn.convertToString(modelInstance);
 
-                try {
-                        bpmnXmlFile.close();
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-
-                Optional<Authorization> editable = getProcessEngine()
-                                .getAuthorizationService()
-                                .createAuthorizationQuery()
-                                .resourceType(6)
-                                .list()
-                                .stream()
-                                .filter(authorization -> authorization.getResourceId()
-                                                .equals(processDefinition.getKey())
-                                                && (authorization
-                                                                .getAuthorizationType() == Authorization.AUTH_TYPE_GLOBAL
-                                                                || authorization.getAuthorizationType() == Authorization.AUTH_TYPE_GRANT)
-                                                && (authorization
-                                                                .getPermissions(new Permission[] {
-                                                                                Permissions.CREATE,
-                                                                                Permissions.DELETE,
-                                                                                Permissions.ALL }).length >= 2
-                                                                && (authorization.getUserId() != null
-                                                                                && authorization.getUserId()
-                                                                                                .equals(Authorization.ANY))
-                                                                || (authorization.getGroupId() != null
-                                                                                && authorization.getGroupId()
-                                                                                                .equals(Authorization.ANY))))
-                                .findFirst();
+                Optional<Authorization> editable = processDefinitionAuthorizationService
+                                .findEditableAuthorization(processDefinition);
 
                 return new ProcessDefinitionDocumentation(
                                 processDefinition.getKey(),
                                 processDefinition.getName(),
                                 bpmnXmlText,
                                 editable.isPresent(),
-                                editable.isPresent() ? editable.get().getId() : null,
+                                editable.map(Authorization::getId).orElse(null),
                                 documentationList);
+        }
+
+        private BpmnModelInstance getBpmnModelInstance(ProcessDefinition processDefinition) {
+                try (InputStream bpmnXmlFile = getProcessEngine().getRepositoryService()
+                                .getProcessModel(processDefinition.getId())) {
+                        return Bpmn.readModelFromStream(bpmnXmlFile);
+                } catch (IOException e) {
+                        throw new RuntimeException("Error reading BPMN model", e);
+                }
         }
 
         private List<ProcessDefinitionDocumentationElement> extractDocumentation(BpmnModelInstance modelInstance) {
@@ -232,52 +154,31 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 return documentationList;
         }
 
-        private ProcessDefinitionDocumentationElement createDocumentation(FlowNode flowNode) {
-                String documentation = getDocumentation(flowNode);
-                String extendedDocumentation = flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION,
+        private ProcessDefinitionDocumentationElement createDocumentation(BaseElement element) {
+                String documentation = getDocumentation(element);
+                String extendedDocumentation = element.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION,
                                 "extendedDocumentation");
 
-                if ((documentation == null || documentation.isBlank()) && (extendedDocumentation == null
-                                || extendedDocumentation.isBlank())) {
+                if ((documentation == null || documentation.isBlank())
+                                && (extendedDocumentation == null || extendedDocumentation.isBlank())) {
                         return null;
                 }
 
                 return new ProcessDefinitionDocumentationElement(
-                                flowNode.getId(),
-                                flowNode.getName(),
-                                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "assignee"),
-                                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "candidateGroups"),
-                                flowNode.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
-                                documentation,
-                                extendedDocumentation);
-        }
-
-        // TODO: fix duplicated method
-        private ProcessDefinitionDocumentationElement createDocumentation(Process process) {
-                String documentation = getDocumentation(process);
-                String extendedDocumentation = process.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION,
-                                "extendedDocumentation");
-
-                if ((documentation == null || documentation.isBlank()) && (extendedDocumentation == null
-                                || extendedDocumentation.isBlank())) {
-                        return null;
-                }
-
-                return new ProcessDefinitionDocumentationElement(
-                                process.getId(),
-                                process.getName(),
-                                process.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "assignee"),
-                                process.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "candidateGroups"),
-                                process.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
+                                element.getId(),
+                                element.getAttributeValue("name"),
+                                element.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "assignee"),
+                                element.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "candidateGroups"),
+                                element.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
                                 documentation,
                                 extendedDocumentation);
         }
 
         private String getDocumentation(BaseElement baseElement) {
-                Documentation doc = baseElement.getDocumentations()
+                return baseElement.getDocumentations()
                                 .stream()
                                 .findFirst()
-                                .orElse(null);
-                return doc != null ? doc.getTextContent() : "";
+                                .map(Documentation::getTextContent)
+                                .orElse("");
         }
 }
