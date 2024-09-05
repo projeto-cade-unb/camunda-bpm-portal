@@ -2,7 +2,13 @@
   class="flex gap-3"
   *ngIf="processDefinition$ | async as processDefinitions"
 >
-  <div class="w-40 shadow-sm h-full">
+  <div class="w-48 shadow-sm h-full sticky top-0 mr-4">
+    <button [routerLink]="['../']" class="btn btn-info">
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+
+    <hr />
+
     <div
       class="w-full"
       [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
@@ -11,13 +17,13 @@
 
     <hr />
 
-    <div class="tile">
+    <div class="btn-group-vertical block" role="group">
       <div
         *ngFor="
           let documentation of processDefinitions.definitionDocumentation.at(0)
             .documentation
         "
-        class="tile-footer text-ellipsis whitespace-nowrap overflow-hidden"
+        class="btn btn-default text-ellipsis whitespace-nowrap overflow-hidden"
         [class.active]="selectedDocumentation === documentation.id"
         [id]="documentation.id"
         (click)="scrollToElementById(documentation.id)"
@@ -31,13 +37,7 @@
     class="h-full"
     *ngFor="let processDefinition of processDefinitions.definitionDocumentation"
   >
-    <div class="flex gap-2">
-      <button [routerLink]="['../']" class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>
-      </button>
-
-      <app-share-dialog></app-share-dialog>
-    </div>
+    <app-share-dialog></app-share-dialog>
 
     <app-authorize-menu
       [processDefinition]="processDefinition"

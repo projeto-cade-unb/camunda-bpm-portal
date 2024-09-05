@@ -4,14 +4,14 @@
 
 <p-overlayPanel #op [style]="{ width: '48rem' }" styleClass="font-size-1rem">
   <ng-template pTemplate>
-    <h3>Share</h3>
+    <h3>{{ "SHARE" | translate }}</h3>
 
     <div class="grid gap-2">
       <p-inputGroup (click)="copy(iframeInput)" class="flex items-center gap-2">
-        <label class="font-semibold w-6rem">Code</label>
+        <label class="w-12">{{ "CODE" | translate }}</label>
         <input #iframeInput pInputText [value]="iframe" readonly />
         <p-inputGroupAddon [style]="{ cursor: 'pointer' }">
-          <i class="pi pi-clipboard"></i>
+          <i class="glyphicon glyphicon-link"></i>
         </p-inputGroupAddon>
       </p-inputGroup>
 
@@ -19,10 +19,10 @@
         (click)="copy(appPathInput)"
         class="flex items-center gap-2"
       >
-        <label class="font-semibold w-6rem">App</label>
+        <label class="w-12">{{ "PAGINA" | translate }}</label>
         <input #appPathInput pInputText [value]="appPath" readonly />
         <p-inputGroupAddon [style]="{ cursor: 'pointer' }">
-          <i class="pi pi-clipboard"></i>
+          <i class="glyphicon glyphicon-link"></i>
         </p-inputGroupAddon>
       </p-inputGroup>
     </div>
