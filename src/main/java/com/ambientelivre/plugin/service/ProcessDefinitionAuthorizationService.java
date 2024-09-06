@@ -8,13 +8,11 @@ import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginResource;
 import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.authorization.Permission;
 import org.camunda.bpm.engine.authorization.Permissions;
-import org.camunda.bpm.engine.authorization.Resource;
 import org.camunda.bpm.engine.authorization.Resources;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 
 public class ProcessDefinitionAuthorizationService extends AbstractCockpitPluginResource {
-    private static final Resource PROCESS_DEFINITION_RESOURCE_TYPE = Resources.PROCESS_DEFINITION;
     private static final Permission[] EDIT_PERMISSIONS = { Permissions.CREATE, Permissions.DELETE, Permissions.ALL };
     private static final Permission[] READ_PERMISSIONS = { Permissions.READ, Permissions.ALL };
 
@@ -32,7 +30,7 @@ public class ProcessDefinitionAuthorizationService extends AbstractCockpitPlugin
         return getProcessEngine()
                 .getAuthorizationService()
                 .createAuthorizationQuery()
-                .resourceType(PROCESS_DEFINITION_RESOURCE_TYPE)
+                .resourceType(Resources.PROCESS_DEFINITION)
                 .list()
                 .stream()
                 .anyMatch(authorization -> isEditableAuthorization(authorization, currentAuthentication));
@@ -42,7 +40,7 @@ public class ProcessDefinitionAuthorizationService extends AbstractCockpitPlugin
         return getProcessEngine()
                 .getAuthorizationService()
                 .createAuthorizationQuery()
-                .resourceType(PROCESS_DEFINITION_RESOURCE_TYPE)
+                .resourceType(Resources.PROCESS_DEFINITION)
                 .list()
                 .stream()
                 .map(authorization -> getAuthorizedResourceId(authorization, processDefinitions))
@@ -54,7 +52,7 @@ public class ProcessDefinitionAuthorizationService extends AbstractCockpitPlugin
         return getProcessEngine()
                 .getAuthorizationService()
                 .createAuthorizationQuery()
-                .resourceType(PROCESS_DEFINITION_RESOURCE_TYPE)
+                .resourceType(Resources.PROCESS_DEFINITION)
                 .list()
                 .stream()
                 .filter(authorization -> isEditableProcessDefinitionAuthorization(authorization, processDefinition))
