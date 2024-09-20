@@ -1,0 +1,44 @@
+{
+  "components": [
+    {
+      "label": "Numero da NF",
+      "type": "number",
+      "layout": {
+        "row": "Row_0ga3yqe",
+        "columns": null
+      },
+      "id": "Field_05qalqj",
+      "key": "notafiscal"
+    },
+    {
+      "label": "Nome do Cliente",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1rmi4gv",
+        "columns": null
+      },
+      "id": "Field_0pn4di6",
+      "key": "cliente"
+    },
+    {
+      "label": "Aprovado ?",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_02w496z",
+        "columns": null
+      },
+      "id": "Field_1xq2o6w",
+      "key": "aprova",
+      "description": "Informe sua decisão"
+    }
+  ],
+  "type": "default",
+  "id": "Form_manutencao2",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.19.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.20.0",
+  "schemaVersion": 14
+}

@@ -1,0 +1,62 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "MBA em Inteligência Artificial",
+          "value": "MBA-IA"
+        },
+        {
+          "label": "MBA em Big Data e Data Science",
+          "value": "MBA-BIGDATA"
+        },
+        {
+          "label": "MBA em Business Process Management",
+          "value": "MBA-BPM"
+        },
+        {
+          "label": "MBA em Business Intelligence",
+          "value": "MBA-BI"
+        }
+      ],
+      "label": "Curso",
+      "type": "select",
+      "id": "Field_0oukj03",
+      "key": "curso",
+      "description": "Informe o seu curso."
+    },
+    {
+      "label": "Matéria",
+      "type": "textfield",
+      "id": "Field_17w8vgg",
+      "key": "materia",
+      "description": "Informe a matéria do seu curso",
+      "validate": {
+        "required": true,
+        "minLength": 3,
+        "maxLength": 20
+      }
+    },
+    {
+      "label": "Ano",
+      "type": "number",
+      "id": "Field_0i332et",
+      "key": "ano",
+      "description": "Informe o ano de entrada na faculdade",
+      "validate": {
+        "required": true,
+        "min": 2020,
+        "max": 2023
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_Aluno",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.8.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 7
+}
