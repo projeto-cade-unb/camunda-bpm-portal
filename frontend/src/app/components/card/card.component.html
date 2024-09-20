@@ -1,6 +1,7 @@
 <h4
   class="tile-header"
-  [routerLink]="'/portal-documentation/' + processDefinition.key"
+  [routerLink]="'/portal-documentation/definition'"
+  [queryParams]="{ key: processDefinition.key }"
 >
   {{ processDefinition.name }}
 </h4>
@@ -8,7 +9,8 @@
 <span
   [appViewer]="processDefinition.diagram"
   class="tile-body"
-  [routerLink]="'/portal-documentation/' + processDefinition.key"
+  [routerLink]="'/portal-documentation/definition'"
+  [queryParams]="{ key: processDefinition.key }"
 ></span>
 
 <span class="tile-footer h-11">

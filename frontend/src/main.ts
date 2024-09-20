@@ -19,6 +19,9 @@ const cockpitDashboard = {
       console.error(err)
     );
   },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
   properties: {
     label: 'Portal Documentation',
   },
@@ -40,8 +43,35 @@ const cockpitDashboardPage = {
       console.error(err)
     );
   },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
   properties: {
     path: '/portal-documentation',
+  },
+};
+
+const cockpitDashboardPageDefinition = {
+  id: 'portal-documentation.dashboardPageDefinition',
+  pluginPoint: 'cockpit.route',
+  priority: 0,
+  render: (container: HTMLElement) => {
+    container.innerHTML = `
+    <style>
+      .ctn-wrapper {
+        overflow: scroll !important;
+      }
+    </style>
+    <app-root></app-root>`;
+    bootstrapApplication(AppComponent, appConfig).catch((err) =>
+      console.error(err)
+    );
+  },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
+  properties: {
+    path: '/portal-documentation/definition',
   },
 };
 
@@ -52,6 +82,14 @@ const cockpitNavigation = {
   render: (container: HTMLElement) => {
     container.innerHTML = `<a href="#/portal-documentation">Portal Documentation</a>`;
   },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
 };
 
-export default [cockpitDashboard, cockpitDashboardPage, cockpitNavigation];
+export default [
+  cockpitDashboard,
+  cockpitDashboardPage,
+  cockpitNavigation,
+  cockpitDashboardPageDefinition,
+];

@@ -3,7 +3,7 @@
   *ngIf="processDefinition$ | async as processDefinitions"
 >
   <div class="w-48 shadow-sm h-full sticky top-0 mr-4">
-    <button [routerLink]="['../']" class="btn btn-info">
+    <button [routerLink]="['../']" class="btn btn-info rounded">
       <span class="glyphicon glyphicon-arrow-left"></span>
     </button>
 
@@ -37,11 +37,14 @@
     class="h-full"
     *ngFor="let processDefinition of processDefinitions.definitionDocumentation"
   >
-    <app-share-dialog></app-share-dialog>
+    <div class="flex gap-4">
+      <app-share-dialog></app-share-dialog>
 
-    <app-authorize-menu
-      [processDefinition]="processDefinition"
-    ></app-authorize-menu>
+      <app-authorize-menu
+        *ngIf="processDefinitions.editable"
+        [processDefinition]="processDefinition"
+      ></app-authorize-menu>
+    </div>
 
     <div
       [appViewer]="processDefinition.diagram"
@@ -92,12 +95,5 @@
       /></small>
       <hr />
     </ng-container>
-
-    <p-scrollTop
-      target="parent"
-      styleClass="custom-scrolltop"
-      [threshold]="100"
-      icon="pi pi-arrow-up"
-    />
   </div>
 </div>

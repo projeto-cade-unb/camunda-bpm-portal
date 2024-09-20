@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: ListComponent,
   },
   {
-    path: 'portal-documentation/:id',
+    path: 'portal-documentation/definition',
     component: DetailsComponent,
   },
   {

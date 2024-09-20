@@ -1,7 +1,20 @@
 {
   "ELEMENT_DETAIL_LABEL": "Camunda technical details",
   "ELEMENT_DETAIL_NAME": "Element Name",
-  "ASSIGNEE": "Responsible",
-  "DUEDATE": "Deadline",
-  "CADIDATE_GROUP": "Candidate Group"
+  "ASSIGNEE": "Assignee",
+  "DUEDATE": "Due Date",
+  "CADIDATE_GROUP": "Candidate Group",
+  "SHARED": "Shared",
+  "SHARE": "Share",
+  "UNSHARE": "Unshare",
+  "CODE": "Code",
+  "EDITAR": "Edit",
+  "CANCELAR": "Cancel",
+  "SALVAR": "Save",
+  "DELETAR": "Delete",
+  "PAGINA": "Page",
+  "ENABLE_GLOBAL": "Enable Global",
+  "ENABLED_GLOBAL": "Global Enabled",
+  "DISABLE_GLOBAL": "Disable Global",
+  "DISABLED_GLOBAL": "Global Disabled"
 }
