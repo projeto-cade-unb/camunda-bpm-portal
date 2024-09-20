@@ -10,20 +10,20 @@ export class ProcessDefinitionRepository {
 
   findOneProcessDefinitionByProcessDefinitionId(id: string) {
     return this.httpClient.get<ProcessDefinition>(
-      `/camunda/api/engine/engine/default/process-definition/${id}`
+      `/engine-rest/process-definition/${id}`
     );
   }
 
   findAllProcessDefinition(params) {
     return this.httpClient.get<ProcessDefinition[]>(
-      "/camunda/api/engine/engine/default/process-definition",
+      "/engine-rest/process-definition",
       { params }
     );
   }
 
   findOneDiagramByProcessDefinitionId(id: string) {
     return this.httpClient.get<{ bpmn20Xml: string }>(
-      `/camunda/api/engine/engine/default/process-definition/${id}/xml`
+      `/engine-rest/process-definition/${id}/xml`
     );
   }
 }

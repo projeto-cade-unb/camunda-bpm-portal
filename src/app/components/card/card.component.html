@@ -1,4 +1,7 @@
-<a href="#/portal-doc?id={{ processDefinition.id }}">
+<a
+  href="#/portal-doc?id={{ processDefinition.id }}"
+  (click)="processDocumentationService.id.next(processDefinition.id)"
+>
   <h4 class="tile-header">
     {{ processDefinition.name }}
   </h4>
@@ -10,14 +13,14 @@
 
     <span
       class="tile-footer"
-      [title]="pd.diagramDocumentation?.documentation || processDefinition.id"
+      [title]="pd.documentation?.documentation || processDefinition.id"
     >
       <custom-process-diagram-documentation
         #pd
         [diagram]="d"
       ></custom-process-diagram-documentation>
 
-      {{ pd.diagramDocumentation.documentation || processDefinition.id }}
+      {{ pd.documentation.documentation || processDefinition.id }}
     </span>
   </ng-container>
 </a>

@@ -1,4 +1,8 @@
 <div id="documentation">
+  <button class="btn btn-primary" type="button" (click)="clear()">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+  </button>
+
   <ng-container *ngIf="processDefinition$ | async as p; else dashboard">
     <h1 class="section-title">{{ p.name || p.id }}</h1>
 
@@ -13,13 +17,13 @@
         ></custom-viewer>
       </div>
 
-      <custom-diagram-documentation
+      <custom-documentation-details
         [diagram]="d"
-      ></custom-diagram-documentation>
+      ></custom-documentation-details>
     </ng-container>
   </ng-container>
 
   <ng-template #dashboard>
-    <custom-dashboard></custom-dashboard>
+    <custom-documentation-list></custom-documentation-list>
   </ng-template>
 </div>
