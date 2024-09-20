@@ -30,25 +30,15 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 ![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot-details-camunda-bpm_portal.png)
 
-## Instalação.
+## Instalação (v0.3.0++).
 
 ### Apache Tomcat.
 
 1. Realise o download o release do plugin na última versão de https://github.com/projeto-cade-unb/camunda-bpm-portal/releases
-   exemplo portal-bpm-v0.2.0.zip
+   exemplo portal-documentation-v0.3.0.jar
 
-1. Descompacte na pasta de script e mova o diretório **portal-bpm** para o seu Camunda Server
-   <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
-
-1. Configurar ao arquivo config.js
-   Local do arquico <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
-   Adicione as linhas abaixo no customScripts
-
-```js
-customScripts: ["scripts/portal-bpm/plugin.js"];
-```
-
-1. Reinicie seu Camunda.
+2. Copie para pasta de bibliotecas do Camunda Server.
+   <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
 
 ### Iframe do Youtube
 
