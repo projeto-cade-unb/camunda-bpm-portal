@@ -1,0 +1,8 @@
+<div class="tile-grid" *ngIf="processDefinitions">
+  <app-card
+    class="tile col-xs-12 col-sm-6 col-md-4 col-lg-3"
+    *ngFor="let processDefinition of processDefinitions.definitionDocumentation"
+    [processDefinition]="processDefinition"
+    [editable]="processDefinitions.editable"
+  ></app-card>
+</div>
