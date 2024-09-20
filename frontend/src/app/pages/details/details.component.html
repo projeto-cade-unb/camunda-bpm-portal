@@ -2,10 +2,24 @@
   class="flex gap-3"
   *ngIf="processDefinition$ | async as processDefinitions"
 >
-  <div class="w-48 shadow-sm h-full sticky top-0 mr-4">
-    <button [routerLink]="['../']" class="btn btn-info rounded">
-      <span class="glyphicon glyphicon-arrow-left"></span>
-    </button>
+  <div class="w-32 lg:w-56 shadow-sm h-full sticky top-0 pt-8">
+    <div class="flex gap-4 justify-between">
+      <a href="#/portal-documentation">
+        <button class="btn btn-info rounded">
+          <span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
+      </a>
+
+      <app-share-dialog></app-share-dialog>
+    </div>
+
+    <ng-container *ngIf="processDefinitions.editable">
+      <hr />
+
+      <app-authorize-menu
+        [processDefinition]="processDefinitions.definitionDocumentation.at(0)"
+      ></app-authorize-menu>
+    </ng-container>
 
     <hr />
 
@@ -17,7 +31,7 @@
 
     <hr />
 
-    <div class="btn-group-vertical block" role="group">
+    <div class="btn-group-vertical !block overflow-y-scroll" role="group">
       <div
         *ngFor="
           let documentation of processDefinitions.definitionDocumentation.at(0)
@@ -33,31 +47,24 @@
     </div>
   </div>
 
-  <div
-    class="h-full"
-    *ngFor="let processDefinition of processDefinitions.definitionDocumentation"
-  >
-    <div class="flex gap-4">
-      <app-share-dialog></app-share-dialog>
-
-      <app-authorize-menu
-        *ngIf="processDefinitions.editable"
-        [processDefinition]="processDefinition"
-      ></app-authorize-menu>
-    </div>
-
+  <div class="h-full pl-4 border-l-gray-300 border-l">
     <div
-      [appViewer]="processDefinition.diagram"
+      [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
       (elementClick)="scrollToElementById($event)"
-      style="height: 22em"
+      style="height: 34em"
     ></div>
 
-    <ng-container *ngFor="let documentation of processDefinition.documentation">
+    <ng-container
+      *ngFor="
+        let documentation of processDefinitions.definitionDocumentation.at(0)
+          .documentation
+      "
+    >
       <h2
         [class.active]="selectedDocumentation === documentation.id"
         [id]="documentation.id"
       >
-        {{ documentation.name }}
+        {{ documentation.name || documentation.id }}
       </h2>
 
       <p
@@ -77,8 +84,8 @@
       ></div>
 
       <small *ngIf="documentation.id"
-        ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}</b
-        >{{ documentation.id }}<br
+        ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}: </b>{{ documentation.id
+        }}<br
       /></small>
 
       <small *ngIf="documentation.assignee"

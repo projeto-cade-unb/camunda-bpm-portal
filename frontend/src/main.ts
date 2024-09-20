@@ -1,95 +1,70 @@
-import 'zone.js';
+import { ApplicationRef } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import 'zone.js';
 import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
 
 if (document.querySelector('app-root')) {
-  bootstrapApplication(AppComponent, appConfig).catch((err) =>
-    console.error(err)
-  );
+  bootstrapApplication(AppComponent, appConfig);
 }
 
-const cockpitDashboard = {
-  id: 'portal-documentation.dashboard',
-  pluginPoint: 'cockpit.dashboard',
-  priority: 0,
-  render: (container: HTMLElement) => {
-    container.innerHTML = `<app-root></app-root>`;
-    bootstrapApplication(AppComponent, appConfig).catch((err) =>
-      console.error(err)
-    );
-  },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
-  },
-  properties: {
-    label: 'Portal Documentation',
-  },
-};
+let appRef: ApplicationRef | null = null;
 
-const cockpitDashboardPage = {
-  id: 'portal-documentation.dashboardPage',
-  pluginPoint: 'cockpit.route',
-  priority: 0,
-  render: (container: HTMLElement) => {
+const bootstrapApp = (container: HTMLElement) => {
+  if (!appRef) {
     container.innerHTML = `
-    <style>
-      .ctn-wrapper {
-        overflow: scroll !important;
-      }
-    </style>
-    <app-root></app-root>`;
-    bootstrapApplication(AppComponent, appConfig).catch((err) =>
-      console.error(err)
-    );
-  },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
-  },
-  properties: {
-    path: '/portal-documentation',
-  },
+      <style>
+        .ctn-wrapper {
+          overflow: scroll !important;
+        }
+      </style>
+      <app-root></app-root>
+    `;
+    bootstrapApplication(AppComponent, appConfig)
+      .then((ref) => {
+        appRef = ref;
+      })
+      .catch((err) => console.error(err));
+  }
 };
 
-const cockpitDashboardPageDefinition = {
-  id: 'portal-documentation.dashboardPageDefinition',
-  pluginPoint: 'cockpit.route',
+const createPlugin = (
+  id: string,
+  pluginPoint: string,
+  render: (container: HTMLElement) => void,
+  properties = {}
+) => ({
+  id,
+  pluginPoint,
   priority: 0,
-  render: (container: HTMLElement) => {
-    container.innerHTML = `
-    <style>
-      .ctn-wrapper {
-        overflow: scroll !important;
-      }
-    </style>
-    <app-root></app-root>`;
-    bootstrapApplication(AppComponent, appConfig).catch((err) =>
-      console.error(err)
-    );
-  },
+  render,
   unmount: () => {
-    document.querySelector('app-root')?.remove();
+    appRef?.destroy();
+    appRef = null;
   },
-  properties: {
-    path: '/portal-documentation/definition',
-  },
-};
+  properties,
+});
 
-const cockpitNavigation = {
-  id: 'portal-documentation.navigation',
-  pluginPoint: 'cockpit.navigation',
-  priority: 0,
-  render: (container: HTMLElement) => {
+const cockpitDashboard = createPlugin(
+  'portal-documentation.dashboard',
+  'cockpit.dashboard',
+  bootstrapApp,
+  { label: 'Portal Documentation' }
+);
+
+const cockpitDashboardPage = createPlugin(
+  'portal-documentation.dashboardPage',
+  'cockpit.route',
+  bootstrapApp,
+  { path: '/portal-documentation' }
+);
+
+const cockpitNavigation = createPlugin(
+  'portal-documentation.navigation',
+  'cockpit.navigation',
+  (container) => {
     container.innerHTML = `<a href="#/portal-documentation">Portal Documentation</a>`;
-  },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
-  },
-};
+  }
+);
 
-export default [
-  cockpitDashboard,
-  cockpitDashboardPage,
-  cockpitNavigation,
-  cockpitDashboardPageDefinition,
-];
+export default [cockpitDashboard, cockpitDashboardPage, cockpitNavigation];

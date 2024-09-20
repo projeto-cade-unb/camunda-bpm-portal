@@ -1,3 +1,10 @@
 <main>
-  <router-outlet></router-outlet>
+  <app-details
+    *ngIf="processDefinitionKey; else list"
+    [processDefinitionKey]="processDefinitionKey"
+  ></app-details>
+
+  <ng-template #list>
+    <app-list></app-list>
+  </ng-template>
 </main>

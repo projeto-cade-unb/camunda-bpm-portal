@@ -1,4 +1,4 @@
-package com.ambientelivre.plugin;
+package com.ambientelivre.plugin.controller;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import org.camunda.bpm.engine.rest.exception.RestException;
 
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.service.ProcessDefinitionDocumentationService;
+import com.ambientelivre.plugin.CockpitPlugin;
 
 @Path("plugin/" + CockpitPlugin.ID)
 public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource {

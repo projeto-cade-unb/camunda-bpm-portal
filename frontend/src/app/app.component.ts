@@ -3,15 +3,22 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ListComponent } from './pages/list/list.component';
+import { DetailsComponent } from './pages/details/details.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ListComponent, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, ListComponent, DetailsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  #urlSearchParams = new URLSearchParams(location.hash.split('?')[1]);
+
+  definitionDocumentation: any;
+
+  processDefinitionKey = this.#urlSearchParams.get('processDefinitionKey');
+
   constructor(translateService: TranslateService) {
     translateService.setDefaultLang(translateService.getBrowserLang() || 'en');
   }
