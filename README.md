@@ -40,7 +40,7 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 2. Copie para pasta de bibliotecas do Camunda Server.
    <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
 
-*** ATENÇÃO** Caso tenha a versão v0.2.0 em seu Camunda pode ser removida a nova versão não precisa do config.js e fontes no scripts!
+*** ATENÇÃO** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda pode ser removida a nova versão não precisa do config.js e fontes no scripts! Se deixar aparecerá dois menos no cockpit.
 
 ### Iframe do Youtube
 
