@@ -68,7 +68,7 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
     </filter>
 
 
-***** ATENÇÃO**** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda pode ser removida a nova versão não precisa do config.js e fontes no scripts! Se deixar aparecerá dois menos no cockpit.
+***** ATENÇÃO**** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda, a mesma pode ser removida! A nova versão não precisa do config.js e fontes no scripts no app , etc! Se deixar aparecerá dois menus no cockpit: Portal BPMN referente a v0.2.0 e Portal Documentation referente a V0.3.0+
 
 ### Iframe do Youtube
 
