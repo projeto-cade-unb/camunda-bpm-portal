@@ -42,6 +42,33 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 *** ATENÇÃO** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda pode ser removida a nova versão não precisa do config.js e fontes no scripts! Se deixar aparecerá dois menos no cockpit.
 
+3. Configure um filtro em seu web.xml
+   - ``` xml
+     <filter>
+        <filter-name>HttpHeaderSecurity</filter-name>
+        <filter-class>
+            org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
+        </filter-class>
+
+        <init-param>
+            <param-name>contentSecurityPolicyValue</param-name>
+            <param-value>
+          base-uri 'self';
+          script-src $NONCE 'unsafe-eval' https: 'self' 'unsafe-inline' 'unsafe-hashes';
+          script-src-attr 'unsafe-inline';
+          style-src 'unsafe-inline' 'self';
+          default-src 'self';
+          img-src 'self' data:;
+          block-all-mixed-content;
+          form-action 'self';
+          frame-ancestors 'none';
+          object-src 'none';
+          sandbox allow-forms allow-scripts allow-same-origin allow-popups allow-downloads;
+        </param-value>
+        </init-param>
+
+    </filter>
+
 ### Iframe do Youtube
 
 Se a documentação do contem a iframe de uma fonte externa ao Camunda é necessário permitir requisição.
