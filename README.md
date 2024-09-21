@@ -40,7 +40,7 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 2. Copie para pasta de bibliotecas do Camunda Server.
    <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
 
-3. Configure um filtro em seu web.xml em <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
+3. Configure um filtro em seu web.xml em <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/ 
    - ``` xml
      <filter>
         <filter-name>HttpHeaderSecurity</filter-name>
@@ -67,6 +67,9 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
     </filter>
 
+4. Reinicie seu Camunda Server
+
+5. O Portal BPMN aparecerá nos menus do Cockpit.
 
 ***** ATENÇÃO**** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda, a mesma pode ser removida! A nova versão não precisa do config.js e fontes no scripts no app , etc! Se deixar aparecerá dois menus no cockpit: Portal BPMN referente a v0.2.0 e Portal Documentation referente a V0.3.0+
 
@@ -93,44 +96,11 @@ Se a documentação do contem a iframe de uma fonte externa ao Camunda é necess
          </init-param>
       </filter>
      ```
-
-### Apache Tomcat no Linux (Realizando build).
-
-Exemplo em Camunda 7.20.0:
-
-1. Realize o Build (veja sessão Build).
-
-1. Acesse sua pasta de script do cockpit.
-
-```bash
- cd /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts
-```
-
-3. Crie um diretório para seu plugin.
-
-```bash
-mkdir portal-bpm
-```
-
-4. Copie toda o conteúdo da pasta "dist" para a pasta criada no Camunda Cockpit.
-
-```bash
-cp  dist/* -R /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/portal-bpm
-```
-
-5. Configurar ao arquivo config.js.
-   nano /opt/camunda/camunda-bpm-tomcat-7.20.0/server/apache-tomcat-9.0.75/webapps/camunda/app/cockpit/scripts/
-
-```js
-customScripts: ["scripts/portal-bpm/plugin.js"];
-```
-
-6. Reinicie seu tomcat e limpe o cache do browser.
-
 ## Build (Desenvolvedores).
 
 ```bash
-git clone 
+git clone https://github.com/projeto-cade-unb/camunda-bpm-portal.git
+cd camunda-bpm-portal
 mvn clean install
 ```
 
