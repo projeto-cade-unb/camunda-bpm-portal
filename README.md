@@ -130,9 +130,8 @@ customScripts: ["scripts/portal-bpm/plugin.js"];
 ## Build (Desenvolvedores).
 
 ```bash
-git clone
-npm install
-npm run buildPlugin
+git clone 
+mvn clean install
 ```
 
 ## Roadmap.
