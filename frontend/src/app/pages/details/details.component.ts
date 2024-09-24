@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-details',

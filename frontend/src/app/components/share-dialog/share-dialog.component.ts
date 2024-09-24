@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -16,7 +15,6 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     InputGroupModule,
     OverlayPanelModule,
     InputGroupAddonModule,
-    RouterLink,
     TranslateModule
   ],
   templateUrl: './share-dialog.component.html',

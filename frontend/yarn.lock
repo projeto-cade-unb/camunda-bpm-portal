@@ -231,13 +231,6 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/router@^17.0.0":
-  version "17.3.12"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-17.3.12.tgz#cd13de25d2b3f9df45eb9ce6bab5eb203addec69"
-  integrity sha512-dg7PHBSW9fmPKTVzwvHEeHZPZdpnUqW/U7kj8D29HTP9ur8zZnx9QcnbplwPeYb8yYa62JMnZSEel2X4PxdYBg==
-  dependencies:
-    tslib "^2.3.0"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.23.5", "@babel/code-frame@^7.24.7":
   version "7.24.7"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.24.7.tgz#882fd9e09e8ee324e496bd040401c6f046ef4465"
@@ -5295,11 +5288,11 @@ pkg-dir@^7.0.0:
     "@angular/forms" "^17.0.0"
     "@angular/platform-browser" "^17.0.0"
     "@angular/platform-browser-dynamic" "^17.0.0"
-    "@angular/router" "^17.0.0"
     "@ngx-translate/core" "^15.0.0"
+    "@ngx-translate/http-loader" "^8.0.0"
     bpmn-js "^17.9.2"
     global "^4.4.0"
-    portal-documentation "file:../../../.cache/yarn/v6/npm-portal-documentation-0.0.0-443c5758-7613-4178-9a4d-172cd4155d98-1725388848359/node_modules/portal-documentation"
+    portal-documentation "file:../../../.cache/yarn/v6/npm-portal-documentation-0.0.0-c755603a-99e1-4116-b1a7-4a224e91ec49-1727221284183/node_modules/portal-documentation"
     primeicons "^7.0.0"
     primeng "^17.18.9"
     rxjs "~7.8.0"
