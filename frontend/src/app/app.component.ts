@@ -13,11 +13,7 @@ import { DetailsComponent } from './pages/details/details.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  #urlSearchParams = new URLSearchParams(location.hash.split('?')[1]);
-
-  definitionDocumentation: any;
-
-  processDefinitionKey = this.#urlSearchParams.get('processDefinitionKey');
+  processDefinitionKey = location.hash.split('/')[2];
 
   constructor(translateService: TranslateService) {
     translateService.setDefaultLang(translateService.getBrowserLang() || 'en');

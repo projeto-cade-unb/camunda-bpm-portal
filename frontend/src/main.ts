@@ -1,70 +1,95 @@
-import { ApplicationRef } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
 import 'zone.js';
-import { AppComponent } from './app/app.component';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
 
 if (document.querySelector('app-root')) {
-  bootstrapApplication(AppComponent, appConfig);
+  bootstrapApplication(AppComponent, appConfig).catch((err) =>
+    console.error(err)
+  );
 }
 
-let appRef: ApplicationRef | null = null;
-
-const bootstrapApp = (container: HTMLElement) => {
-  if (!appRef) {
-    container.innerHTML = `
-      <style>
-        .ctn-wrapper {
-          overflow: scroll !important;
-        }
-      </style>
-      <app-root></app-root>
-    `;
-    bootstrapApplication(AppComponent, appConfig)
-      .then((ref) => {
-        appRef = ref;
-      })
-      .catch((err) => console.error(err));
-  }
+const cockpitDashboard = {
+  id: 'portal-documentation.dashboard',
+  pluginPoint: 'cockpit.dashboard',
+  priority: 0,
+  render: (container: HTMLElement) => {
+    container.innerHTML = `<app-root></app-root>`;
+    bootstrapApplication(AppComponent, appConfig).catch((err) =>
+      console.error(err)
+    );
+  },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
+  properties: {
+    label: 'Portal Documentation',
+  },
 };
 
-const createPlugin = (
-  id: string,
-  pluginPoint: string,
-  render: (container: HTMLElement) => void,
-  properties = {}
-) => ({
-  id,
-  pluginPoint,
+const cockpitDashboardPage = {
+  id: 'portal-documentation.dashboardPage',
+  pluginPoint: 'cockpit.route',
   priority: 0,
-  render,
-  unmount: () => {
-    appRef?.destroy();
-    appRef = null;
+  render: (container: HTMLElement) => {
+    container.innerHTML = `
+    <style>
+      .ctn-wrapper {
+        overflow: scroll !important;
+      }
+    </style>
+    <app-root></app-root>`;
+    bootstrapApplication(AppComponent, appConfig).catch((err) =>
+      console.error(err)
+    );
   },
-  properties,
-});
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
+  properties: {
+    path: '/portal-documentation',
+  },
+};
 
-const cockpitDashboard = createPlugin(
-  'portal-documentation.dashboard',
-  'cockpit.dashboard',
-  bootstrapApp,
-  { label: 'Portal Documentation' }
-);
+const cockpitDashboardPageDefinition = {
+  id: 'portal-documentation.dashboardPageDefinition',
+  pluginPoint: 'cockpit.route',
+  priority: 0,
+  render: (container: HTMLElement) => {
+    container.innerHTML = `
+    <style>
+      .ctn-wrapper {
+        overflow: scroll !important;
+      }
+    </style>
+    <app-root></app-root>`;
+    bootstrapApplication(AppComponent, appConfig).catch((err) =>
+      console.error(err)
+    );
+  },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
+  properties: {
+    path: '/portal-documentation/:processDefinitionKey',
+  },
+};
 
-const cockpitDashboardPage = createPlugin(
-  'portal-documentation.dashboardPage',
-  'cockpit.route',
-  bootstrapApp,
-  { path: '/portal-documentation' }
-);
-
-const cockpitNavigation = createPlugin(
-  'portal-documentation.navigation',
-  'cockpit.navigation',
-  (container) => {
+const cockpitNavigation = {
+  id: 'portal-documentation.navigation',
+  pluginPoint: 'cockpit.navigation',
+  priority: 0,
+  render: (container: HTMLElement) => {
     container.innerHTML = `<a href="#/portal-documentation">Portal Documentation</a>`;
-  }
-);
+  },
+  unmount: () => {
+    document.querySelector('app-root')?.remove();
+  },
+};
 
-export default [cockpitDashboard, cockpitDashboardPage, cockpitNavigation];
+export default [
+  cockpitDashboard,
+  cockpitDashboardPage,
+  cockpitNavigation,
+  cockpitDashboardPageDefinition,
+];
