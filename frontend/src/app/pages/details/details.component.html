@@ -48,7 +48,9 @@
   </div>
 
   <div class="pl-4 w-full h-full border-l-gray-300 border-l">
-    <h1>{{ processDefinitions.definitionDocumentation.at(0).name }}</h1>
+    <h1 class="border-b-gray-300 border-b pb-3">
+      {{ processDefinitions.definitionDocumentation.at(0).name }}
+    </h1>
 
     <div
       [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
