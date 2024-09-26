@@ -20,15 +20,36 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 ## Home do Portal.
 
-![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_home_camunda-bpm_portal.png)
+![image](./samples/img/screenshot_home_camunda-bpm_portal.png)
 
 ## Visualização de um Processo com Documentação.
 
-![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot_processo_camunda_bpm_portal.png)
+![image](./samples/img/screenshot_processo_camunda_bpm_portal.png)
 
 ## Detalhamento da Documentação do Processo.
 
-![image](https://raw.githubusercontent.com/projeto-cade-unb/camunda-bpm-portal/main/samples/img/screenshot-details-camunda-bpm_portal.png)
+![image](./samples/img/screenshot-details-camunda-bpm_portal.png)
+
+## Compartilhar globalmente (administrador).
+
+Compartilha acesso a documentação pela permissão **DELETE** e **CREATE**
+
+![image](./samples/img/screenshot-share-admin-camunda-bpm_portal.png)
+
+Acesso habilitado para os fluxos:
+
+- Entrega de Trabalho Escolar 
+- Invoice Receipt
+- Sample Pizza Process
+- Order Pizza
+
+## Compartilhar globalmente (usuário).
+
+Acesso a documentação pela permissão **READ**
+
+![image](./samples/img/screenshot-share-user-camunda-bpm_portal.png)
+
+Lista de fluxos compartilhados.
 
 ## Instalação (v0.3.0++).
 
