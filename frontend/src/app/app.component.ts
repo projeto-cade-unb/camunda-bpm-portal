@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs';
 import { DetailsComponent } from './pages/details/details.component';
 import { ListComponent } from './pages/list/list.component';
 import { RoutingService } from './routing.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-root',

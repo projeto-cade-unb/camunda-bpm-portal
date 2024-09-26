@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import { from, fromEvent, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingService {
-  hashChange = fromEvent(window, 'hashchange');
+  hashChange = from(
+    location.pathname.includes('static/app')
+      ? fromEvent(window, 'hashchange')
+      : of(null)
+  );
 }
