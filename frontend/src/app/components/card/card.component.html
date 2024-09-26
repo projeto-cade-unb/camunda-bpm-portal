@@ -1,4 +1,4 @@
-<a [href]="'#/portal-documentation/' + processDefinition.key" >
+<a [href]="'#/portal-documentation/' + processDefinition.key">
   <h4 class="tile-header">
     {{ processDefinition.name }}
   </h4>
@@ -8,10 +8,10 @@
   <span class="tile-footer h-11">
     {{ processDefinition.documentation.at(0)?.documentation }}
   </span>
-
-  <span class="tile-footer" *ngIf="editable">
-    <app-authorize-menu
-      [processDefinition]="processDefinition"
-    ></app-authorize-menu>
-  </span>
 </a>
+
+<span class="tile-footer" *ngIf="editable">
+  <app-authorize-menu
+    [processDefinition]="processDefinition"
+  ></app-authorize-menu>
+</span>
