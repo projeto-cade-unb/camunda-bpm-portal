@@ -1,7 +1,20 @@
 {
   "ELEMENT_DETAIL_LABEL": "Detalles técnicos de Camunda",
   "ELEMENT_DETAIL_NAME": "Nombre del elemento",
-  "CESIONARIO": "Responsable",
-  "FECHA DE VENCIMIENTO": "Fecha límite",
-  "CADIDATE_GROUP": "Grupo Candidato"
+  "ASSIGNEE": "Asignado",
+  "DUEDATE": "Fecha de vencimiento",
+  "CADIDATE_GROUP": "Grupo candidato",
+  "SHARED": "Compartido",
+  "SHARE": "Compartir",
+  "UNSHARE": "Dejar de compartir",
+  "CODE": "Código",
+  "EDITAR": "Editar",
+  "CANCELAR": "Cancelar",
+  "SALVAR": "Guardar",
+  "DELETAR": "Eliminar",
+  "PAGINA": "Página",
+  "ENABLE_GLOBAL": "Activar global",
+  "ENABLED_GLOBAL": "Global activado",
+  "DISABLE_GLOBAL": "Desactivar global",
+  "DISABLED_GLOBAL": "Global desactivado"
 }
