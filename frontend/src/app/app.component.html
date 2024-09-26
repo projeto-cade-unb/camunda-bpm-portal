@@ -1,0 +1,10 @@
+<main>
+  <app-details
+    *ngIf="processDefinitionKey$ | async as processDefinitionKey; else list"
+    [processDefinitionKey]="processDefinitionKey"
+  ></app-details>
+
+  <ng-template #list>
+    <app-list></app-list>
+  </ng-template>
+</main>

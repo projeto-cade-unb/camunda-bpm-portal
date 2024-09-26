@@ -40,8 +40,9 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 2. Copie para pasta de bibliotecas do Camunda Server.
    <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
 
-3. Configure um filtro em seu web.xml em <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/ 
-   - ``` xml
+3. Configure um filtro em seu web.xml em <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
+
+   - ```xml
      <filter>
         <filter-name>HttpHeaderSecurity</filter-name>
         <filter-class>
@@ -64,6 +65,7 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
           sandbox allow-forms allow-scripts allow-same-origin allow-popups allow-downloads;
         </param-value>
         </init-param>
+     ```
 
     </filter>
 
@@ -71,31 +73,31 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 
 5. O Portal BPMN aparecerá nos menus do Cockpit.
 
-***** ATENÇÃO**** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda, a mesma pode ser removida! A nova versão não precisa do config.js e fontes no scripts no app , etc! Se deixar aparecerá dois menus no cockpit: Portal BPMN referente a v0.2.0 e Portal Documentation referente a V0.3.0+
+**ATENÇÃO** Caso tenha a versão v0.2.0 do 'Portal BPM Plugin' em seu Camunda, a mesma pode ser removida! A nova versão não precisa do config.js e fontes no scripts no app , etc! Se deixar aparecerá dois menus no cockpit: Portal BPMN referente a v0.2.0 e Portal Documentation referente a V0.3.0+
 
-### Iframe do Youtube
+### Iframe do YouTube
 
-Se a documentação do contem a iframe de uma fonte externa ao Camunda é necessário permitir requisição.
+Para permitir requisições externas ao YouTube em sua aplicação Camunda, você precisará adicionar um filtro no arquivo `conf/web.xml` do Tomcat. Siga as instruções:
 
-1. Adicione esse código na arquivo `conf/web.xml` do Tomcat para permitir requisições externas para o YouTube:
+1. Abra o arquivo `conf/web.xml`.
+2. Adicione o seguinte código para permitir requisições externas:
 
-   - ```xml
-      <filter>
-         <filter-name>HttpHeaderSecurity</filter-name>
-         <filter-class>
-            org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
-         </filter-class>
+   ```xml
+    <filter>
+        <filter-name>HttpHeaderSecurity</filter-name>
+        <filter-class>org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter</filter-class>
 
-         <init-param>
+        <init-param>
             <param-name>contentSecurityPolicyValue</param-name>
             <param-value>
-               base-uri 'self';
-               default-src 'self' 'unsafe-inline';
-               frame-src 'self' https://www.youtube-nocookie.com;
+                base-uri 'self';
+                default-src 'self' 'unsafe-inline';
+                frame-src 'self' https://www.youtube-nocookie.com;
             </param-value>
-         </init-param>
-      </filter>
-     ```
+        </init-param>
+    </filter>
+   ```
+
 ## Build (Desenvolvedores).
 
 ```bash
@@ -108,19 +110,11 @@ mvn clean install
 
 ### Melhorias:
 
-- i18N - Implementar internacionalização e traduzir em en,de e pt_BR.
-
-- i18N - Traduzir o Plugin WYSIWYG e submeter no github.
-
 - UI: Colocar uma ação para apresentar e esconder a área "Technical details", estas informações não são relevantes para usuários de negócio.
 
 - UI: Colocar o Icone do tipo de Element HTML miniatura antes do nome do Elemento.
 
 - Versionamento: Suporte a visualizar versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
-
-- Controle de Acesso: Respeitar controle de acesso do usuário para visibilidade do processo.
-
-- Controle de Acesso: Possibilidade de acesso público configurável (embeeded Camunda BPM Portal)
 
 - UI: Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
 
