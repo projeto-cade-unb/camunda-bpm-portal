@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
@@ -14,32 +14,34 @@ import { ProcessDefinitionDocumentationService } from '../../process-definition-
   imports: [
     CommonModule,
     TranslateModule,
-    ViewerDirective,
-    RouterLink,
+    ViewerDirective,    
     ShareDialogComponent,
     AuthorizeMenuComponent,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
   selectedDocumentation = '';
-  processDefinition$;
+  processDefinition$!: Observable<any>;
+
+  @Input({ required: true })
+  processDefinitionKey!: string;
 
   constructor(
     public domSanitizer: DomSanitizer,
-    activeRoute: ActivatedRoute,
-    router: Router,
-    processDefinitionDocumentationService: ProcessDefinitionDocumentationService
-  ) {
-    const key = activeRoute.snapshot.queryParams['key'];
+    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService
+  ) {}
 
-    if (!key) {
-      router.navigate(['/portal-documentation']);
-    } else {
-      this.processDefinition$ =
-        processDefinitionDocumentationService.findMany(key);
+  ngOnInit(): void {
+    if (!this.processDefinitionKey) {
+      return;
     }
+
+    this.processDefinition$ =
+      this.processDefinitionDocumentationService.findMany(
+        this.processDefinitionKey
+      );
   }
 
   scrollToElementById(id: string) {

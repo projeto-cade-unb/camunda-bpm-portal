@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import Viewer from 'bpmn-js/lib/Viewer';
+import { fromEvent, Subscription, tap } from 'rxjs';
 
 @Directive({
   selector: '[appViewer]',
@@ -19,14 +20,21 @@ export class ViewerDirective {
 
   #viewer = new Viewer();
 
-  #handleResizeEvent = () => this.resizeCanvas();
+  #risize$ = fromEvent(window, 'resize').pipe(tap(() => this.resizeCanvas()));
 
-  constructor(private elementRef: ElementRef) {}
+  #risize!: Subscription;
+
+  constructor(private elementRef: ElementRef<HTMLElement>) {}
 
   resizeCanvas() {
     const canvas: any = this.#viewer.get('canvas');
 
     const { inner } = canvas.viewbox();
+
+    if (!inner.width || !inner.height) {
+      this.ngOnDestroy();
+      return;
+    }
 
     canvas.zoom('fit-viewport', {
       x: inner.x + inner.width / 2,
@@ -35,6 +43,8 @@ export class ViewerDirective {
   }
 
   async ngOnInit() {
+    this.#risize = this.#risize$.subscribe();
+
     await this.#viewer.importXML(this.appViewer);
     this.#viewer.attachTo(this.elementRef.nativeElement);
     this.resizeCanvas();
@@ -43,12 +53,11 @@ export class ViewerDirective {
     eventBus.on('element.click', (event: any) => {
       this.elementClick.emit(event.element.id);
     });
-
-    addEventListener('resize', this.#handleResizeEvent);
   }
 
   ngOnDestroy(): void {
+    this.elementClick.complete();
+    this.#risize.unsubscribe();
     this.#viewer.destroy();
-    removeEventListener('resize', this.#handleResizeEvent);
   }
 }

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthorizeMenuComponent } from '../authorize-menu/authorize-menu.component';
 import { ViewerDirective } from '../viewer.directive';
@@ -10,7 +9,6 @@ import { ViewerDirective } from '../viewer.directive';
   standalone: true,
   imports: [
     ViewerDirective,
-    RouterLink,
     CommonModule,
     TranslateModule,
     AuthorizeMenuComponent,

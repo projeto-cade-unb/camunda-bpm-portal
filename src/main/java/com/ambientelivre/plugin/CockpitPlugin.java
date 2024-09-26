@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.camunda.bpm.cockpit.plugin.spi.impl.AbstractCockpitPlugin;
+import com.ambientelivre.plugin.controller.CockpitPluginRootResource;
 
 public class CockpitPlugin extends AbstractCockpitPlugin {
     static public final String ID = "portal-documentation";
