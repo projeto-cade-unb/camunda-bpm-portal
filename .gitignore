@@ -63,3 +63,6 @@ replay_pid*
 
 target
 *.db
+
+# IDE
+.vscode
