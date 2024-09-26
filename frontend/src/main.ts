@@ -1,13 +1,25 @@
-import 'zone.js';
+import { ApplicationRef } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import 'zone.js';
 import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+
+let app: ApplicationRef | null = null;
 
 if (document.querySelector('app-root')) {
   bootstrapApplication(AppComponent, appConfig).catch((err) =>
     console.error(err)
   );
 }
+
+const unmount = () => {
+  if (app) {
+    app.destroy();
+    document.querySelector('app-root')?.remove();
+    app = null;
+    return;
+  }
+};
 
 const cockpitDashboard = {
   id: 'portal-documentation.dashboard',
@@ -19,9 +31,7 @@ const cockpitDashboard = {
       console.error(err)
     );
   },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
-  },
+  unmount,
   properties: {
     label: 'Portal Documentation',
   },
@@ -43,9 +53,7 @@ const cockpitDashboardPage = {
       console.error(err)
     );
   },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
-  },
+  unmount,
   properties: {
     path: '/portal-documentation',
   },
@@ -67,9 +75,7 @@ const cockpitDashboardPageDefinition = {
       console.error(err)
     );
   },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
-  },
+  unmount,
   properties: {
     path: '/portal-documentation/:processDefinitionKey',
   },
@@ -81,9 +87,6 @@ const cockpitNavigation = {
   priority: 0,
   render: (container: HTMLElement) => {
     container.innerHTML = `<a href="#/portal-documentation">Portal Documentation</a>`;
-  },
-  unmount: () => {
-    document.querySelector('app-root')?.remove();
   },
 };
 
