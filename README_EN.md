@@ -28,14 +28,16 @@ This plugin has been approved and tested in version 7.20 of Camunda. Supported b
 ![image](./samples/img/screenshot-details-camunda-bpm_portal.png)
 
 ## Share globally (administrator).
+Share access to documentation via **DELETE** and **CREATE** permissions
+
+![image](./samples/img/screenshot-share-admin-camunda-bpm_portal.png)
 
 
 Access enabled for flows:
-
-    Delivery of School Work
-    Invoice Receipt
-    the Sample Pizza Process
-    Order Pizza
+- Delivery of School Work
+- Invoice Receipt
+- the Sample Pizza Process
+- Order Pizza
     
 Share globally (user).
 Access to documentation by READ permission
