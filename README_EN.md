@@ -14,6 +14,22 @@ This plugin has been approved and tested in version 7.20 of Camunda. Supported b
 - Integrated with Camunda Cockpit.
 - Examples of Processes Documentation with WYSIWYG Documentation Editor for Camunda Modeler
 
+## Camunda BPM Portal Screenshots.
+
+## Portal Home.
+![image](./samples/img/screenshot_home_camunda-bpm_portal.png)
+
+## Visualization of a Process with Documentation.
+
+![image](./samples/img/screenshot_processo_camunda_bpm_portal.png)
+
+## Process Documentation Details.
+
+![image](./samples/img/screenshot-details-camunda-bpm_portal.png)
+
+## Share globally (administrator).
+
+
 Access enabled for flows:
 
     Delivery of School Work
