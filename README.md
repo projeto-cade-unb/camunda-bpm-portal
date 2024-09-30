@@ -63,7 +63,7 @@ Lista de fluxos compartilhados.
 
 3. Configure um filtro em seu web.xml em <instal-camunda-path>/server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
 
-   - ```xml
+  ```xml
      <filter>
         <filter-name>HttpHeaderSecurity</filter-name>
         <filter-class>
@@ -87,7 +87,7 @@ Lista de fluxos compartilhados.
         </param-value>
         </init-param>
 </filter>
-.```
+```
 
 4. Reinicie seu Camunda Server
 
