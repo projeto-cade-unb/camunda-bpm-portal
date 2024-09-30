@@ -58,7 +58,7 @@ List of shared flows.
 3. Set up a filter on your web.xml in /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
 
 
-   - ```xml
+   ```
      <filter>
         <filter-name>HttpHeaderSecurity</filter-name>
         <filter-class>
@@ -81,7 +81,6 @@ List of shared flows.
           sandbox allow-forms allow-scripts allow-same-origin allow-popups allow-downloads;
         </param-value>
         </init-param>
-   
     </filter>
 ```
 
@@ -112,28 +111,30 @@ To allow external requests to YouTube in your Camunda application, you will need
             </param-value>
         </init-param>
     </filter>
-   ```
+```
 
-    Build (Developers).
+## Build (Developers).
 
+```bash
 git clone https://github.com/projeto-cade-unb/camunda-bpm-portal.git
 cd camunda-bpm-portal
 mvn clean install
+```
 
-Roadmap.
-Improvements:
+## Roadmap.
 
-    IU: Putting an action to present and hide the "Technical details" area, this information is not relevant to business users.
+### Improvements:
 
-    UI: Place the Icone of the type of Element HTML thumbnail before the Element name.
+- UI: Add an action to show and hide the "Technical details" area, this information is not relevant for business users.
 
-    Versioning: Support to view versioning processes (create a select to allow the user to select previous versions, show possible default always the last as is)
+- UI: Add the thumbnail HTML Element type icon before the Element name.
 
-    IU: Allow Categorization of BPMNs Example HR, Financial, Commercial, etc.
+- Versioning: Support for viewing process versioning (create a select to allow the user to select previous versions, always show the latest one as is by default)
 
-    UI: Export to PDF or Doc.
+- UI: Allow BPMN categorization for example HR, Financial, Commercial, etc.
 
-Contributions. Contributions.
+- UI: Export to PDF or Doc.
+
+## Contributions.
+
 Send your contribution via pull request.
-
-
