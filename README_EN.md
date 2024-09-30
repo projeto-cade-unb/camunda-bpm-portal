@@ -39,26 +39,58 @@ Access enabled for flows:
 - the Sample Pizza Process
 - Order Pizza
     
-Share globally (user).
-Access to documentation by READ permission
+## Share globally (user).
 
-List of Shared Flows.
-Installation (v0.3.0++).
-Apache Tomcat.
+Access to documentation with **READ** permission
 
-Realise the download of the plugin in the latest version of https://github.com/project-cade-unb/camunda-bpm-portal/releases example portal-documentation-v0.3.0.jar
+![image](./samples/img/screenshot-share-user-camunda-bpm_portal.png)
 
-Copy to Camunda Server library folder. /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
+List of shared flows.
 
-Set up a filter on your web.xml in /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
+## Installation (v0.3.0++).
+
+### Apache Tomcat.
+
+1. Realise the download of the plugin in the latest version of https://github.com/project-cade-unb/camunda-bpm-portal/releases example portal-documentation-v0.3.0.jar
+
+2. Copy to Camunda Server library folder. /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
+
+3. Set up a filter on your web.xml in /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
 
 
+   - ```xml
+     <filter>
+        <filter-name>HttpHeaderSecurity</filter-name>
+        <filter-class>
+            org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
+        </filter-class>
 
-    Restart your Camunda Server
+        <init-param>
+            <param-name>contentSecurityPolicyValue</param-name>
+            <param-value>
+          base-uri 'self';
+          script-src $NONCE 'unsafe-eval' https: 'self' 'unsafe-inline' 'unsafe-hashes';
+          script-src-attr 'unsafe-inline';
+          style-src 'unsafe-inline' 'self';
+          default-src 'self';
+          img-src 'self' data:;
+          block-all-mixed-content;
+          form-action 'self';
+          frame-ancestors 'none';
+          object-src 'none';
+          sandbox allow-forms allow-scripts allow-same-origin allow-popups allow-downloads;
+        </param-value>
+        </init-param>
+     ```
 
-    The BPMN Portal will appear in the Cockpit menus.
+    </filter>
 
-If you have version v0.2.0 of the 'Portal BPM Plugin' in your Camunda, it can be removed! The new version does not need config.js and fonts in the scripts in the app, etc! If you will let two menus appear in the cockpit: BPMN portal referring to v0.2.0 and Portal Documentation for V0.3.0+
+
+4. Restart your Camunda Server
+
+5. The BPMN Portal will appear in the Cockpit menus.
+
+**ATTENTION** If you have version v0.2.0 of the 'Portal BPM Plugin' in your Camunda, it can be removed! The new version does not need config.js and fonts in the scripts in the app, etc! If you leave it, two menus will appear in the cockpit: Portal BPMN referring to v0.2.0 and Portal Documentation referring to V0.3.0+
 
 Iframe of YouTube
 
