@@ -85,10 +85,9 @@ Lista de fluxos compartilhados.
           object-src 'none';
           sandbox allow-forms allow-scripts allow-same-origin allow-popups allow-downloads;
         </param-value>
-        </init-param>
-     ```
-
+        </init-param> 
     </filter>
+    ```
 
 4. Reinicie seu Camunda Server
 
