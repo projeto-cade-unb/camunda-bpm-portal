@@ -81,10 +81,9 @@ List of shared flows.
           sandbox allow-forms allow-scripts allow-same-origin allow-popups allow-downloads;
         </param-value>
         </init-param>
-     ```
-
+   
     </filter>
-
+```
 
 4. Restart your Camunda Server
 
@@ -92,13 +91,28 @@ List of shared flows.
 
 **ATTENTION** If you have version v0.2.0 of the 'Portal BPM Plugin' in your Camunda, it can be removed! The new version does not need config.js and fonts in the scripts in the app, etc! If you leave it, two menus will appear in the cockpit: Portal BPMN referring to v0.2.0 and Portal Documentation referring to V0.3.0+
 
-Iframe of YouTube
+### YouTube Iframe
 
-To allow external requests to YouTube in your Camunda application, you will need to add a filter in the file conf/web.xmlfrom Tomcat. Please follow the instructions:
+To allow external requests to YouTube in your Camunda application, you will need to add a filter in Tomcat's `conf/web.xml` file. Follow these instructions:
 
-    Open the file conf/web.xml. . .
+1. Open the `conf/web.xml` file.
+2. Add the following code to allow external requests:
 
-    Add the following code to allow external requests:
+  ```xml
+    <filter>
+        <filter-name>HttpHeaderSecurity</filter-name>
+        <filter-class>org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter</filter-class>
+
+        <init-param>
+            <param-name>contentSecurityPolicyValue</param-name>
+            <param-value>
+                base-uri 'self';
+                default-src 'self' 'unsafe-inline';
+                frame-src 'self' https://www.youtube-nocookie.com;
+            </param-value>
+        </init-param>
+    </filter>
+   ```
 
     Build (Developers).
 
