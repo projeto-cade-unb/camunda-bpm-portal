@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import Viewer from 'bpmn-js/lib/Viewer';
 import { Observable } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
+import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 
 @Component({
   selector: 'app-details',
@@ -25,7 +25,7 @@ import { ProcessDefinitionDocumentationService } from '../../process-definition-
 export class DetailsComponent implements OnInit {
   selectedDocumentation = '';
   processDefinition$!: Observable<any>;
-  viewer = new Viewer();
+  viewer = new NavigatedViewer();
 
   @Input({ required: true })
   processDefinitionKey!: string;

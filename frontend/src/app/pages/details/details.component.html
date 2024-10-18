@@ -24,10 +24,9 @@
     <hr />
 
     <div
-      [viewer]="viewer"
+      [svg]="true"
       class="w-full"
       [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
-      (elementClick)="scrollToElementById($event)"
     ></div>
 
     <hr />
@@ -60,6 +59,7 @@
         (elementClick)="scrollToElementById($event)"
         style="height: 34em"
         #appViewer="appViewer"
+        [viewer]="viewer"
       ></div>
 
       <div class="flex flex-row md:flex-col md:gap-4 gap-2 absolute left-0">
