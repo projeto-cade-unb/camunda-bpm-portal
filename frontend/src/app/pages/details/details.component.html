@@ -24,6 +24,7 @@
     <hr />
 
     <div
+      [viewer]="viewer"
       class="w-full"
       [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
       (elementClick)="scrollToElementById($event)"
@@ -52,11 +53,41 @@
       {{ processDefinitions.definitionDocumentation.at(0).name }}
     </h1>
 
-    <div
-      [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
-      (elementClick)="scrollToElementById($event)"
-      style="height: 34em"
-    ></div>
+    <div class="flex relative">
+      <div
+        class="w-full"
+        [appViewer]="processDefinitions.definitionDocumentation.at(0).diagram"
+        (elementClick)="scrollToElementById($event)"
+        style="height: 34em"
+        #appViewer="appViewer"
+      ></div>
+
+      <div class="flex flex-row md:flex-col md:gap-4 gap-2 absolute left-0">
+        <button
+          type="button"
+          class="btn btn-default inline"
+          (click)="appViewer.zoomIn()"
+        >
+          <span class="glyphicon glyphicon-zoom-in"></span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-default inline"
+          (click)="appViewer.zoomOut()"
+        >
+          <span class="glyphicon glyphicon-zoom-out"></span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-default inline"
+          (click)="appViewer.resetZoom()"
+        >
+          <span class="glyphicon glyphicon-screenshot"></span>
+        </button>
+      </div>
+    </div>
 
     <ng-container
       *ngFor="

@@ -5,12 +5,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import Viewer from 'bpmn-js/lib/Viewer';
+import Viewer from 'bpmn-js/lib/NavigatedViewer';
 import { fromEvent, Subscription, tap } from 'rxjs';
 
 @Directive({
   selector: '[appViewer]',
   standalone: true,
+  exportAs: 'appViewer',
 })
 export class ViewerDirective {
   @Input({ required: true }) appViewer!: string;
@@ -18,7 +19,8 @@ export class ViewerDirective {
   @Output()
   elementClick = new EventEmitter<string>();
 
-  #viewer = new Viewer();
+  @Input()
+  viewer!: Viewer;
 
   #risize$ = fromEvent(window, 'resize').pipe(tap(() => this.resizeCanvas()));
 
@@ -27,7 +29,7 @@ export class ViewerDirective {
   constructor(private elementRef: ElementRef<HTMLElement>) {}
 
   resizeCanvas() {
-    const canvas: any = this.#viewer.get('canvas');
+    const canvas: any = this.viewer.get('canvas');
 
     const { inner } = canvas.viewbox();
 
@@ -42,14 +44,35 @@ export class ViewerDirective {
     });
   }
 
+  zoomIn() {
+    (this.viewer.get('zoomScroll') as any).zoom(1, {
+      x: this.elementRef.nativeElement.offsetWidth / 2,
+      y: this.elementRef.nativeElement.offsetHeight / 2,
+    });
+  }
+
+  zoomOut() {
+    (this.viewer.get('zoomScroll') as any).zoom(-1, {
+      x: this.elementRef.nativeElement.offsetWidth / 2,
+      y: this.elementRef.nativeElement.offsetHeight / 2,
+    });
+  }
+
+  resetZoom() {
+    const canvas: any = this.viewer.get('canvas');
+    canvas.resized();
+    canvas.zoom('fit-viewport', 'auto');
+  }
+
   async ngOnInit() {
+    this.viewer ||= new Viewer();
     this.#risize = this.#risize$.subscribe();
 
-    await this.#viewer.importXML(this.appViewer);
-    this.#viewer.attachTo(this.elementRef.nativeElement);
+    await this.viewer.importXML(this.appViewer);
+    this.viewer.attachTo(this.elementRef.nativeElement);
     this.resizeCanvas();
 
-    const eventBus: any = this.#viewer.get('eventBus');
+    const eventBus: any = this.viewer.get('eventBus');
     eventBus.on('element.click', (event: any) => {
       this.elementClick.emit(event.element.id);
     });
@@ -58,6 +81,6 @@ export class ViewerDirective {
   ngOnDestroy(): void {
     this.elementClick.complete();
     this.#risize.unsubscribe();
-    this.#viewer.destroy();
+    this.viewer.destroy();
   }
 }
