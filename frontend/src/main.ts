@@ -45,7 +45,7 @@ const cockpitDashboardPage = {
     container.innerHTML = `
     <style>
       .ctn-wrapper {
-        overflow: scroll !important;
+        overflow-y: scroll !important;
       }
     </style>
     <app-root></app-root>`;
@@ -67,7 +67,7 @@ const cockpitDashboardPageDefinition = {
     container.innerHTML = `
     <style>
       .ctn-wrapper {
-        overflow: scroll !important;
+        overflow-y: scroll !important;
       }
     </style>
     <app-root></app-root>`;
