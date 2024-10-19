@@ -15,6 +15,7 @@ Este plugin foi homologado e testado na versão 7.20 do Camunda. Suportado por t
 - Navegação visual ao clicar no processo direta para documentação.
 - Integrado ao Camunda Cockpit.
 - Exemplos de Processos documentados com [WYSIWYG Documentation editor for Camunda Modeler](https://github.com/sharedchains/camunda-wysiwyg-documentation)
+- Zoom do Diagrama BPMN Diagram.
 
 ## Telas do Camunda BPM Portal.
 
