@@ -13,6 +13,7 @@ This plugin has been approved and tested in version 7.20 of Camunda. Supported b
 - Visual navigation by clicking on the direct process for documentation.
 - Integrated with Camunda Cockpit.
 - Examples of Processes Documentation with WYSIWYG Documentation Editor for Camunda Modeler
+- BPMN Diagram Zoom.
 
 ## Camunda BPM Portal Screenshots.
 
