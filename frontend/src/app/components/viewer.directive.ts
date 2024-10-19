@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import Viewer from 'bpmn-js/lib/NavigatedViewer';
+import Viewer from 'bpmn-js/lib/Viewer';
 import { fromEvent, Subscription, tap } from 'rxjs';
 
 @Directive({
@@ -22,9 +22,12 @@ export class ViewerDirective {
   @Input()
   viewer!: Viewer;
 
+  @Input()
+  svg = false;
+
   #risize$ = fromEvent(window, 'resize').pipe(tap(() => this.resizeCanvas()));
 
-  #risize!: Subscription;
+  #risize?: Subscription;
 
   constructor(private elementRef: ElementRef<HTMLElement>) {}
 
@@ -66,21 +69,32 @@ export class ViewerDirective {
 
   async ngOnInit() {
     this.viewer ||= new Viewer();
-    this.#risize = this.#risize$.subscribe();
-
     await this.viewer.importXML(this.appViewer);
     this.viewer.attachTo(this.elementRef.nativeElement);
-    this.resizeCanvas();
 
-    const eventBus: any = this.viewer.get('eventBus');
-    eventBus.on('element.click', (event: any) => {
-      this.elementClick.emit(event.element.id);
-    });
+    if (this.svg) {
+      const svgContent = (await this.viewer.saveSVG()).svg;
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
+      const svgElement = svgDoc.documentElement;
+
+      svgElement.setAttribute('width', '100%');
+      svgElement.setAttribute('height', '100%');
+
+      this.elementRef.nativeElement.innerHTML = svgElement.outerHTML;
+    } else {
+      this.resizeCanvas();
+      this.#risize = this.#risize$.subscribe();
+      const eventBus: any = this.viewer.get('eventBus');
+      eventBus.on('element.click', (event: any) => {
+        this.elementClick.emit(event.element.id);
+      });
+    }
   }
 
   ngOnDestroy(): void {
     this.elementClick.complete();
-    this.#risize.unsubscribe();
+    this.#risize?.unsubscribe();
     this.viewer.destroy();
   }
 }
