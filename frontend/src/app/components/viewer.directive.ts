@@ -67,6 +67,38 @@ export class ViewerDirective {
     canvas.zoom('fit-viewport', 'auto');
   }
 
+  getElementById(id: string) {
+    const elementRegistry: any = this.viewer.get('elementRegistry');
+
+    const element = elementRegistry.get(id);
+
+    if (!element) {
+      return '';
+    }
+
+    const gfx: SVGElement = elementRegistry.getGraphics(element);
+
+    if (!gfx) {
+      return '';
+    }
+
+    const visualElement: SVGGElement = gfx.querySelector('.djs-visual')!;
+
+    if (!visualElement) {
+      return '';
+    }
+
+    const rect: SVGRectElement = visualElement.querySelector('rect')!;
+
+    if (!rect) {
+      return '';
+    }
+
+    return `<svg height="${rect.getAttribute(
+      'height'
+    )}" width="${rect.getAttribute('width')}">${visualElement.outerHTML}</svg>`;
+  }
+
   async ngOnInit() {
     this.viewer ||= new Viewer();
     await this.viewer.importXML(this.appViewer);
