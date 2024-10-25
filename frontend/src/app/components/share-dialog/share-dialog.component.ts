@@ -22,7 +22,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 })
 export class ShareDialogComponent {
   visible = false;
-  appPath = `${location.host}/camunda/api/cockpit/plugin/portal-documentation/static/app/${location.hash}`;
+  appPath = `${location.origin}/camunda/api/cockpit/plugin/portal-documentation/static/app/${location.hash}`;
   iframe = `<iframe src="${this.appPath}" height="100vh" width="100%" title="Portal Documentation"></iframe>`;
 
   copy(element: HTMLInputElement) {
