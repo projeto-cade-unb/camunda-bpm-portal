@@ -103,7 +103,7 @@
         <span
           [innerHTML]="
             domSanitizer.bypassSecurityTrustHtml(
-              appViewer.getElementById(documentation.id)
+              appViewer.getElementById(documentation.id)?.outerHTML || ''
             )
           "
         ></span>

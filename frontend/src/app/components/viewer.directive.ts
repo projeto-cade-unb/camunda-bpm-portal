@@ -69,34 +69,30 @@ export class ViewerDirective {
 
   getElementById(id: string) {
     const elementRegistry: any = this.viewer.get('elementRegistry');
-
     const element = elementRegistry.get(id);
 
     if (!element) {
-      return '';
+      return;
     }
 
-    const gfx: SVGElement = elementRegistry.getGraphics(element);
+    const gfx: SVGElement = elementRegistry
+      .getGraphics(element)
+      .cloneNode(true);
+    gfx.removeAttribute('transform');
 
-    if (!gfx) {
-      return '';
-    }
-
-    const visualElement: SVGGElement = gfx.querySelector('.djs-visual')!;
-
-    if (!visualElement) {
-      return '';
-    }
-
-    const rect: SVGRectElement = visualElement.querySelector('rect')!;
+    const visualElement = gfx.querySelector('.djs-visual');
+    const rect = visualElement?.querySelector('rect');
 
     if (!rect) {
-      return '';
+      return;
     }
 
-    return `<svg height="${rect.getAttribute(
-      'height'
-    )}" width="${rect.getAttribute('width')}">${visualElement.outerHTML}</svg>`;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('height', rect.getAttribute('height') || '100%');
+    svg.setAttribute('width', rect.getAttribute('width') || '100%');
+    svg.appendChild(gfx);
+
+    return svg;
   }
 
   async ngOnInit() {

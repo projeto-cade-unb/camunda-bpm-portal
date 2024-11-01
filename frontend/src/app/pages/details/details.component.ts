@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import { Observable } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
-import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
+import { isStaticApp } from '../../static-app';
 
 @Component({
   selector: 'app-details',
@@ -49,13 +50,15 @@ export class DetailsComponent implements OnInit {
   scrollToElementById(id: string) {
     this.selectedDocumentation = id;
 
-    const container = document.querySelector('.ctn-wrapper');
+    const container = isStaticApp
+      ? document.documentElement
+      : document.querySelector('.ctn-wrapper');
 
     if (!container) {
       return;
     }
 
-    const targetElement = document.querySelector(`#${id}.diagram-item`);
+    const targetElement = container?.querySelector(`#${id}.diagram-item`);
 
     if (!targetElement) {
       return;
