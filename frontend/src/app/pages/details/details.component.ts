@@ -58,16 +58,24 @@ export class DetailsComponent implements OnInit {
       return;
     }
 
-    const targetElement = container?.querySelector(`#${id}.diagram-item`);
+    const targetElement = container.querySelector(`#${id}.diagram-item`);
 
     if (!targetElement) {
       return;
     }
 
-    const scrollPosition =
-      targetElement.getBoundingClientRect().top -
-      container.getBoundingClientRect().top +
-      container.scrollTop;
+    let scrollPosition: number;
+
+    if (isStaticApp) {
+      const elementPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY;
+      scrollPosition = elementPosition;
+    } else {
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = targetElement.getBoundingClientRect();
+      scrollPosition =
+        elementRect.top - containerRect.top + container.scrollTop;
+    }
 
     container.scrollTo({
       top: scrollPosition,
