@@ -48,6 +48,27 @@ export class DetailsComponent implements OnInit {
 
   scrollToElementById(id: string) {
     this.selectedDocumentation = id;
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
+    const container = document.querySelector('.ctn-wrapper');
+
+    if (!container) {
+      return;
+    }
+
+    const targetElement = document.querySelector(`#${id}.diagram-item`);
+
+    if (!targetElement) {
+      return;
+    }
+
+    const scrollPosition =
+      targetElement.getBoundingClientRect().top -
+      container.getBoundingClientRect().top +
+      container.scrollTop;
+
+    container.scrollTo({
+      top: scrollPosition,
+      behavior: 'smooth',
+    });
   }
 }
