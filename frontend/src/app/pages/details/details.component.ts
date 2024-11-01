@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import { Observable } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
-import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
+import { isStaticApp } from '../../static-app';
 
 @Component({
   selector: 'app-details',
@@ -48,6 +49,37 @@ export class DetailsComponent implements OnInit {
 
   scrollToElementById(id: string) {
     this.selectedDocumentation = id;
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
+    const container = isStaticApp
+      ? document.documentElement
+      : document.querySelector('.ctn-wrapper');
+
+    if (!container) {
+      return;
+    }
+
+    const targetElement = container.querySelector(`#${id}.diagram-item`);
+
+    if (!targetElement) {
+      return;
+    }
+
+    let scrollPosition: number;
+
+    if (isStaticApp) {
+      const elementPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY;
+      scrollPosition = elementPosition;
+    } else {
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = targetElement.getBoundingClientRect();
+      scrollPosition =
+        elementRect.top - containerRect.top + container.scrollTop;
+    }
+
+    container.scrollTo({
+      top: scrollPosition,
+      behavior: 'smooth',
+    });
   }
 }

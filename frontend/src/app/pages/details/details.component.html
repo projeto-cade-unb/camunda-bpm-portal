@@ -96,14 +96,14 @@
       "
     >
       <h2
-        class="flex flex-col md:flex-row gap-2 md:gap-4 items-center"
+        class="flex diagram-item flex-col md:flex-row gap-2 md:gap-4 items-center"
         [class.active]="selectedDocumentation === documentation.id"
         [id]="documentation.id"
       >
         <span
           [innerHTML]="
             domSanitizer.bypassSecurityTrustHtml(
-              appViewer.getElementById(documentation.id)
+              appViewer.getElementById(documentation.id)?.outerHTML || ''
             )
           "
         ></span>

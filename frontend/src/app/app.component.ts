@@ -14,8 +14,8 @@ import { RoutingService } from './routing.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  processDefinitionKey$ = this.routingService.hashChange.pipe(
-    map(() => location.hash.split('/')[2])
+  processDefinitionKey$ = this.routingService.url$.pipe(
+    map(({ pathname }) => pathname.split('/')[2])
   );
 
   constructor(
