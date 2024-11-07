@@ -1,8 +1,10 @@
 package com.ambientelivre.plugin.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,13 +25,21 @@ import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentation;
 import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentationElement;
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.utils.BpmnXmlNamespaceUri;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.TextAlignment;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
         private final ProcessDefinitionAuthorizationService processDefinitionAuthorizationService;
 
         public ProcessDefinitionDocumentationService(String engineName) {
-            super(engineName);
-            processDefinitionAuthorizationService = new ProcessDefinitionAuthorizationService(engineName);
+                super(engineName);
+                processDefinitionAuthorizationService = new ProcessDefinitionAuthorizationService(engineName);
         }
 
         public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
@@ -180,5 +190,67 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .findFirst()
                                 .map(Documentation::getTextContent)
                                 .orElse("");
+        }
+
+        public byte[] generatePdf(ProcessDefinitionDocumentationAuthorizationDto documentation) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                PdfWriter writer = new PdfWriter(baos);
+                PdfDocument pdfDoc = new PdfDocument(writer);
+                Document document = new Document(pdfDoc);
+
+                try {
+                        document.add(new Paragraph("Process Documentation")
+                                        .setFontSize(18)
+                                        .setBold()
+                                        .setTextAlignment(TextAlignment.CENTER));
+
+                        for (ProcessDefinitionDocumentation process : documentation.getDefinitionDocumentation()) {
+                                document.add(new Paragraph("Process: " + process.getName())
+                                                .setFontSize(14)
+                                                .setBold());
+                                document.add(new Paragraph("Key: " + process.getKey()));
+
+                                if (process.getDiagram() != null) {
+                                        byte[] diagramBytes = Base64.getDecoder().decode(process.getDiagram());
+                                        ImageData imageData = ImageDataFactory.create(diagramBytes);
+                                        Image image = new Image(imageData);
+                                        image.setAutoScale(true);
+                                        document.add(image);
+                                }
+
+                                for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
+                                        document.add(new Paragraph("Element: " + element.getName())
+                                                        .setFontSize(12)
+                                                        .setBold());
+                                        document.add(new Paragraph("ID: " + element.getId()));
+
+                                        if (element.getAssignee() != null) {
+                                                document.add(new Paragraph("Assignee: " + element.getAssignee()));
+                                        }
+                                        if (element.getCandidateGroups() != null) {
+                                                document.add(new Paragraph(
+                                                                "Candidate Groups: " + element.getCandidateGroups()));
+                                        }
+                                        if (element.getDueDate() != null) {
+                                                document.add(new Paragraph("Due Date: " + element.getDueDate()));
+                                        }
+                                        if (element.getDocumentation() != null) {
+                                                document.add(new Paragraph(
+                                                                "Documentation: " + element.getDocumentation()));
+                                        }
+                                        if (element.getExtendedDocumentation() != null) {
+                                                document.add(new Paragraph("Extended Documentation: "
+                                                                + element.getExtendedDocumentation()));
+                                        }
+                                        document.add(new Paragraph("\n"));
+                                }
+                        }
+
+                        document.close();
+                        return baos.toByteArray();
+
+                } catch (Exception e) {
+                        throw new RuntimeException("Error generating PDF", e);
+                }
         }
 }
