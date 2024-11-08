@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,9 +29,12 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.IBlockElement;
+import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.html2pdf.HtmlConverter;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
         private final ProcessDefinitionAuthorizationService processDefinitionAuthorizationService;
@@ -121,6 +123,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .findEditableAuthorization(processDefinition);
 
                 return new ProcessDefinitionDocumentation(
+                                processDefinition.getId(),
                                 processDefinition.getKey(),
                                 processDefinition.getName(),
                                 bpmnXmlText,
@@ -204,46 +207,55 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         .setBold()
                                         .setTextAlignment(TextAlignment.CENTER));
 
-                        for (ProcessDefinitionDocumentation process : documentation.getDefinitionDocumentation()) {
-                                document.add(new Paragraph("Process: " + process.getName())
-                                                .setFontSize(14)
+                        ProcessDefinitionDocumentation process = documentation.getDefinitionDocumentation().get(0);
+
+                        document.add(new Paragraph("Process: " + process.getName())
+                                        .setFontSize(14)
+                                        .setBold());
+                        document.add(new Paragraph("Key: " + process.getKey()));
+
+                        InputStream imageByteInput = getProcessEngine()
+                                        .getRepositoryService()
+                                        .getProcessDiagram(process.getId());
+
+                        if (imageByteInput != null) {
+                                byte[] imageByteArray = imageByteInput.readAllBytes();
+                                ImageData imageData = ImageDataFactory
+                                                .create(imageByteArray);
+                                Image image = new Image(imageData);
+                                image.setAutoScale(true);
+                                document.add(image);
+                        }
+
+                        for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
+                                document.add(new Paragraph("Element: " + element.getName())
+                                                .setFontSize(12)
                                                 .setBold());
-                                document.add(new Paragraph("Key: " + process.getKey()));
+                                document.add(new Paragraph("ID: " + element.getId()));
 
-                                if (process.getDiagram() != null) {
-                                        byte[] diagramBytes = Base64.getDecoder().decode(process.getDiagram());
-                                        ImageData imageData = ImageDataFactory.create(diagramBytes);
-                                        Image image = new Image(imageData);
-                                        image.setAutoScale(true);
-                                        document.add(image);
+                                if (element.getAssignee() != null) {
+                                        document.add(new Paragraph("Assignee: " + element.getAssignee()));
                                 }
-
-                                for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
-                                        document.add(new Paragraph("Element: " + element.getName())
-                                                        .setFontSize(12)
-                                                        .setBold());
-                                        document.add(new Paragraph("ID: " + element.getId()));
-
-                                        if (element.getAssignee() != null) {
-                                                document.add(new Paragraph("Assignee: " + element.getAssignee()));
-                                        }
-                                        if (element.getCandidateGroups() != null) {
-                                                document.add(new Paragraph(
-                                                                "Candidate Groups: " + element.getCandidateGroups()));
-                                        }
-                                        if (element.getDueDate() != null) {
-                                                document.add(new Paragraph("Due Date: " + element.getDueDate()));
-                                        }
-                                        if (element.getDocumentation() != null) {
-                                                document.add(new Paragraph(
-                                                                "Documentation: " + element.getDocumentation()));
-                                        }
-                                        if (element.getExtendedDocumentation() != null) {
-                                                document.add(new Paragraph("Extended Documentation: "
-                                                                + element.getExtendedDocumentation()));
-                                        }
-                                        document.add(new Paragraph("\n"));
+                                if (element.getCandidateGroups() != null) {
+                                        document.add(new Paragraph(
+                                                        "Candidate Groups: " + element.getCandidateGroups()));
                                 }
+                                if (element.getDueDate() != null) {
+                                        document.add(new Paragraph("Due Date: " + element.getDueDate()));
+                                }
+                                if (element.getDocumentation() != null) {
+                                        for (IElement iElement : HtmlConverter
+                                                        .convertToElements(element.getDocumentation())) {
+                                                document.add((IBlockElement) iElement);
+                                        }
+                                }
+                                if (element.getExtendedDocumentation() != null) {
+                                        for (IElement iElement : HtmlConverter
+                                                        .convertToElements(element.getExtendedDocumentation())) {
+                                                document.add((IBlockElement) iElement);
+                                        }
+                                }
+                                document.add(new Paragraph("\n"));
                         }
 
                         document.close();

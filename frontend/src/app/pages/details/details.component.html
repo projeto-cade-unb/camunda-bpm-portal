@@ -5,8 +5,18 @@
   <div class="w-32 lg:w-56 shadow-sm h-full sticky top-0 pt-8">
     <div class="flex gap-4 justify-between">
       <a href="#/portal-documentation">
-        <button class="btn btn-info rounded">
+        <button class="btn btn-info">
           <span class="glyphicon glyphicon-home"></span>
+        </button>
+      </a>
+
+      <a
+        href="/camunda/api/cockpit/plugin/portal-documentation/process-definition-pdf?processDefinitionKey={{
+          processDefinitions.definitionDocumentation.at(0).key
+        }}"
+      >
+        <button class="btn btn-info">
+          <span class="glyphicon glyphicon-download-alt"></span>
         </button>
       </a>
 

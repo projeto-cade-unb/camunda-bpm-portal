@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class ProcessDefinitionDocumentationService {
   constructor(private http: HttpClient) {}
 
-  findMany(processDefinitionKey?: string) {
+  findManyDocumentation(processDefinitionKey?: string) {
     return this.http.get<any>(
       `/camunda/api/cockpit/plugin/portal-documentation/process-definition`,
       {

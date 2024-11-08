@@ -61,7 +61,7 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   }
 
   @GET
-  @Path("process-definition/pdf")
+  @Path("process-definition-pdf")
   @Produces("application/pdf")
   public Response generateProcessDefinitionDocumentationPdf(
       @QueryParam("processDefinitionKey") String processDefinitionKey) {

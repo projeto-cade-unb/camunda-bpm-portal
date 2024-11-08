@@ -42,7 +42,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.processDefinition$ =
-      this.processDefinitionDocumentationService.findMany(
+      this.processDefinitionDocumentationService.findManyDocumentation(
         this.processDefinitionKey
       );
   }
