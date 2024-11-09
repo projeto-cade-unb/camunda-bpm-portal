@@ -14,9 +14,9 @@ import javax.ws.rs.core.Response;
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginRootResource;
 import org.camunda.bpm.engine.rest.exception.RestException;
 
+import com.ambientelivre.plugin.CockpitPlugin;
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.service.ProcessDefinitionDocumentationService;
-import com.ambientelivre.plugin.CockpitPlugin;
 
 @Path("plugin/" + CockpitPlugin.ID)
 public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource {
@@ -58,6 +58,22 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
       @QueryParam("processDefinitionKey") String processDefinitionKey) {
     return processDefinitionDocumentationService.findManyProcessDefinitionDocumentation(processDefinitionKey);
+  }
+
+  @GET
+  @Path("process-definition-pdf")
+  @Produces("application/pdf")
+  public Response generateProcessDefinitionDocumentationPdf(
+      @QueryParam("processDefinitionKey") String processDefinitionKey) {
+    ProcessDefinitionDocumentationAuthorizationDto documentation = processDefinitionDocumentationService
+        .findManyProcessDefinitionDocumentation(processDefinitionKey);
+
+    byte[] pdfBytes = processDefinitionDocumentationService.generatePdf(documentation);
+
+    return Response
+        .ok(pdfBytes)
+        .header("Content-Disposition", "attachment; filename=\"process-documentation.pdf\"")
+        .build();
   }
 
   @Override

@@ -128,13 +128,9 @@ mvn clean install
 
 - UI: Add an action to show and hide the "Technical details" area, this information is not relevant for business users.
 
-- UI: Add the thumbnail HTML Element type icon before the Element name.
-
 - Versioning: Support for viewing process versioning (create a select to allow the user to select previous versions, always show the latest one as is by default)
 
 - UI: Allow BPMN categorization for example HR, Financial, Commercial, etc.
-
-- UI: Export to PDF or Doc.
 
 ## Contributions.
 

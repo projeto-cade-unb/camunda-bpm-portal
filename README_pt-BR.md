@@ -133,13 +133,9 @@ mvn clean install
 
 - UI: Colocar uma ação para apresentar e esconder a área "Technical details", estas informações não são relevantes para usuários de negócio.
 
-- UI: Colocar o Icone do tipo de Element HTML miniatura antes do nome do Elemento.
-
 - Versionamento: Suporte a visualizar versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
 
 - UI: Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
-
-- UI: Exportação para PDF ou Doc.
 
 ## Contribuições.
 
