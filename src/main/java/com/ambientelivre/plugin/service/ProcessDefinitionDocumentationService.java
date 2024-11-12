@@ -24,6 +24,7 @@ import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentation;
 import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentationElement;
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.utils.BpmnXmlNamespaceUri;
+import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -33,8 +34,9 @@ import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.Property;
 import com.itextpdf.layout.properties.TextAlignment;
-import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.layout.properties.UnitValue;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
         private final ProcessDefinitionAuthorizationService processDefinitionAuthorizationService;
@@ -220,10 +222,11 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                         if (imageByteInput != null) {
                                 byte[] imageByteArray = imageByteInput.readAllBytes();
-                                ImageData imageData = ImageDataFactory
-                                                .create(imageByteArray);
+                                ImageData imageData = ImageDataFactory.create(imageByteArray);
                                 Image image = new Image(imageData);
                                 image.setAutoScale(true);
+                                image.setWidth(pdfDoc.getDefaultPageSize().getWidth() - document.getLeftMargin()
+                                                - document.getRightMargin());
                                 document.add(image);
                         }
 
@@ -244,16 +247,10 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         document.add(new Paragraph("Due Date: " + element.getDueDate()));
                                 }
                                 if (element.getDocumentation() != null) {
-                                        for (IElement iElement : HtmlConverter
-                                                        .convertToElements(element.getDocumentation())) {
-                                                document.add((IBlockElement) iElement);
-                                        }
+                                        addHtmlContentWithImages(element.getDocumentation(), pdfDoc, document);
                                 }
                                 if (element.getExtendedDocumentation() != null) {
-                                        for (IElement iElement : HtmlConverter
-                                                        .convertToElements(element.getExtendedDocumentation())) {
-                                                document.add((IBlockElement) iElement);
-                                        }
+                                        addHtmlContentWithImages(element.getExtendedDocumentation(), pdfDoc, document);
                                 }
                                 document.add(new Paragraph("\n"));
                         }
@@ -263,6 +260,39 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                 } catch (Exception e) {
                         throw new RuntimeException("Error generating PDF", e);
+                }
+        }
+
+        private void addHtmlContentWithImages(String htmlContent, PdfDocument pdfDoc, Document document) {
+                float maxWidth = pdfDoc.getDefaultPageSize().getWidth() - document.getLeftMargin()
+                                - document.getRightMargin();
+
+                // Convert HTML to elements
+                List<IElement> elements = HtmlConverter.convertToElements(htmlContent);
+
+                // Recursively process each element, resizing images if found
+                for (IElement element : elements) {
+                        processElementRecursively(element, maxWidth);
+                }
+
+                // Add the processed elements to the document
+                for (IElement element : elements) {
+                        document.add((IBlockElement) element);
+                }
+        }
+
+        private void processElementRecursively(IElement element, float maxWidth) {
+                // Handle image resizing within its parent container
+                if (element instanceof Image) {
+                        Image img = (Image) element;
+                        img.setWidth(UnitValue.createPointValue(maxWidth));
+                }
+                // Process child elements if the current element is a container
+                else if (element instanceof IBlockElement) {
+                        // Recursively process children for block elements like paragraphs
+                        for (IElement child : ((IBlockElement) element).getChildren()) {
+                                processElementRecursively(child, maxWidth);
+                        }
                 }
         }
 }
