@@ -81,7 +81,7 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
             "attachment; filename=\"" + documentation.getDefinitionDocumentation()
                 .get(0)
                 .getName()
-                .replace(" ", "")
+                .replaceAll("[^a-zA-Z0-9.-]", "_")
                 + ".pdf\"")
         .build();
   }
