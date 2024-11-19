@@ -197,7 +197,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                         ProcessDefinitionDocumentation process = documentation.getDefinitionDocumentation().get(0);
 
-                        document.add(new Paragraph(process.getName())
+                        document.add(new Paragraph("Process: " + process.getName())
                                         .setFontSize(14)
                                         .setBold());
                         document.add(new Paragraph("Key: " + process.getKey()));
