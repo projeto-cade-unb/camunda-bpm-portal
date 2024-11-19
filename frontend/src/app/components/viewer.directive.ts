@@ -3,6 +3,8 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
+  OnDestroy,
   Output,
 } from '@angular/core';
 import Viewer from 'bpmn-js/lib/Viewer';
@@ -13,7 +15,7 @@ import { fromEvent, Subscription, tap } from 'rxjs';
   standalone: true,
   exportAs: 'appViewer',
 })
-export class ViewerDirective {
+export class ViewerDirective implements OnDestroy, OnChanges {
   @Input({ required: true }) appViewer!: string;
 
   @Output()
@@ -95,7 +97,7 @@ export class ViewerDirective {
     return svg;
   }
 
-  async ngOnInit() {
+  async ngOnChanges() {
     this.viewer ||= new Viewer();
     await this.viewer.importXML(this.appViewer);
     this.viewer.attachTo(this.elementRef.nativeElement);
