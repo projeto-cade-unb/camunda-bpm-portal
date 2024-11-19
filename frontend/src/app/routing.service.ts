@@ -8,14 +8,12 @@ import { isStaticApp } from './static-app';
 export class RoutingService {
   #baseUrl = `${location.protocol}${location.host}`;
 
-  url$: Observable<URL> = this.getUrlObservable();
-
-  getUrlObservable(): Observable<URL> {
-    return from(isStaticApp ? fromEvent(window, 'hashchange') : of(null)).pipe(
-      startWith(null),
-      map(() => this.#getCurrentUrl())
-    );
-  }
+  url$: Observable<URL> = from(
+    isStaticApp ? fromEvent(window, 'hashchange') : of(null)
+  ).pipe(
+    startWith(null),
+    map(() => this.#getCurrentUrl())
+  );
 
   #getCurrentUrl(): URL {
     const path = location.hash.slice(2);
@@ -34,12 +32,7 @@ export class RoutingService {
     this.#updateLocationHash(url);
   }
 
-  getSearchParams(key: string): string | null {
-    return this.#getCurrentUrl().searchParams.get(key);
-  }
-
   #updateLocationHash(url: URL): void {
     location.hash = `#${url.pathname}${url.search}`;
-    this.url$ = this.getUrlObservable();
   }
 }
