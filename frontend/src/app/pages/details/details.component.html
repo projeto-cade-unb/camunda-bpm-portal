@@ -133,7 +133,7 @@
         <span
           [innerHTML]="
             domSanitizer.bypassSecurityTrustHtml(
-              appViewer.getElementById(documentation.id)?.outerHTML || ''
+              appViewer.getSvgById(documentation.id)?.outerHTML || ''
             )
           "
         ></span>

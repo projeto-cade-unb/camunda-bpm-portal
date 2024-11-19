@@ -67,7 +67,7 @@ export class ViewerDirective {
     canvas.zoom('fit-viewport', 'auto');
   }
 
-  getElementById(id: string) {
+  getSvgById(id: string) {
     const elementRegistry: any = this.viewer.get('elementRegistry');
     const element = elementRegistry.get(id);
 
@@ -75,21 +75,21 @@ export class ViewerDirective {
       return;
     }
 
-    const gfx: SVGElement = elementRegistry
-      .getGraphics(element)
-      .cloneNode(true);
+    const gfx: SVGElement = elementRegistry.getGraphics(id).cloneNode(true);
     gfx.removeAttribute('transform');
 
-    const visualElement = gfx.querySelector('.djs-visual');
-    const rect = visualElement?.querySelector('rect');
+    const rect = gfx?.querySelector('rect');
 
     if (!rect) {
       return;
     }
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('height', rect.getAttribute('height') || '100%');
-    svg.setAttribute('width', rect.getAttribute('width') || '100%');
+    svg.setAttribute(
+      'height',
+      rect.getAttribute('height') || rect.style.height
+    );
+    svg.setAttribute('width', rect.getAttribute('width') || rect.style.width);
     svg.appendChild(gfx);
 
     return svg;
