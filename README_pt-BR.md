@@ -127,13 +127,22 @@ cd camunda-bpm-portal
 mvn clean install
 ```
 
+## Diagrama no processo no PDF
+
+Para incluir a imagem do diagrama no PDF, é necessário adicionar uma foto do diagrama e realizar o deploy utilizando o mesmo nome do arquivo do processo BPMN.
+
+Exemplo:
+
+```bash
+entrega-de-trabalho.bpmn
+entrega-de-trabalho.png
+```
+
 ## Roadmap.
 
 ### Melhorias:
 
 - UI: Colocar uma ação para apresentar e esconder a área "Technical details", estas informações não são relevantes para usuários de negócio.
-
-- Versionamento: Suporte a visualizar versionamento de processos (criar um select para permitir o usuário selecionar versões anteriores , mostrar poir default sempre a última como está)
 
 - UI: Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
 

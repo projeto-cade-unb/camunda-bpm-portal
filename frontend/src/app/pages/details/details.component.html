@@ -23,6 +23,21 @@
       <app-share-dialog></app-share-dialog>
     </div>
 
+    <hr />
+
+    <select
+      *ngIf="versions$ | async as versions"
+      class="w-full form-control"
+      (change)="setVersion($event)"
+    >
+      <option
+        [selected]="versionSelected === version"
+        *ngFor="let version of versions"
+      >
+        {{ version }}
+      </option>
+    </select>
+
     <ng-container *ngIf="processDefinitions.editable">
       <hr />
 

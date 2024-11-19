@@ -5,6 +5,7 @@
 This project aims to build a process documentation portal integrated with Camunda BPM Platform software. For a full feature use should be used in conjunction with the Camunda Modeler Plugin WYSIWYG Documentation editor for Camunda Modeler
 
 ## Version Support.
+
 This plugin has been approved and tested in version 7.20 of Camunda. Supported by all versions 7.20 or higher.
 
 ## Features.
@@ -18,6 +19,7 @@ This plugin has been approved and tested in version 7.20 of Camunda. Supported b
 ## Camunda BPM Portal Screenshots.
 
 ## Portal Home.
+
 ![image](./samples/img/screenshot_home_camunda-bpm_portal.png)
 
 ## Visualization of a Process with Documentation.
@@ -29,17 +31,18 @@ This plugin has been approved and tested in version 7.20 of Camunda. Supported b
 ![image](./samples/img/screenshot-details-camunda-bpm_portal.png)
 
 ## Share globally (administrator).
+
 Share access to documentation via **DELETE** and **CREATE** permissions
 
 ![image](./samples/img/screenshot-share-admin-camunda-bpm_portal.png)
 
-
 Access enabled for flows:
+
 - Delivery of School Work
 - Invoice Receipt
 - the Sample Pizza Process
 - Order Pizza
-    
+
 ## Share globally (user).
 
 Access to documentation with **READ** permission
@@ -57,7 +60,6 @@ List of shared flows.
 2. Copy to Camunda Server library folder. /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/lib
 
 3. Set up a filter on your web.xml in /server/apache-tomcat-9.0.75/webapps/camunda/WEB-INF/
-
 
    ```
      <filter>
@@ -83,7 +85,7 @@ List of shared flows.
         </param-value>
         </init-param>
     </filter>
-    ```
+   ```
 
 4. Restart your Camunda Server
 
@@ -98,20 +100,20 @@ To allow external requests to YouTube in your Camunda application, you will need
 1. Open the `conf/web.xml` file.
 2. Add the following code to allow external requests:
 
-  ```xml
-    <filter>
-        <filter-name>HttpHeaderSecurity</filter-name>
-        <filter-class>org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter</filter-class>
+```xml
+  <filter>
+      <filter-name>HttpHeaderSecurity</filter-name>
+      <filter-class>org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter</filter-class>
 
-        <init-param>
-            <param-name>contentSecurityPolicyValue</param-name>
-            <param-value>
-                base-uri 'self';
-                default-src 'self' 'unsafe-inline';
-                frame-src 'self' https://www.youtube-nocookie.com;
-            </param-value>
-        </init-param>
-    </filter>
+      <init-param>
+          <param-name>contentSecurityPolicyValue</param-name>
+          <param-value>
+              base-uri 'self';
+              default-src 'self' 'unsafe-inline';
+              frame-src 'self' https://www.youtube-nocookie.com;
+          </param-value>
+      </init-param>
+  </filter>
 ```
 
 ## Build (Developers).
@@ -122,13 +124,22 @@ cd camunda-bpm-portal
 mvn clean install
 ```
 
+# Process diagram in PDF
+
+To include the diagram image in the PDF, you need to add a picture of the diagram and deploy it using the same name as the BPMN process file.
+
+Example:
+
+```bash
+entrega-de-trabalho.bpmn
+entrega-de-trabalho.png
+```
+
 ## Roadmap.
 
 ### Improvements:
 
 - UI: Add an action to show and hide the "Technical details" area, this information is not relevant for business users.
-
-- Versioning: Support for viewing process versioning (create a select to allow the user to select previous versions, always show the latest one as is by default)
 
 - UI: Allow BPMN categorization for example HR, Financial, Commercial, etc.
 

@@ -46,11 +46,16 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
         }
 
         public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
-                        String processDefinitionKey) {
+                        String processDefinitionKey, Integer version) {
                 ProcessDefinitionQuery query = getProcessEngine()
                                 .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion();
+                                .createProcessDefinitionQuery();
+
+                if (version != null) {
+                        query.processDefinitionVersion(version);
+                } else {
+                        query.latestVersion();
+                }
 
                 if (processDefinitionKey != null && !processDefinitionKey.isBlank()) {
                         query.processDefinitionKey(processDefinitionKey);
@@ -58,62 +63,43 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                 return new ProcessDefinitionDocumentationAuthorizationDto(
                                 processDefinitionAuthorizationService.hasEditablePermission(),
-                                processDefinitionsToDocumentation(query.list()));
+                                getAuthenticatedProcessDefinitions(query));
         }
 
-        public List<ProcessDefinitionDocumentation> processDefinitionsToDocumentation(
-                        List<ProcessDefinition> processDefinitions) {
+        public List<ProcessDefinitionDocumentation> getAuthenticatedProcessDefinitions(
+                        ProcessDefinitionQuery query) {
                 Authentication currentAuthentication = getCurrentAuthentication();
                 String currentUserId = currentAuthentication != null ? currentAuthentication.getUserId() : null;
                 boolean isAuthenticated = currentUserId != null && !currentUserId.isBlank();
 
                 if (!isAuthenticated) {
-                        return getUnauthenticatedProcessDefinitions(processDefinitions);
+                        return getUnauthenticatedProcessDefinitions(query);
                 }
 
-                return getAuthenticatedProcessDefinitions(processDefinitions);
-        }
-
-        private List<ProcessDefinitionDocumentation> getUnauthenticatedProcessDefinitions(
-                        List<ProcessDefinition> processDefinitions) {
-                List<String> authorizedResourceIds = processDefinitionAuthorizationService
-                                .getAuthorizedResourceIds(processDefinitions);
-
-                if (!authorizedResourceIds.isEmpty()) {
-                        return getProcessDefinitionDocumentations(authorizedResourceIds);
-                }
-
-                return List.of();
-        }
-
-        private List<ProcessDefinitionDocumentation> getAuthenticatedProcessDefinitions(
-                        List<ProcessDefinition> processDefinitions) {
-                return getProcessEngine()
-                                .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion()
-                                .startablePermissionCheck()
-                                .processDefinitionKeysIn(processDefinitions.stream().map(ProcessDefinition::getKey)
-                                                .toArray(String[]::new))
+                return query
                                 .list()
                                 .stream()
                                 .map(this::createProcessDefinitionDocumentation)
                                 .collect(Collectors.toList());
         }
 
-        private List<ProcessDefinitionDocumentation> getProcessDefinitionDocumentations(
-                        List<String> authorizedResourceIds) {
-                return getProcessEngine()
-                                .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion()
+        private List<ProcessDefinitionDocumentation> getUnauthenticatedProcessDefinitions(
+                        ProcessDefinitionQuery query) {
+                List<String> authorizedResourceIds = processDefinitionAuthorizationService
+                                .getAuthorizedResourceIds(query.list());
+
+                if (authorizedResourceIds.isEmpty()) {
+                        return List.of();
+                }
+
+                return query
                                 .processDefinitionKeysIn(authorizedResourceIds.toArray(new String[0]))
                                 .list()
                                 .stream()
                                 .map(this::createProcessDefinitionDocumentation)
                                 .collect(Collectors.toList());
         }
-
+ 
         private ProcessDefinitionDocumentation createProcessDefinitionDocumentation(
                         ProcessDefinition processDefinition) {
                 BpmnModelInstance modelInstance = getBpmnModelInstance(processDefinition);
