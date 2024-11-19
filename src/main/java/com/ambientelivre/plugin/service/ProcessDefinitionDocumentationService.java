@@ -99,7 +99,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .map(this::createProcessDefinitionDocumentation)
                                 .collect(Collectors.toList());
         }
- 
+
         private ProcessDefinitionDocumentation createProcessDefinitionDocumentation(
                         ProcessDefinition processDefinition) {
                 BpmnModelInstance modelInstance = getBpmnModelInstance(processDefinition);
@@ -112,6 +112,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 return new ProcessDefinitionDocumentation(
                                 processDefinition.getId(),
                                 processDefinition.getKey(),
+                                processDefinition.getVersion(),
                                 processDefinition.getName(),
                                 bpmnXmlText,
                                 editable.isPresent(),
@@ -196,10 +197,11 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                         ProcessDefinitionDocumentation process = documentation.getDefinitionDocumentation().get(0);
 
-                        document.add(new Paragraph("Process: " + process.getName())
+                        document.add(new Paragraph(process.getName())
                                         .setFontSize(14)
                                         .setBold());
                         document.add(new Paragraph("Key: " + process.getKey()));
+                        document.add(new Paragraph("Version: " + process.getVersion()));
 
                         InputStream imageByteInput = getProcessEngine()
                                         .getRepositoryService()
