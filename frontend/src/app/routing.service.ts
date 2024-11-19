@@ -1,41 +1,45 @@
 import { Injectable } from '@angular/core';
-import { from, fromEvent, map, of, startWith } from 'rxjs';
+import { from, fromEvent, map, Observable, of, startWith } from 'rxjs';
 import { isStaticApp } from './static-app';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingService {
-  get #urlString() {
-    return `${location.protocol}${location.host}/${location.hash.slice(2)}`;
+  #baseUrl = `${location.protocol}${location.host}`;
+
+  url$: Observable<URL> = this.getUrlObservable();
+
+  getUrlObservable(): Observable<URL> {
+    return from(isStaticApp ? fromEvent(window, 'hashchange') : of(null)).pipe(
+      startWith(null),
+      map(() => this.#getCurrentUrl())
+    );
   }
 
-  get #url() {
-    return new URL(this.#urlString);
+  #getCurrentUrl(): URL {
+    const path = location.hash.slice(2);
+    return new URL(`${this.#baseUrl}/${path}`);
   }
 
-  url$ = from(isStaticApp ? fromEvent(window, 'hashchange') : of(null)).pipe(
-    startWith(null),
-    map(() => this.#url)
-  );
-
-  setSearchParams(key: string, value: string) {
-    if (!key || value === undefined || value === null) {
-      return;
-    }
-
-    const url = this.#url;
+  setSearchParams(key: string, value: string): void {
+    const url = this.#getCurrentUrl();
     url.searchParams.set(key, value);
-    location.hash = `#${url.pathname}${url.search}`;
+    this.#updateLocationHash(url);
   }
 
-  deleteSearchParams(key: string) {
-    const url = this.#url;
+  deleteSearchParams(key: string): void {
+    const url = this.#getCurrentUrl();
     url.searchParams.delete(key);
-    location.hash = `#${url.pathname}${url.search}`;
+    this.#updateLocationHash(url);
   }
 
-  getSearchParams(key: string) {
-    return this.#url.searchParams.get(key);
+  getSearchParams(key: string): string | null {
+    return this.#getCurrentUrl().searchParams.get(key);
+  }
+
+  #updateLocationHash(url: URL): void {
+    location.hash = `#${url.pathname}${url.search}`;
+    this.url$ = this.getUrlObservable();
   }
 }

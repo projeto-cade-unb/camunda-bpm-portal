@@ -26,18 +26,21 @@
     <hr />
 
     <select
-      *ngIf="versions$ | async as versions"
+      *ngIf="{
+        versions: versions$ | async,
+        versionSelected: versionSelected$ | async
+      } as x"
       class="w-full form-control"
       (change)="setVersion($event)"
     >
-      <option [value]="null" [selected]="versionSelected === null">
+      <option [value]="null" [selected]="x.versionSelected === null">
         {{ "LATEST_VERSION" | translate }}
       </option>
 
       <option
-        *ngFor="let version of versions"
+        *ngFor="let version of x.versions"
         [value]="version"
-        [selected]="versionSelected === version"
+        [selected]="x.versionSelected === version"
       >
         {{ version }}
       </option>
