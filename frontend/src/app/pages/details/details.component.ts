@@ -45,6 +45,11 @@ export class DetailsComponent implements OnInit {
   ) {}
 
   setVersion(event: any) {
+    if (event.target.value === 'null') {
+      this.routingService.deleteSearchParams('version');
+      return;
+    }
+
     this.routingService.setSearchParams('version', event.target.value);
   }
 

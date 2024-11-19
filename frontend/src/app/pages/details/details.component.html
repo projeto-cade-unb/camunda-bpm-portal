@@ -30,9 +30,14 @@
       class="w-full form-control"
       (change)="setVersion($event)"
     >
+      <option [value]="null" [selected]="versionSelected === null">
+        {{ "LATEST_VERSION" | translate }}
+      </option>
+
       <option
-        [selected]="versionSelected === version"
         *ngFor="let version of versions"
+        [value]="version"
+        [selected]="versionSelected === version"
       >
         {{ version }}
       </option>

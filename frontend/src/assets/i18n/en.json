@@ -17,5 +17,6 @@
   "ENABLED_GLOBAL": "Global Enabled",
   "DISABLE_GLOBAL": "Disable Global",
   "DISABLED_GLOBAL": "Global Disabled",
-  "PUBLISHED": "Published"
+  "PUBLISHED": "Published",
+  "LATEST_VERSION": "Latest Version"
 }

@@ -29,6 +29,12 @@ export class RoutingService {
     location.hash = `#${url.pathname}${url.search}`;
   }
 
+  deleteSearchParams(key: string) {
+    const url = this.#url;
+    url.searchParams.delete(key);
+    location.hash = `#${url.pathname}${url.search}`;
+  }
+
   getSearchParams(key: string) {
     return this.#url.searchParams.get(key);
   }
