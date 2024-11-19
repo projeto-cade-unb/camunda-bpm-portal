@@ -34,7 +34,6 @@ import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.properties.Property;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
@@ -231,9 +230,12 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                         }
 
                         for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
-                                document.add(new Paragraph("Element: " + element.getName())
-                                                .setFontSize(12)
-                                                .setBold());
+                                if (element.getName() != null) {
+                                        document.add(new Paragraph(element.getName())
+                                                        .setFontSize(12)
+                                                        .setBold());
+                                }
+
                                 document.add(new Paragraph("ID: " + element.getId()));
 
                                 if (element.getAssignee() != null) {
@@ -267,29 +269,22 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 float maxWidth = pdfDoc.getDefaultPageSize().getWidth() - document.getLeftMargin()
                                 - document.getRightMargin();
 
-                // Convert HTML to elements
                 List<IElement> elements = HtmlConverter.convertToElements(htmlContent);
 
-                // Recursively process each element, resizing images if found
                 for (IElement element : elements) {
                         processElementRecursively(element, maxWidth);
-                }
-
-                // Add the processed elements to the document
-                for (IElement element : elements) {
                         document.add((IBlockElement) element);
                 }
         }
 
         private void processElementRecursively(IElement element, float maxWidth) {
-                // Handle image resizing within its parent container
                 if (element instanceof Image) {
                         Image img = (Image) element;
-                        img.setWidth(UnitValue.createPointValue(maxWidth));
-                }
-                // Process child elements if the current element is a container
-                else if (element instanceof IBlockElement) {
-                        // Recursively process children for block elements like paragraphs
+
+                        if (img.getImageWidth() > maxWidth) {
+                                img.setWidth(UnitValue.createPointValue(maxWidth));
+                        }
+                } else if (element instanceof IBlockElement) {
                         for (IElement child : ((IBlockElement) element).getChildren()) {
                                 processElementRecursively(child, maxWidth);
                         }
