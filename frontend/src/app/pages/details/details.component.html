@@ -131,11 +131,11 @@
         [id]="documentation.id"
       >
         <span
-          [innerHTML]="
-            domSanitizer.bypassSecurityTrustHtml(
-              appViewer.getSvgById(documentation.id)?.outerHTML || ''
-            )
+          *ngIf="
+            appViewer.getSvgById(documentation.id)
+              ?.outerHTML as diagramElementHtml
           "
+          [innerHTML]="domSanitizer.bypassSecurityTrustHtml(diagramElementHtml)"
         ></span>
         {{ documentation.name || documentation.id }}
       </h2>
