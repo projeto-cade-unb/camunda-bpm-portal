@@ -24,6 +24,7 @@ import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentation;
 import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentationElement;
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.utils.BpmnXmlNamespaceUri;
+import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -34,7 +35,7 @@ import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
-import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.layout.properties.UnitValue;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
         private final ProcessDefinitionAuthorizationService processDefinitionAuthorizationService;
@@ -45,11 +46,16 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
         }
 
         public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
-                        String processDefinitionKey) {
+                        String processDefinitionKey, Integer version) {
                 ProcessDefinitionQuery query = getProcessEngine()
                                 .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion();
+                                .createProcessDefinitionQuery();
+
+                if (version != null) {
+                        query.processDefinitionVersion(version);
+                } else {
+                        query.latestVersion();
+                }
 
                 if (processDefinitionKey != null && !processDefinitionKey.isBlank()) {
                         query.processDefinitionKey(processDefinitionKey);
@@ -57,55 +63,36 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                 return new ProcessDefinitionDocumentationAuthorizationDto(
                                 processDefinitionAuthorizationService.hasEditablePermission(),
-                                processDefinitionsToDocumentation(query.list()));
+                                getAuthenticatedProcessDefinitions(query));
         }
 
-        public List<ProcessDefinitionDocumentation> processDefinitionsToDocumentation(
-                        List<ProcessDefinition> processDefinitions) {
+        public List<ProcessDefinitionDocumentation> getAuthenticatedProcessDefinitions(
+                        ProcessDefinitionQuery query) {
                 Authentication currentAuthentication = getCurrentAuthentication();
                 String currentUserId = currentAuthentication != null ? currentAuthentication.getUserId() : null;
                 boolean isAuthenticated = currentUserId != null && !currentUserId.isBlank();
 
                 if (!isAuthenticated) {
-                        return getUnauthenticatedProcessDefinitions(processDefinitions);
+                        return getUnauthenticatedProcessDefinitions(query);
                 }
 
-                return getAuthenticatedProcessDefinitions(processDefinitions);
-        }
-
-        private List<ProcessDefinitionDocumentation> getUnauthenticatedProcessDefinitions(
-                        List<ProcessDefinition> processDefinitions) {
-                List<String> authorizedResourceIds = processDefinitionAuthorizationService
-                                .getAuthorizedResourceIds(processDefinitions);
-
-                if (!authorizedResourceIds.isEmpty()) {
-                        return getProcessDefinitionDocumentations(authorizedResourceIds);
-                }
-
-                return List.of();
-        }
-
-        private List<ProcessDefinitionDocumentation> getAuthenticatedProcessDefinitions(
-                        List<ProcessDefinition> processDefinitions) {
-                return getProcessEngine()
-                                .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion()
-                                .startablePermissionCheck()
-                                .processDefinitionKeysIn(processDefinitions.stream().map(ProcessDefinition::getKey)
-                                                .toArray(String[]::new))
+                return query
                                 .list()
                                 .stream()
                                 .map(this::createProcessDefinitionDocumentation)
                                 .collect(Collectors.toList());
         }
 
-        private List<ProcessDefinitionDocumentation> getProcessDefinitionDocumentations(
-                        List<String> authorizedResourceIds) {
-                return getProcessEngine()
-                                .getRepositoryService()
-                                .createProcessDefinitionQuery()
-                                .latestVersion()
+        private List<ProcessDefinitionDocumentation> getUnauthenticatedProcessDefinitions(
+                        ProcessDefinitionQuery query) {
+                List<String> authorizedResourceIds = processDefinitionAuthorizationService
+                                .getAuthorizedResourceIds(query.list());
+
+                if (authorizedResourceIds.isEmpty()) {
+                        return List.of();
+                }
+
+                return query
                                 .processDefinitionKeysIn(authorizedResourceIds.toArray(new String[0]))
                                 .list()
                                 .stream()
@@ -125,6 +112,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 return new ProcessDefinitionDocumentation(
                                 processDefinition.getId(),
                                 processDefinition.getKey(),
+                                processDefinition.getVersion(),
                                 processDefinition.getName(),
                                 bpmnXmlText,
                                 editable.isPresent(),
@@ -213,6 +201,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         .setFontSize(14)
                                         .setBold());
                         document.add(new Paragraph("Key: " + process.getKey()));
+                        document.add(new Paragraph("Version: " + process.getVersion()));
 
                         InputStream imageByteInput = getProcessEngine()
                                         .getRepositoryService()
@@ -220,17 +209,21 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                         if (imageByteInput != null) {
                                 byte[] imageByteArray = imageByteInput.readAllBytes();
-                                ImageData imageData = ImageDataFactory
-                                                .create(imageByteArray);
+                                ImageData imageData = ImageDataFactory.create(imageByteArray);
                                 Image image = new Image(imageData);
                                 image.setAutoScale(true);
+                                image.setWidth(pdfDoc.getDefaultPageSize().getWidth() - document.getLeftMargin()
+                                                - document.getRightMargin());
                                 document.add(image);
                         }
 
                         for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
-                                document.add(new Paragraph("Element: " + element.getName())
-                                                .setFontSize(12)
-                                                .setBold());
+                                if (element.getName() != null) {
+                                        document.add(new Paragraph(element.getName())
+                                                        .setFontSize(12)
+                                                        .setBold());
+                                }
+
                                 document.add(new Paragraph("ID: " + element.getId()));
 
                                 if (element.getAssignee() != null) {
@@ -244,16 +237,10 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         document.add(new Paragraph("Due Date: " + element.getDueDate()));
                                 }
                                 if (element.getDocumentation() != null) {
-                                        for (IElement iElement : HtmlConverter
-                                                        .convertToElements(element.getDocumentation())) {
-                                                document.add((IBlockElement) iElement);
-                                        }
+                                        addHtmlContentWithImages(element.getDocumentation(), pdfDoc, document);
                                 }
                                 if (element.getExtendedDocumentation() != null) {
-                                        for (IElement iElement : HtmlConverter
-                                                        .convertToElements(element.getExtendedDocumentation())) {
-                                                document.add((IBlockElement) iElement);
-                                        }
+                                        addHtmlContentWithImages(element.getExtendedDocumentation(), pdfDoc, document);
                                 }
                                 document.add(new Paragraph("\n"));
                         }
@@ -263,6 +250,32 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                 } catch (Exception e) {
                         throw new RuntimeException("Error generating PDF", e);
+                }
+        }
+
+        private void addHtmlContentWithImages(String htmlContent, PdfDocument pdfDoc, Document document) {
+                float maxWidth = pdfDoc.getDefaultPageSize().getWidth() - document.getLeftMargin()
+                                - document.getRightMargin();
+
+                List<IElement> elements = HtmlConverter.convertToElements(htmlContent);
+
+                for (IElement element : elements) {
+                        processElementRecursively(element, maxWidth);
+                        document.add((IBlockElement) element);
+                }
+        }
+
+        private void processElementRecursively(IElement element, float maxWidth) {
+                if (element instanceof Image) {
+                        Image img = (Image) element;
+
+                        if (img.getImageWidth() > maxWidth) {
+                                img.setWidth(UnitValue.createPointValue(maxWidth));
+                        }
+                } else if (element instanceof IBlockElement) {
+                        for (IElement child : ((IBlockElement) element).getChildren()) {
+                                processElementRecursively(child, maxWidth);
+                        }
                 }
         }
 }

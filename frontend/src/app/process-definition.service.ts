@@ -4,22 +4,18 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class ProcessDefinitionDocumentationService {
+export class ProcessDefinitionService {
   constructor(private http: HttpClient) {}
 
-  findManyDocumentation(processDefinitionKey?: string, version?: number) {
+  findManyVersions(processDefinitionKey: string) {
     const params = Object();
 
     if (processDefinitionKey) {
       params.processDefinitionKey = processDefinitionKey;
     }
 
-    if (version) {
-      params.version = version;
-    }
-
     return this.http.get<any>(
-      `/camunda/api/cockpit/plugin/portal-documentation/process-definition`,
+      `/camunda/api/cockpit/plugin/portal-documentation/process-definition-versions`,
       { params }
     );
   }

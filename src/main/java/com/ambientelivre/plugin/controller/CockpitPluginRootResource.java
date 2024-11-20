@@ -1,6 +1,7 @@
 package com.ambientelivre.plugin.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -16,17 +17,15 @@ import org.camunda.bpm.engine.rest.exception.RestException;
 
 import com.ambientelivre.plugin.CockpitPlugin;
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
+import com.ambientelivre.plugin.service.AbstractCockpitPluginResourceService;
 import com.ambientelivre.plugin.service.ProcessDefinitionDocumentationService;
 
 @Path("plugin/" + CockpitPlugin.ID)
 public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource {
   private static final String ENGINE_NAME = "default";
-  private ProcessDefinitionDocumentationService processDefinitionDocumentationService;
 
   public CockpitPluginRootResource() {
     super(CockpitPlugin.ID);
-    processDefinitionDocumentationService = subResource(new ProcessDefinitionDocumentationService(ENGINE_NAME),
-        ENGINE_NAME);
   }
 
   @GET
@@ -56,24 +55,46 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @Path("process-definition")
   @Produces(MediaType.APPLICATION_JSON)
   public ProcessDefinitionDocumentationAuthorizationDto findManyProcessDefinitionDocumentation(
-      @QueryParam("processDefinitionKey") String processDefinitionKey) {
-    return processDefinitionDocumentationService.findManyProcessDefinitionDocumentation(processDefinitionKey);
+      @QueryParam("processDefinitionKey") String processDefinitionKey, @QueryParam("version") Integer version) {
+    ProcessDefinitionDocumentationService service = subResource(new ProcessDefinitionDocumentationService(ENGINE_NAME),
+        ENGINE_NAME);
+
+    return service.findManyProcessDefinitionDocumentation(processDefinitionKey, version);
   }
 
   @GET
   @Path("process-definition-pdf")
   @Produces("application/pdf")
   public Response generateProcessDefinitionDocumentationPdf(
-      @QueryParam("processDefinitionKey") String processDefinitionKey) {
-    ProcessDefinitionDocumentationAuthorizationDto documentation = processDefinitionDocumentationService
-        .findManyProcessDefinitionDocumentation(processDefinitionKey);
+      @QueryParam("processDefinitionKey") String processDefinitionKey, @QueryParam("version") Integer version) {
+    ProcessDefinitionDocumentationService service = subResource(new ProcessDefinitionDocumentationService(ENGINE_NAME),
+        ENGINE_NAME);
 
-    byte[] pdfBytes = processDefinitionDocumentationService.generatePdf(documentation);
+    ProcessDefinitionDocumentationAuthorizationDto documentation = service
+        .findManyProcessDefinitionDocumentation(processDefinitionKey, version);
+
+    byte[] pdfBytes = service.generatePdf(documentation);
 
     return Response
         .ok(pdfBytes)
-        .header("Content-Disposition", "attachment; filename=\"process-documentation.pdf\"")
+        .header("Content-Disposition",
+            "attachment; filename=\"" + documentation.getDefinitionDocumentation()
+                .get(0)
+                .getName()
+                .replaceAll("[^a-zA-Z0-9.-]", "_")
+                + ".pdf\"")
         .build();
+  }
+
+  @GET
+  @Path("process-definition-versions")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Set<Integer> findManyProcessDefinitionVersions(
+      @QueryParam("processDefinitionKey") String processDefinitionKey) {
+    AbstractCockpitPluginResourceService service = subResource(new AbstractCockpitPluginResourceService(ENGINE_NAME),
+        ENGINE_NAME);
+
+    return service.getProcessDefinitionVersion(processDefinitionKey);
   }
 
   @Override
