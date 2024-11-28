@@ -195,7 +195,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 Document document = new Document(pdfDoc);
 
                 try {
-                        document.add(new Paragraph("Process Documentation")
+                        document.add(new Paragraph("Portal Documentation")
                                         .setFontSize(18)
                                         .setBold()
                                         .setTextAlignment(TextAlignment.CENTER));
@@ -229,11 +229,15 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                                         .setBold());
                                 }
 
+                                if (element.getDocumentation() != null) {
+                                        addHtmlContentWithImages(element.getDocumentation(), pdfDoc, document);
+                                }
+                                if (element.getExtendedDocumentation() != null) {
+                                        addHtmlContentWithImages(element.getExtendedDocumentation(), pdfDoc, document);
+                                }
+
                                 document.add(new Paragraph("ID: " + element.getId()));
 
-                                if (element.getOrder() > 0) {
-                                        document.add(new Paragraph("Order: " + element.getOrder()));
-                                }
                                 if (element.getAssignee() != null) {
                                         document.add(new Paragraph("Assignee: " + element.getAssignee()));
                                 }
@@ -244,12 +248,10 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 if (element.getDueDate() != null) {
                                         document.add(new Paragraph("Due Date: " + element.getDueDate()));
                                 }
-                                if (element.getDocumentation() != null) {
-                                        addHtmlContentWithImages(element.getDocumentation(), pdfDoc, document);
+                                if (element.getOrder() > 0) {
+                                        document.add(new Paragraph("Order: " + element.getOrder()));
                                 }
-                                if (element.getExtendedDocumentation() != null) {
-                                        addHtmlContentWithImages(element.getExtendedDocumentation(), pdfDoc, document);
-                                }
+
                                 document.add(new Paragraph("\n"));
                         }
 

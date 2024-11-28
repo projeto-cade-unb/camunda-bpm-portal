@@ -163,11 +163,6 @@
 
       <p-accordion [activeIndex]="0">
         <p-accordionTab [header]="'ELEMENT_DETAIL_LABEL' | translate">
-          <small *ngIf="documentation.order"
-            ><b>{{ "DOCUMENTATION_ORDER" | translate }}: </b
-            >{{ documentation.order }}<br
-          /></small>
-
           <small *ngIf="documentation.id"
             ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}: </b
             >{{ documentation.id }}<br
@@ -185,6 +180,11 @@
 
           <small *ngIf="documentation.dueDate"
             ><b>{{ "DUEDATE" | translate }}: </b>{{ documentation.dueDate }}<br
+          /></small>
+
+          <small *ngIf="documentation.order"
+            ><b>{{ "DOCUMENTATION_ORDER" | translate }}: </b
+            >{{ documentation.order }}<br
           /></small>
         </p-accordionTab>
       </p-accordion>
