@@ -11,7 +11,8 @@ import { ProcessDefinitionDocumentationService } from '../../process-definition-
   styleUrl: './list.component.scss',
 })
 export class ListComponent {
-  processDefinition$ = this.processDefinitionDocumentationService.findMany();
+  processDefinition$ =
+    this.processDefinitionDocumentationService.findManyDocumentation();
 
   constructor(
     private processDefinitionDocumentationService: ProcessDefinitionDocumentationService

@@ -3,15 +3,48 @@
   *ngIf="processDefinition$ | async as processDefinitions"
 >
   <div class="w-32 lg:w-56 shadow-sm h-full sticky top-0 pt-8">
-    <div class="flex gap-4 justify-between">
+    <div class="flex gap-1 md:gap-4 justify-start md:justify-between flex-wrap">
       <a href="#/portal-documentation">
-        <button class="btn btn-info rounded">
+        <button class="btn btn-info">
           <span class="glyphicon glyphicon-home"></span>
+        </button>
+      </a>
+
+      <a
+        href="/camunda/api/cockpit/plugin/portal-documentation/process-definition-pdf?processDefinitionKey={{
+          processDefinitions.definitionDocumentation.at(0).key
+        }}"
+      >
+        <button class="btn btn-info">
+          <span class="glyphicon glyphicon-download-alt"></span>
         </button>
       </a>
 
       <app-share-dialog></app-share-dialog>
     </div>
+
+    <hr />
+
+    <select
+      *ngIf="{
+        versions: versions$ | async,
+        versionSelected: versionSelected$ | async
+      } as x"
+      class="w-full form-control"
+      (change)="setVersion($event)"
+    >
+      <option [value]="null" [selected]="x.versionSelected === null">
+        {{ "LATEST_VERSION" | translate }}
+      </option>
+
+      <option
+        *ngFor="let version of x.versions"
+        [value]="version"
+        [selected]="x.versionSelected === version"
+      >
+        {{ version }}
+      </option>
+    </select>
 
     <ng-container *ngIf="processDefinitions.editable">
       <hr />
@@ -102,11 +135,11 @@
       >
         <span *ngIf="documentation.order">{{ documentation.order }}</span>
         <span
-          [innerHTML]="
-            domSanitizer.bypassSecurityTrustHtml(
-              appViewer.getElementById(documentation.id)?.outerHTML || ''
-            )
+          *ngIf="
+            appViewer.getSvgById(documentation.id)
+              ?.outerHTML as diagramElementHtml
           "
+          [innerHTML]="domSanitizer.bypassSecurityTrustHtml(diagramElementHtml)"
         ></span>
         {{ documentation.name || documentation.id }}
       </h2>

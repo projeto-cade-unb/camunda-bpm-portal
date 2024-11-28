@@ -1,18 +1,38 @@
 import { Injectable } from '@angular/core';
-import { from, fromEvent, map, of, startWith } from 'rxjs';
+import { from, fromEvent, map, Observable, of, startWith } from 'rxjs';
 import { isStaticApp } from './static-app';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingService {
-  url$ = from(isStaticApp ? fromEvent(window, 'hashchange') : of(null)).pipe(
+  #baseUrl = `${location.protocol}${location.host}`;
+
+  url$: Observable<URL> = from(
+    isStaticApp ? fromEvent(window, 'hashchange') : of(null)
+  ).pipe(
     startWith(null),
-    map(
-      () =>
-        new URL(
-          `${location.protocol}${location.host}/${location.hash.slice(2)}`
-        )
-    )
+    map(() => this.#getCurrentUrl())
   );
+
+  #getCurrentUrl(): URL {
+    const path = location.hash.slice(2);
+    return new URL(`${this.#baseUrl}/${path}`);
+  }
+
+  setSearchParams(key: string, value: string): void {
+    const url = this.#getCurrentUrl();
+    url.searchParams.set(key, value);
+    this.#updateLocationHash(url);
+  }
+
+  deleteSearchParams(key: string): void {
+    const url = this.#getCurrentUrl();
+    url.searchParams.delete(key);
+    this.#updateLocationHash(url);
+  }
+
+  #updateLocationHash(url: URL): void {
+    location.hash = `#${url.pathname}${url.search}`;
+  }
 }

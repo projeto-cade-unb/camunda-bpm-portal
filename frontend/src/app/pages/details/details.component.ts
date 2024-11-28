@@ -3,11 +3,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
 import { ViewerDirective } from '../../components/viewer.directive';
 import { ProcessDefinitionDocumentationService } from '../../process-definition-documentation.service';
+import { ProcessDefinitionService } from '../../process-definition.service';
+import { RoutingService } from '../../routing.service';
 import { isStaticApp } from '../../static-app';
 
 @Component({
@@ -27,24 +29,47 @@ export class DetailsComponent implements OnInit {
   selectedDocumentation = '';
   processDefinition$!: Observable<any>;
   viewer = new NavigatedViewer();
+  versions$!: Observable<number[]>;
+  versionSelected$: Observable<number> = this.routingService.url$.pipe(
+    map((url) => Number(url.searchParams.get('version')))
+  );
 
   @Input({ required: true })
   processDefinitionKey!: string;
 
   constructor(
     public domSanitizer: DomSanitizer,
-    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService
+    private processDefinitionDocumentationService: ProcessDefinitionDocumentationService,
+    private processDefinitionService: ProcessDefinitionService,
+    private routingService: RoutingService
   ) {}
+
+  setVersion(event: any) {
+    if (event.target.value === 'null') {
+      this.routingService.deleteSearchParams('version');
+      return;
+    }
+
+    this.routingService.setSearchParams('version', event.target.value);
+  }
 
   ngOnInit(): void {
     if (!this.processDefinitionKey) {
       return;
     }
 
-    this.processDefinition$ =
-      this.processDefinitionDocumentationService.findMany(
-        this.processDefinitionKey
-      );
+    this.versions$ = this.processDefinitionService.findManyVersions(
+      this.processDefinitionKey
+    );
+
+    this.processDefinition$ = this.versionSelected$.pipe(
+      switchMap((version) =>
+        this.processDefinitionDocumentationService.findManyDocumentation(
+          this.processDefinitionKey,
+          version
+        )
+      )
+    );
   }
 
   scrollToElementById(id: string) {

@@ -8,7 +8,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ProcessDefinitionDocumentation {
+    private String id;
     private String key;
+    private Integer version;
     private String name;
     private String diagram;
     private Boolean editable;
