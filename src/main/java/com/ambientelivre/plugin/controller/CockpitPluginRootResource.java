@@ -77,9 +77,15 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
     return Response
         .ok(pdfBytes)
         .header("Content-Disposition",
-            "attachment; filename=\"" + documentation.getDefinitionDocumentation()
+            "attachment; filename=\"" + (documentation.getDefinitionDocumentation()
                 .get(0)
-                .getName()
+                .getName() != null
+                    ? documentation.getDefinitionDocumentation()
+                        .get(0)
+                        .getName()
+                    : documentation.getDefinitionDocumentation()
+                        .get(0)
+                        .getId())
                 .replaceAll("[^a-zA-Z0-9.-]", "_")
                 + ".pdf\"")
         .build();
