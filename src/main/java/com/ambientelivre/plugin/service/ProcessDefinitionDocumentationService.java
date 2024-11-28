@@ -151,13 +151,17 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                                 .filter(value -> value != null)
                                                 .collect(Collectors.toList()));
 
-                return documentationList;
+                return documentationList.stream()
+                                .sorted((a, b) -> a.getOrder().compareTo(b.getOrder()))
+                                .collect(Collectors.toList());
         }
 
         private ProcessDefinitionDocumentationElement createDocumentation(BaseElement element) {
                 String documentation = getDocumentation(element);
                 String extendedDocumentation = element.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION,
                                 "extendedDocumentation");
+                String order = element.getAttributeValueNs(BpmnXmlNamespaceUri.DOCUMENTATION,
+                                "order");
 
                 if ((documentation == null || documentation.isBlank())
                                 && (extendedDocumentation == null || extendedDocumentation.isBlank())) {
@@ -171,7 +175,8 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 element.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "candidateGroups"),
                                 element.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
                                 documentation,
-                                extendedDocumentation);
+                                extendedDocumentation,
+                                Integer.valueOf(order != null ? order : "0"));
         }
 
         private String getDocumentation(BaseElement baseElement) {
