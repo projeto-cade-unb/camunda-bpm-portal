@@ -1,7 +1,6 @@
 package com.ambientelivre.plugin.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -89,7 +88,7 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @GET
   @Path("process-definition-versions")
   @Produces(MediaType.APPLICATION_JSON)
-  public Set<Integer> findManyProcessDefinitionVersions(
+  public List<Integer> findManyProcessDefinitionVersions(
       @QueryParam("processDefinitionKey") String processDefinitionKey) {
     AbstractCockpitPluginResourceService service = subResource(new AbstractCockpitPluginResourceService(ENGINE_NAME),
         ENGINE_NAME);

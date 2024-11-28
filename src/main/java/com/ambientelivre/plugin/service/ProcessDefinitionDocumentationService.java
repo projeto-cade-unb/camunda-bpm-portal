@@ -231,6 +231,9 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                                 document.add(new Paragraph("ID: " + element.getId()));
 
+                                if (element.getOrder() != null) {
+                                        document.add(new Paragraph("Order: " + element.getOrder()));
+                                }
                                 if (element.getAssignee() != null) {
                                         document.add(new Paragraph("Assignee: " + element.getAssignee()));
                                 }

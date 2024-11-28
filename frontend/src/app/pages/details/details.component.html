@@ -133,7 +133,6 @@
         [class.active]="selectedDocumentation === documentation.id"
         [id]="documentation.id"
       >
-        <span *ngIf="documentation.order">{{ documentation.order }}</span>
         <span
           *ngIf="
             appViewer.getSvgById(documentation.id)
@@ -160,23 +159,34 @@
         "
       ></div>
 
-      <small *ngIf="documentation.id"
-        ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}: </b>{{ documentation.id
-        }}<br
-      /></small>
+      <p-accordion [activeIndex]="0">
+        <p-accordionTab [header]="'ELEMENT_DETAIL_LABEL' | translate">
+          <small *ngIf="documentation.order"
+            ><b>{{ "DOCUMENTATION_ORDER" | translate }}: </b
+            >{{ documentation.order }}<br
+          /></small>
 
-      <small *ngIf="documentation.assignee"
-        ><b>{{ "ASSIGNEE" | translate }}: </b>{{ documentation.assignee }}<br
-      /></small>
+          <small *ngIf="documentation.id"
+            ><b>{{ "ELEMENT_DETAIL_NAME" | translate }}: </b
+            >{{ documentation.id }}<br
+          /></small>
 
-      <small *ngIf="documentation.candidateGroups"
-        ><b>{{ "CADIDATE_GROUP" | translate }}: </b
-        >{{ documentation.candidateGroups }}<br
-      /></small>
+          <small *ngIf="documentation.assignee"
+            ><b>{{ "ASSIGNEE" | translate }}: </b>{{ documentation.assignee
+            }}<br
+          /></small>
 
-      <small *ngIf="documentation.dueDate"
-        ><b>{{ "DUEDATE" | translate }}: </b>{{ documentation.dueDate }}<br
-      /></small>
+          <small *ngIf="documentation.candidateGroups"
+            ><b>{{ "CADIDATE_GROUP" | translate }}: </b
+            >{{ documentation.candidateGroups }}<br
+          /></small>
+
+          <small *ngIf="documentation.dueDate"
+            ><b>{{ "DUEDATE" | translate }}: </b>{{ documentation.dueDate }}<br
+          /></small>
+        </p-accordionTab>
+      </p-accordion>
+
       <hr />
     </ng-container>
   </div>

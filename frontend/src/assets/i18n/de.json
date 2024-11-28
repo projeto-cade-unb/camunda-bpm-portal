@@ -18,5 +18,6 @@
   "DISABLE_GLOBAL": "Global deaktivieren",
   "DISABLED_GLOBAL": "Global deaktiviert",
   "PUBLISHED": "Veröffentlicht",
-  "LATEST_VERSION": "Letzte Version"
+  "LATEST_VERSION": "Letzte Version",
+  "DOCUMENTATION_ORDER": "Dokumentationsreihenfolge"
 }

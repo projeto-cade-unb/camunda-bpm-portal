@@ -18,5 +18,6 @@
   "DISABLE_GLOBAL": "Disable Global",
   "DISABLED_GLOBAL": "Global Disabled",
   "PUBLISHED": "Published",
-  "LATEST_VERSION": "Latest Version"
+  "LATEST_VERSION": "Latest Version",
+  "DOCUMENTATION_ORDER": "Documentation Order"
 }
