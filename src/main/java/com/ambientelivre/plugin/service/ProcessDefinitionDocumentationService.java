@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginResource;
 import org.camunda.bpm.engine.authorization.Authorization;
@@ -140,10 +141,6 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 .findFirst()
                                 .orElse(null);
 
-                if (processDoc != null) {
-                        documentationList.add(processDoc);
-                }
-
                 documentationList.addAll(
                                 modelInstance
                                                 .getModelElementsByType(FlowNode.class)
@@ -152,8 +149,13 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                                 .filter(value -> value != null)
                                                 .collect(Collectors.toList()));
 
-                return documentationList.stream()
-                                .sorted((a, b) -> a.getOrder().compareTo(b.getOrder()))
+                return Stream.concat(
+                                Stream.of(processDoc),
+                                documentationList.stream()
+                                                .sorted((asc, desc) -> (asc.getOrder() != null ? asc.getOrder()
+                                                                : Integer.MAX_VALUE) -
+                                                                (desc.getOrder() != null ? desc.getOrder()
+                                                                                : Integer.MAX_VALUE)))
                                 .collect(Collectors.toList());
         }
 
@@ -177,7 +179,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 element.getAttributeValueNs(BpmnXmlNamespaceUri.CAMUNDA, "dueDate"),
                                 documentation,
                                 extendedDocumentation,
-                                Integer.valueOf(order != null ? order : "0"));
+                                order != null ? Integer.valueOf(order) : null);
         }
 
         private String getDocumentation(BaseElement baseElement) {
@@ -248,7 +250,7 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 if (element.getDueDate() != null) {
                                         document.add(new Paragraph("Due Date: " + element.getDueDate()));
                                 }
-                                if (element.getOrder() > 0) {
+                                if (element.getOrder() != null && element.getOrder() > 0) {
                                         document.add(new Paragraph("Order: " + element.getOrder()));
                                 }
 
