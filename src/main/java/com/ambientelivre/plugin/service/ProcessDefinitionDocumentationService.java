@@ -26,8 +26,10 @@ import com.ambientelivre.plugin.documentation.ProcessDefinitionDocumentationElem
 import com.ambientelivre.plugin.dto.ProcessDefinitionDocumentationAuthorizationDto;
 import com.ambientelivre.plugin.utils.BpmnXmlNamespaceUri;
 import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -218,10 +220,12 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                         document.add(new Paragraph("Key: " + process.getKey())
                                         .setFontSize(8)
-                                        .setMarginBottom(-2));
+                                        .setMarginBottom(-2)
+                                        .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA)));
                         document.add(new Paragraph("Version: " + process.getVersion())
                                         .setFontSize(8)
-                                        .setMarginBottom(-2));
+                                        .setMarginBottom(-2)
+                                        .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA)));
 
                         for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
                                 document.add(new Paragraph(
@@ -238,28 +242,37 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
 
                                 document.add(new Paragraph("ID: " + element.getId())
                                                 .setFontSize(8)
-                                                .setMarginBottom(-2));
+                                                .setMarginBottom(-2)
+                                                .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA)));
 
                                 if (element.getAssignee() != null) {
                                         document.add(new Paragraph("Assignee: " + element.getAssignee())
                                                         .setFontSize(8)
-                                                        .setMarginBottom(-2));
+                                                        .setMarginBottom(-2)
+                                                        .setFont(PdfFontFactory
+                                                                        .createFont(StandardFonts.HELVETICA)));
                                 }
                                 if (element.getCandidateGroups() != null) {
                                         document.add(new Paragraph(
                                                         "Candidate Groups: " + element.getCandidateGroups())
                                                         .setFontSize(8)
-                                                        .setMarginBottom(-2));
+                                                        .setMarginBottom(-2)
+                                                        .setFont(PdfFontFactory
+                                                                        .createFont(StandardFonts.HELVETICA)));
                                 }
                                 if (element.getDueDate() != null) {
                                         document.add(new Paragraph("Due Date: " + element.getDueDate())
                                                         .setFontSize(8)
-                                                        .setMarginBottom(-2));
+                                                        .setMarginBottom(-2)
+                                                        .setFont(PdfFontFactory
+                                                                        .createFont(StandardFonts.HELVETICA)));
                                 }
                                 if (element.getOrder() != null && element.getOrder() > 0) {
                                         document.add(new Paragraph("Order: " + element.getOrder())
                                                         .setFontSize(8)
-                                                        .setMarginBottom(-2));
+                                                        .setMarginBottom(-2)
+                                                        .setFont(PdfFontFactory
+                                                                        .createFont(StandardFonts.HELVETICA)));
                                 }
 
                                 document.add(new Paragraph("\n"));
