@@ -35,7 +35,6 @@ import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
 public class ProcessDefinitionDocumentationService extends AbstractCockpitPluginResource {
@@ -197,18 +196,11 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                 Document document = new Document(pdfDoc);
 
                 try {
-                        document.add(new Paragraph("Portal Documentation")
-                                        .setFontSize(18)
-                                        .setBold()
-                                        .setTextAlignment(TextAlignment.CENTER));
-
                         ProcessDefinitionDocumentation process = documentation.getDefinitionDocumentation().get(0);
 
                         document.add(new Paragraph("Process: " + process.getName())
                                         .setFontSize(14)
                                         .setBold());
-                        document.add(new Paragraph("Key: " + process.getKey()));
-                        document.add(new Paragraph("Version: " + process.getVersion()));
 
                         InputStream imageByteInput = getProcessEngine()
                                         .getRepositoryService()
@@ -224,12 +216,18 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                 document.add(image);
                         }
 
+                        document.add(new Paragraph("Key: " + process.getKey())
+                                        .setFontSize(8)
+                                        .setMarginBottom(-2));
+                        document.add(new Paragraph("Version: " + process.getVersion())
+                                        .setFontSize(8)
+                                        .setMarginBottom(-2));
+
                         for (ProcessDefinitionDocumentationElement element : process.getDocumentation()) {
-                                if (element.getName() != null) {
-                                        document.add(new Paragraph(element.getName())
-                                                        .setFontSize(12)
-                                                        .setBold());
-                                }
+                                document.add(new Paragraph(
+                                                element.getName() != null ? element.getName() : element.getId())
+                                                .setFontSize(12)
+                                                .setBold());
 
                                 if (element.getDocumentation() != null) {
                                         addHtmlContentWithImages(element.getDocumentation(), pdfDoc, document);
@@ -238,20 +236,30 @@ public class ProcessDefinitionDocumentationService extends AbstractCockpitPlugin
                                         addHtmlContentWithImages(element.getExtendedDocumentation(), pdfDoc, document);
                                 }
 
-                                document.add(new Paragraph("ID: " + element.getId()));
+                                document.add(new Paragraph("ID: " + element.getId())
+                                                .setFontSize(8)
+                                                .setMarginBottom(-2));
 
                                 if (element.getAssignee() != null) {
-                                        document.add(new Paragraph("Assignee: " + element.getAssignee()));
+                                        document.add(new Paragraph("Assignee: " + element.getAssignee())
+                                                        .setFontSize(8)
+                                                        .setMarginBottom(-2));
                                 }
                                 if (element.getCandidateGroups() != null) {
                                         document.add(new Paragraph(
-                                                        "Candidate Groups: " + element.getCandidateGroups()));
+                                                        "Candidate Groups: " + element.getCandidateGroups())
+                                                        .setFontSize(8)
+                                                        .setMarginBottom(-2));
                                 }
                                 if (element.getDueDate() != null) {
-                                        document.add(new Paragraph("Due Date: " + element.getDueDate()));
+                                        document.add(new Paragraph("Due Date: " + element.getDueDate())
+                                                        .setFontSize(8)
+                                                        .setMarginBottom(-2));
                                 }
                                 if (element.getOrder() != null && element.getOrder() > 0) {
-                                        document.add(new Paragraph("Order: " + element.getOrder()));
+                                        document.add(new Paragraph("Order: " + element.getOrder())
+                                                        .setFontSize(8)
+                                                        .setMarginBottom(-2));
                                 }
 
                                 document.add(new Paragraph("\n"));
