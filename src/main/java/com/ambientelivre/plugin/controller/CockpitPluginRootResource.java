@@ -1,7 +1,6 @@
 package com.ambientelivre.plugin.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -78,9 +77,15 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
     return Response
         .ok(pdfBytes)
         .header("Content-Disposition",
-            "attachment; filename=\"" + documentation.getDefinitionDocumentation()
+            "attachment; filename=\"" + (documentation.getDefinitionDocumentation()
                 .get(0)
-                .getName()
+                .getName() != null
+                    ? documentation.getDefinitionDocumentation()
+                        .get(0)
+                        .getName()
+                    : documentation.getDefinitionDocumentation()
+                        .get(0)
+                        .getId())
                 .replaceAll("[^a-zA-Z0-9.-]", "_")
                 + ".pdf\"")
         .build();
@@ -89,7 +94,7 @@ public class CockpitPluginRootResource extends AbstractCockpitPluginRootResource
   @GET
   @Path("process-definition-versions")
   @Produces(MediaType.APPLICATION_JSON)
-  public Set<Integer> findManyProcessDefinitionVersions(
+  public List<Integer> findManyProcessDefinitionVersions(
       @QueryParam("processDefinitionKey") String processDefinitionKey) {
     AbstractCockpitPluginResourceService service = subResource(new AbstractCockpitPluginResourceService(ENGINE_NAME),
         ENGINE_NAME);

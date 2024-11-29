@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
+import { AccordionModule } from 'primeng/accordion';
 import { map, Observable, switchMap } from 'rxjs';
 import { AuthorizeMenuComponent } from '../../components/authorize-menu/authorize-menu.component';
 import { ShareDialogComponent } from '../../components/share-dialog/share-dialog.component';
@@ -21,6 +22,7 @@ import { isStaticApp } from '../../static-app';
     ViewerDirective,
     ShareDialogComponent,
     AuthorizeMenuComponent,
+    AccordionModule,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',

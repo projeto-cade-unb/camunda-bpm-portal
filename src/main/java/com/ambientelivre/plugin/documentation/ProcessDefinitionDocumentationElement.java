@@ -13,4 +13,5 @@ public class ProcessDefinitionDocumentationElement {
     private String dueDate;
     private String documentation;
     private String extendedDocumentation;
+    private Integer order;
 }

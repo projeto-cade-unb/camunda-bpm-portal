@@ -142,8 +142,6 @@ entrega-de-trabalho.png
 
 ### Melhorias:
 
-- UI: Colocar uma ação para apresentar e esconder a área "Technical details", estas informações não são relevantes para usuários de negócio.
-
 - UI: Permitir Categorização de BPMNs Exemplo RH , Financeiro, comercial, etc.
 
 ## Contribuições.

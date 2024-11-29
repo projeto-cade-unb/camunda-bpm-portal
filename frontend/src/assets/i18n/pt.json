@@ -1,5 +1,5 @@
 {
-  "ELEMENT_DETAIL_LABEL": "Detalhes técnicos Camunda",
+  "ELEMENT_DETAIL_LABEL": "Detalhes técnicos",
   "ELEMENT_DETAIL_NAME": "Nome do Elemento",
   "ASSIGNEE": "Responsável",
   "DUEDATE": "Prazo",
@@ -18,5 +18,6 @@
   "DISABLE_GLOBAL": "Desativar Global",
   "DISABLED_GLOBAL": "Desativado Global",
   "PUBLISHED": "Publicado",
-  "LATEST_VERSION": "Última Versão"
+  "LATEST_VERSION": "Última Versão",
+  "DOCUMENTATION_ORDER": "Ordem de Documentação"
 }
